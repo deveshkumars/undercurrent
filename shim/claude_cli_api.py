@@ -8,6 +8,11 @@ so you can test without an API key. For testing only: it implements the subset o
 Undercurrent uses (text content, system prompt, structured outputs via output_config.format,
 effort, streaming) and runs each request as a fresh, tool-less `claude -p` session.
 
+A single user turn is sent as stream-json with its content blocks intact, so `cache_control`
+breakpoints (e.g. a cached persona) reach the API and later calls read them. The CLI writes its own
+1-hour cache entries, so every breakpoint is sent with ttl=1h (a 5-minute one before a 1-hour one is
+rejected). Usage, including the 5m/1h cache-write split, is passed through from the CLI's result.
+
 Environment:
     CLAUDE_BIN             path to the claude executable (default: "claude" on PATH)
     SHIM_MODEL             force a model for every request (e.g. "sonnet"); default: use the request's model
@@ -63,6 +68,33 @@ def _text_of(content: Any) -> str:
     return "\n\n".join(parts)
 
 
+def _blocks_of(content: Any) -> list[dict]:
+    """Text blocks with their cache breakpoints, for stream-json input."""
+    if isinstance(content, str):
+        return [{"type": "text", "text": content}]
+    out = []
+    for block in content or []:
+        btype = block.get("type")
+        if btype in ("thinking", "redacted_thinking"):
+            continue
+        if btype != "text":
+            raise ValueError(f"content block type '{btype}' is not supported by the CLI shim")
+        b: dict = {"type": "text", "text": block.get("text", "")}
+        if block.get("cache_control"):
+            b["cache_control"] = {"type": "ephemeral", "ttl": "1h"}
+        out.append(b)
+    return out
+
+
+def _input_line(messages: list[dict]) -> str:
+    """One stream-json user message: blocks kept for a single user turn, else a flattened transcript."""
+    if len(messages) == 1 and messages[0].get("role") == "user":
+        content = _blocks_of(messages[0].get("content"))
+    else:
+        content = [{"type": "text", "text": _build_prompt(messages)}]
+    return json.dumps({"type": "user", "message": {"role": "user", "content": content}})
+
+
 def _build_prompt(messages: list[dict]) -> str:
     """A single user turn passes through untouched; longer histories become a labeled transcript."""
     if len(messages) == 1 and messages[0].get("role") == "user":
@@ -95,7 +127,7 @@ def _prepare(body: dict) -> tuple[list[str], str, str]:
     if not shutil.which(CLAUDE_BIN):
         raise ShimError(500, "api_error", f"'{CLAUDE_BIN}' not found on PATH; install Claude Code or set CLAUDE_BIN")
     try:
-        prompt = _build_prompt(body.get("messages") or [])
+        prompt = _input_line(body.get("messages") or [])
         system = _text_of(body.get("system") or "")
     except ValueError as e:
         raise ShimError(400, "invalid_request_error", str(e)) from e
@@ -105,7 +137,9 @@ def _prepare(body: dict) -> tuple[list[str], str, str]:
     fmt = output_config.get("format") or {}
     args = [
         CLAUDE_BIN, "-p",
-        "--output-format", "json",
+        "--input-format", "stream-json",
+        "--output-format", "stream-json",
+        "--verbose",
         "--model", model,
         "--tools", "",
         "--safe-mode",
@@ -140,11 +174,10 @@ async def _run_cli(args: list[str], prompt: str, model: str) -> dict:
             raise ShimError(504, "timeout_error", f"claude CLI did not finish within {TIMEOUT:.0f}s") from e
 
     elapsed = time.monotonic() - started
-    try:
-        result = json.loads(stdout.decode() or "{}")
-    except json.JSONDecodeError as e:
-        log.error("unparseable CLI output: %s | stderr: %s", stdout[:500], stderr[:500])
-        raise ShimError(500, "api_error", f"claude CLI returned non-JSON output (exit {proc.returncode})") from e
+    result = _result_event(stdout.decode())
+    if result is None:
+        log.error("no result event in CLI output: %s | stderr: %s", stdout[-500:], stderr[-500:])
+        raise ShimError(500, "api_error", f"claude CLI returned no result (exit {proc.returncode})")
 
     if result.get("is_error") or proc.returncode != 0:
         message = result.get("result") or stderr.decode()[-500:] or "claude CLI failed"
@@ -157,7 +190,8 @@ async def _run_cli(args: list[str], prompt: str, model: str) -> dict:
         text = result.get("result") or ""
 
     usage = result.get("usage") or {}
-    log.info("model=%s %.1fs in=%s out=%s", model, elapsed, usage.get("input_tokens"), usage.get("output_tokens"))
+    log.info("model=%s %.1fs in=%s cache_w=%s cache_r=%s out=%s", model, elapsed, usage.get("input_tokens"),
+             usage.get("cache_creation_input_tokens"), usage.get("cache_read_input_tokens"), usage.get("output_tokens"))
     return {
         "id": f"msg_cli_{uuid.uuid4().hex[:20]}",
         "type": "message",
@@ -173,8 +207,24 @@ async def _run_cli(args: list[str], prompt: str, model: str) -> dict:
             "output_tokens": usage.get("output_tokens", 0),
             "cache_creation_input_tokens": usage.get("cache_creation_input_tokens", 0),
             "cache_read_input_tokens": usage.get("cache_read_input_tokens", 0),
+            **({"cache_creation": usage["cache_creation"]} if usage.get("cache_creation") else {}),
         },
     }
+
+
+def _result_event(stdout: str) -> dict | None:
+    """The final `result` event of a stream-json transcript (one JSON object per line)."""
+    for line in reversed(stdout.splitlines()):
+        line = line.strip()
+        if not line.startswith("{"):
+            continue
+        try:
+            event = json.loads(line)
+        except json.JSONDecodeError:
+            continue
+        if event.get("type") == "result":
+            return event
+    return None
 
 
 def _sse(event: str, data: dict) -> bytes:
@@ -182,15 +232,10 @@ def _sse(event: str, data: dict) -> bytes:
 
 
 async def _stream(args: list[str], prompt: str, model: str) -> AsyncIterator[bytes]:
-    """Replay the finished CLI result as the Messages API SSE sequence, with pings while waiting."""
-    msg_id = f"msg_cli_{uuid.uuid4().hex[:20]}"
-    yield _sse("message_start", {
-        "type": "message_start",
-        "message": {
-            "id": msg_id, "type": "message", "role": "assistant", "model": model, "content": [],
-            "stop_reason": None, "stop_sequence": None, "usage": {"input_tokens": 0, "output_tokens": 0},
-        },
-    })
+    """Replay the finished CLI result as the Messages API SSE sequence, with pings while waiting.
+
+    message_start is held until the CLI finishes so it can carry the input-side usage (including the
+    cache-write split), as it does on the real API; the SDK only copies token counts from message_delta."""
     task = asyncio.create_task(_run_cli(args, prompt, model))
     while True:
         done, _ = await asyncio.wait({task}, timeout=10)
@@ -203,13 +248,22 @@ async def _stream(args: list[str], prompt: str, model: str) -> AsyncIterator[byt
         yield _sse("error", {"type": "error", "error": {"type": e.kind, "message": e.message}})
         return
     text = message["content"][0]["text"]
+    start_usage = dict(message["usage"], output_tokens=0)
+    yield _sse("message_start", {
+        "type": "message_start",
+        "message": {
+            "id": message["id"], "type": "message", "role": "assistant", "model": model, "content": [],
+            "stop_reason": None, "stop_sequence": None, "usage": start_usage,
+        },
+    })
     yield _sse("content_block_start", {"type": "content_block_start", "index": 0, "content_block": {"type": "text", "text": ""}})
     yield _sse("content_block_delta", {"type": "content_block_delta", "index": 0, "delta": {"type": "text_delta", "text": text}})
     yield _sse("content_block_stop", {"type": "content_block_stop", "index": 0})
+    delta_usage = {k: v for k, v in message["usage"].items() if k != "cache_creation"}
     yield _sse("message_delta", {
         "type": "message_delta",
         "delta": {"stop_reason": message["stop_reason"], "stop_sequence": None},
-        "usage": message["usage"],
+        "usage": delta_usage,
     })
     yield _sse("message_stop", {"type": "message_stop"})
 

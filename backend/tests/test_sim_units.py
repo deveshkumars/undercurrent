@@ -263,3 +263,14 @@ def test_thinking_param_by_model():
     assert thinking_param("claude-sonnet-5-5", "off") == {"type": "between_tools"}
     assert thinking_param("claude-opus-5-5", "off") is None
     assert thinking_param("claude-opus-5-5", "adaptive") == {"type": "adaptive"}
+
+
+def test_usd_prices_one_hour_cache_writes_at_double():
+    from backend.app.sim import costs
+
+    base = {"input_tokens": 0, "output_tokens": 0, "cache_read_input_tokens": 0, "cache_creation_input_tokens": 1_000_000}
+    five_min = costs.usd(base, "claude-haiku-5-5")
+    one_hour = costs.usd(base | {"cache_creation_1h_input_tokens": 1_000_000}, "claude-haiku-5-5")
+    assert round(five_min, 4) == 0.125 and round(one_hour, 4) == 0.2
+    half = costs.usd(base | {"cache_creation_1h_input_tokens": 500_000}, "claude-haiku-5-5")
+    assert round(half, 4) == 0.1625

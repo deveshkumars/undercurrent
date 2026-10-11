@@ -36,7 +36,8 @@ HANDLER_MODULES = {
     "backtest": "backend.app.sim.candidate",
     "social": "backend.app.sim.social",
 }
-USAGE_KEYS = ("input_tokens", "output_tokens", "cache_read_input_tokens", "cache_creation_input_tokens")
+USAGE_KEYS = ("input_tokens", "output_tokens", "cache_read_input_tokens", "cache_creation_input_tokens",
+              "cache_creation_1h_input_tokens")
 
 
 def new_run(

@@ -179,6 +179,7 @@ export interface Progress {
   output_tokens: number;
   cache_read_input_tokens: number;
   cache_creation_input_tokens: number;
+  cache_creation_1h_input_tokens?: number; // part of cache_creation_input_tokens written with a 1-hour TTL
 }
 
 export interface Arm {

@@ -162,12 +162,15 @@ def structured(
         raise LLMError("The model returned output that did not match the expected format.", 502)
 
     u = response.usage
+    split = getattr(u, "cache_creation", None)
     usage = {
         "model": response.model,
         "input_tokens": u.input_tokens,
         "output_tokens": u.output_tokens,
         "cache_read_input_tokens": getattr(u, "cache_read_input_tokens", None) or 0,
         "cache_creation_input_tokens": getattr(u, "cache_creation_input_tokens", None) or 0,
+        # 1-hour cache writes cost 2x input instead of 1.25x; the claude-cli shim always writes them
+        "cache_creation_1h_input_tokens": (getattr(split, "ephemeral_1h_input_tokens", None) or 0) if split else 0,
         "latency_ms": int((time.monotonic() - started) * 1000),
     }
     log.log(log_level, "llm call %s: %s", output.__name__, usage)

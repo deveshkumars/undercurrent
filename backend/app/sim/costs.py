@@ -33,10 +33,15 @@ def prices(model: str | None = None) -> tuple[float, float]:
 
 
 def usd(usage: dict, model: str | None = None) -> float:
+    """List-price dollars for a usage dict. Cache writes: 1.25x input (5-minute TTL), 2x (1-hour);
+    ``cache_creation_1h_input_tokens`` is the 1-hour part of ``cache_creation_input_tokens``."""
     p_in, p_out = prices(model)
+    writes = usage.get("cache_creation_input_tokens", 0)
+    writes_1h = min(writes, usage.get("cache_creation_1h_input_tokens", 0))
     return (
         usage.get("input_tokens", 0) * p_in
-        + usage.get("cache_creation_input_tokens", 0) * 1.25 * p_in
+        + (writes - writes_1h) * 1.25 * p_in
+        + writes_1h * 2.0 * p_in
         + usage.get("cache_read_input_tokens", 0) * 0.1 * p_in
         + usage.get("output_tokens", 0) * p_out
     ) / 1e6

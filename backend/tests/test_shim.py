@@ -14,7 +14,9 @@ class FakeProc:
 
     async def communicate(self, data: bytes):
         self.stdin_seen = data
-        return json.dumps(self.payload).encode(), b""
+        # stream-json: init/assistant events, then the result event last
+        events = [{"type": "system", "subtype": "init"}, {"type": "assistant"}, {"type": "result", **self.payload}]
+        return "\n".join(json.dumps(e) for e in events).encode(), b""
 
     def kill(self):
         pass
@@ -25,7 +27,7 @@ def fake_cli(monkeypatch):
     calls = []
 
     async def fake_exec(*args, **kwargs):
-        proc = FakeProc({"is_error": False, "result": "hi", "structured_output": {"score": 7}, "stop_reason": "tool_use", "usage": {"input_tokens": 3, "output_tokens": 5}})
+        proc = FakeProc({"is_error": False, "result": "hi", "structured_output": {"score": 7}, "stop_reason": "tool_use", "usage": {"input_tokens": 3, "output_tokens": 5, "cache_read_input_tokens": 40, "cache_creation_input_tokens": 9, "cache_creation": {"ephemeral_1h_input_tokens": 9, "ephemeral_5m_input_tokens": 0}}})
         calls.append((args, proc))
         return proc
 
@@ -49,7 +51,12 @@ def test_structured_output_round_trip(fake_cli):
     assert msg["stop_reason"] == "end_turn"
     args, proc = fake_cli[0]
     assert "--json-schema" in args and "--effort" in args and args[args.index("--system-prompt") + 1] == "Be terse."
-    assert proc.stdin_seen == b"Rate it"
+    line = json.loads(proc.stdin_seen)
+    assert line["type"] == "user" and "--input-format" in args
+    # blocks and breakpoints survive; the CLI caches for an hour, so every breakpoint is sent with ttl=1h
+    assert line["message"]["content"] == [{"type": "text", "text": "Rate it", "cache_control": {"type": "ephemeral", "ttl": "1h"}}]
+    assert msg["usage"]["cache_read_input_tokens"] == 40
+    assert msg["usage"]["cache_creation"]["ephemeral_1h_input_tokens"] == 9
 
 
 def test_streaming_emits_message_events(fake_cli):
