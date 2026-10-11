@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import hmac
+import json
 import logging
 from collections import Counter
 from pathlib import Path
@@ -88,6 +89,22 @@ def meta() -> dict:
 @api.get("/auth/check")
 def auth_check() -> dict:
     return {"ok": True}
+
+
+FIXTURES = Path(__file__).parent / "sim" / "fixtures"
+
+
+@api.get("/validation")
+def validation_results() -> dict:
+    """Scores from the last scripts/validate.py test run (derived scores only, no survey data), plus the
+    classic-experiment replications from scripts/experiments.py when present."""
+    path = FIXTURES / "validation.json"
+    if not path.exists():
+        raise HTTPException(404, "No validation results yet. Run scripts/validate.py --split test.")
+    out = json.loads(path.read_text())
+    exp = FIXTURES / "experiments.json"
+    out["experiments"] = json.loads(exp.read_text()) if exp.exists() else None
+    return out
 
 
 # ---------------------------------------------------------------- helpers

@@ -20,7 +20,7 @@ PRICES = {
 }
 
 # Typical seconds per call, used only for the time estimate.
-LATENCY = {"persona": 30.0, "reflections": 12.0, "panel": 6.0, "social": 7.0, "summary": 30.0}
+LATENCY = {"persona": 30.0, "reflections": 12.0, "panel": 6.0, "social": 7.0, "summary": 30.0, "survey": 3.0}
 CLI_FACTOR = 3.0  # each shim call is a fresh `claude -p` process
 
 
@@ -96,3 +96,20 @@ def estimate_social(n_agents: int, hours: int, tick_minutes: int, max_calls_per_
     cached = calls * persona_tok
     out = calls * 260
     return _pack(calls, inp, cached, out, "social")
+
+
+def estimate_survey(n: int, blocks: int, block_size: int, persona_tok: int) -> dict:
+    """Closed-ended survey: one call per agent per block; the first block writes the persona cache.
+    Prefixes under 512 tokens (system + a short card) don't cache, so the persona is then billed in full."""
+    calls = n * blocks
+    prefix = 260 + persona_tok
+    tail = 90 + block_size * 75  # instructions + question text and lettered options
+    out = 15 + block_size * 7
+    cacheable = prefix >= 512
+    first = n if cacheable else calls
+    inp = first * prefix + calls * tail
+    cached = (calls - first) * prefix
+    est = _pack(calls, inp, cached, calls * out, "survey")
+    if cacheable:  # the persona writes are billed at the 5-minute write rate (1.25x)
+        est["usd"] = round(est["usd"] + usd({"cache_creation_input_tokens": n * prefix}) - usd({"input_tokens": n * prefix}), 4)
+    return est

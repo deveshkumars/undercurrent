@@ -29,6 +29,7 @@ import type {
   SimMeta,
   SimRun,
   Tick,
+  ValidationResults,
   Weighting,
 } from "./sim/types";
 
@@ -103,6 +104,7 @@ export interface ImportResult {
 
 export const api = {
   meta: () => request<Meta>("GET", "/meta"),
+  validation: () => request<ValidationResults>("GET", "/validation"),
   checkAuth: () => request<{ ok: boolean }>("GET", "/auth/check"),
 
   candidates: () => request<Candidate[]>("GET", "/candidates"),

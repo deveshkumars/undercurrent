@@ -1,0 +1,393 @@
+{
+ "date": "2026-10-11",
+ "command": "LLM_BACKEND=claude-cli .venv/bin/python scripts/experiments.py --db data/validation/exp.json",
+ "model": "claude-haiku-5-5",
+ "backend": "claude-cli",
+ "population": {
+  "id": "b86456ca2936",
+  "name": "OpinionQA validation (n=400, seed 2026)",
+  "persona_mode": "interview"
+ },
+ "n_agents": 150,
+ "experiments": [
+  {
+   "id": "framing",
+   "label": "Gain vs. loss framing (disease problem)",
+   "kind": "share",
+   "measure": "% choosing the certain program (A)",
+   "contrast": [
+    "gain",
+    "loss"
+   ],
+   "published": {
+    "source": "Many Labs 1 (N = 6,271)",
+    "values": {
+     "gain": 62.2,
+     "loss": 33.5
+    },
+    "d": 0.6,
+    "d_ci95": [
+     0.55,
+     0.65
+    ],
+    "original": {
+     "source": "Tversky & Kahneman 1981",
+     "values": {
+      "gain": 72.0,
+      "loss": 22.0
+     },
+     "d": 1.13
+    }
+   },
+   "result": {
+    "n_a": 150,
+    "n_b": 150,
+    "n_agents": 150,
+    "value_a": 100.0,
+    "value_b": 79.33,
+    "diff": 20.67,
+    "diff_ci95": [
+     14.0,
+     26.67
+    ],
+    "d": 0.72,
+    "d_rank": null,
+    "direction_matches": true,
+    "diff_vs_published": 0.72
+   },
+   "run": {
+    "id": "dee08af5abd7",
+    "title": "Classic experiment \u00b7 Gain vs. loss framing (disease problem) \u00b7 150 agents \u00b7 seed 2026",
+    "created_at": "2026-10-11T04:15:23+00:00",
+    "updated_at": "2026-10-11T04:24:03+00:00",
+    "calls": 451,
+    "failed_units": 0,
+    "input_tokens": 902,
+    "output_tokens": 189508,
+    "cache_read_input_tokens": 1245818,
+    "cache_creation_input_tokens": 707345,
+    "cache_creation_1h_input_tokens": 707345,
+    "usd_list_price": 0.24877,
+    "estimate_usd": 0.1069,
+    "results": null
+   }
+  },
+  {
+   "id": "framing_paraphrase",
+   "label": "Gain vs. loss framing (paraphrase: chemical leak)",
+   "kind": "share",
+   "measure": "% choosing the certain plan (1)",
+   "contrast": [
+    "gain",
+    "loss"
+   ],
+   "published": null,
+   "result": {
+    "n_a": 150,
+    "n_b": 150,
+    "n_agents": 150,
+    "value_a": 100.0,
+    "value_b": 62.0,
+    "diff": 38.0,
+    "diff_ci95": [
+     30.67,
+     45.33
+    ],
+    "d": 1.11,
+    "d_rank": null,
+    "direction_matches": null,
+    "diff_vs_published": null
+   },
+   "run": {
+    "id": "87ca71a25c93",
+    "title": "Classic experiment \u00b7 Gain vs. loss framing (paraphrase: chemical leak) \u00b7 150 agents \u00b7 seed 2026",
+    "created_at": "2026-10-11T04:24:03+00:00",
+    "updated_at": "2026-10-11T04:33:13+00:00",
+    "calls": 451,
+    "failed_units": 0,
+    "input_tokens": 902,
+    "output_tokens": 225759,
+    "cache_read_input_tokens": 1250410,
+    "cache_creation_input_tokens": 700025,
+    "cache_creation_1h_input_tokens": 700025,
+    "usd_list_price": 0.26548,
+    "estimate_usd": 0.1059,
+    "results": null
+   }
+  },
+  {
+   "id": "allow_forbid",
+   "label": "Allowed vs. forbidden wording",
+   "kind": "share",
+   "measure": "% giving the anti-speech answer (No to allow / Yes to forbid)",
+   "contrast": [
+    "allow",
+    "forbid"
+   ],
+   "published": {
+    "source": "Many Labs 1 (N = 6,292)",
+    "values": {
+     "allow": 23.7,
+     "forbid": 7.2
+    },
+    "d": null,
+    "note": "ML1's published d = 1.96 compares raw 'yes' rates; on the anti-speech answer the difference is \u2248 0.47 (our arithmetic from ML1's percentages).",
+    "original": {
+     "source": "Rugg 1941",
+     "values": {
+      "allow": 62.0,
+      "forbid": 46.0
+     },
+     "d": 0.65
+    }
+   },
+   "result": {
+    "n_a": 150,
+    "n_b": 150,
+    "n_agents": 150,
+    "value_a": 30.67,
+    "value_b": 2.0,
+    "diff": 28.67,
+    "diff_ci95": [
+     21.33,
+     37.33
+    ],
+    "d": 0.84,
+    "d_rank": null,
+    "direction_matches": true,
+    "diff_vs_published": 1.74
+   },
+   "run": {
+    "id": "b5e2b3bed8f9",
+    "title": "Classic experiment \u00b7 Allowed vs. forbidden wording \u00b7 150 agents \u00b7 seed 2026",
+    "created_at": "2026-10-11T04:33:13+00:00",
+    "updated_at": "2026-10-11T04:41:35+00:00",
+    "calls": 451,
+    "failed_units": 0,
+    "input_tokens": 902,
+    "output_tokens": 171328,
+    "cache_read_input_tokens": 1249030,
+    "cache_creation_input_tokens": 664623,
+    "cache_creation_1h_input_tokens": 664623,
+    "usd_list_price": 0.23117,
+    "estimate_usd": 0.104,
+    "results": null
+   }
+  },
+  {
+   "id": "anchoring_everest",
+   "label": "Anchoring: height of Mount Everest",
+   "kind": "mean",
+   "measure": "mean estimate (feet), answers outside the anchors dropped",
+   "contrast": [
+    "high",
+    "low"
+   ],
+   "published": {
+    "source": "Many Labs 1 (N = 5,627)",
+    "values": {
+     "high": 34501,
+     "low": 11849
+    },
+    "d": 2.23,
+    "d_ci95": [
+     2.16,
+     2.3
+    ],
+    "note": "ML1's d is on rank-transformed estimates."
+   },
+   "result": {
+    "n_a": 150,
+    "n_b": 150,
+    "n_agents": 150,
+    "value_a": 29029.17,
+    "value_b": 28495.57,
+    "diff": 533.6,
+    "diff_ci95": [
+     205.65,
+     955.73
+    ],
+    "d": 0.31,
+    "d_rank": -0.26,
+    "direction_matches": true,
+    "diff_vs_published": 0.02
+   },
+   "run": {
+    "id": "a82dc51dda5e",
+    "title": "Classic experiment \u00b7 Anchoring: height of Mount Everest \u00b7 150 agents \u00b7 seed 2026",
+    "created_at": "2026-10-11T04:41:35+00:00",
+    "updated_at": "2026-10-11T04:49:41+00:00",
+    "calls": 451,
+    "failed_units": 1,
+    "input_tokens": 900,
+    "output_tokens": 147010,
+    "cache_read_input_tokens": 1248899,
+    "cache_creation_input_tokens": 687890,
+    "cache_creation_1h_input_tokens": 687890,
+    "usd_list_price": 0.22366,
+    "estimate_usd": 0.1036,
+    "results": null
+   }
+  },
+  {
+   "id": "anchoring_nyc",
+   "label": "Anchoring: San Francisco to New York City",
+   "kind": "mean",
+   "measure": "mean estimate (miles), answers outside the anchors dropped",
+   "contrast": [
+    "high",
+    "low"
+   ],
+   "published": {
+    "source": "Many Labs 1 (N = 5,362)",
+    "values": {
+     "high": 3994,
+     "low": 2851
+    },
+    "d": 1.17,
+    "d_ci95": [
+     1.11,
+     1.23
+    ],
+    "note": "ML1's d is on rank-transformed estimates."
+   },
+   "result": {
+    "n_a": 150,
+    "n_b": 150,
+    "n_agents": 150,
+    "value_a": 2867.33,
+    "value_b": 2812.33,
+    "diff": 55.0,
+    "diff_ci95": [
+     31.33,
+     79.0
+    ],
+    "d": 0.52,
+    "d_rank": 0.48,
+    "direction_matches": true,
+    "diff_vs_published": 0.05
+   },
+   "run": {
+    "id": "0ad8f696ada6",
+    "title": "Classic experiment \u00b7 Anchoring: San Francisco to New York City \u00b7 150 agents \u00b7 seed 2026",
+    "created_at": "2026-10-11T04:49:41+00:00",
+    "updated_at": "2026-10-11T04:57:32+00:00",
+    "calls": 451,
+    "failed_units": 0,
+    "input_tokens": 904,
+    "output_tokens": 170406,
+    "cache_read_input_tokens": 1260040,
+    "cache_creation_input_tokens": 691397,
+    "cache_creation_1h_input_tokens": 691397,
+    "usd_list_price": 0.23617,
+    "estimate_usd": 0.1039,
+    "results": null
+   }
+  },
+  {
+   "id": "sunk_cost",
+   "label": "Sunk cost (football ticket)",
+   "kind": "mean",
+   "measure": "mean on 1\u20139 (9 = definitely go)",
+   "contrast": [
+    "paid",
+    "free"
+   ],
+   "published": {
+    "source": "Many Labs 1 (N = 6,330)",
+    "values": {
+     "paid": 7.85,
+     "free": 7.24
+    },
+    "d": 0.27,
+    "d_ci95": [
+     0.22,
+     0.32
+    ],
+    "original": {
+     "source": "Oppenheimer et al. 2009",
+     "values": {
+      "paid": 7.46,
+      "free": 6.93
+     },
+     "d": 0.23
+    }
+   },
+   "result": {
+    "n_a": 150,
+    "n_b": 150,
+    "n_agents": 150,
+    "value_a": 5.65,
+    "value_b": 4.27,
+    "diff": 1.38,
+    "diff_ci95": [
+     1.21,
+     1.56
+    ],
+    "d": 1.22,
+    "d_rank": null,
+    "direction_matches": true,
+    "diff_vs_published": 2.26
+   },
+   "run": {
+    "id": "e0bfa5d14df6",
+    "title": "Classic experiment \u00b7 Sunk cost (football ticket) \u00b7 150 agents \u00b7 seed 2026",
+    "created_at": "2026-10-11T04:57:32+00:00",
+    "updated_at": "2026-10-11T05:05:20+00:00",
+    "calls": 451,
+    "failed_units": 0,
+    "input_tokens": 902,
+    "output_tokens": 168453,
+    "cache_read_input_tokens": 1254032,
+    "cache_creation_input_tokens": 704001,
+    "cache_creation_1h_input_tokens": 704001,
+    "usd_list_price": 0.23766,
+    "estimate_usd": 0.1051,
+    "results": null
+   }
+  },
+  {
+   "id": "sunk_cost_paraphrase",
+   "label": "Sunk cost (paraphrase: concert in the rain)",
+   "kind": "mean",
+   "measure": "mean on 1\u20139 (9 = definitely go)",
+   "contrast": [
+    "paid",
+    "free"
+   ],
+   "published": null,
+   "result": {
+    "n_a": 150,
+    "n_b": 150,
+    "n_agents": 150,
+    "value_a": 3.48,
+    "value_b": 2.83,
+    "diff": 0.65,
+    "diff_ci95": [
+     0.51,
+     0.79
+    ],
+    "d": 0.88,
+    "d_rank": null,
+    "direction_matches": null,
+    "diff_vs_published": null
+   },
+   "run": {
+    "id": "38f62c11e4f5",
+    "title": "Classic experiment \u00b7 Sunk cost (paraphrase: concert in the rain) \u00b7 150 agents \u00b7 seed 2026",
+    "created_at": "2026-10-11T05:05:20+00:00",
+    "updated_at": "2026-10-11T05:13:05+00:00",
+    "calls": 451,
+    "failed_units": 0,
+    "input_tokens": 904,
+    "output_tokens": 151991,
+    "cache_read_input_tokens": 1256084,
+    "cache_creation_input_tokens": 704655,
+    "cache_creation_1h_input_tokens": 704655,
+    "usd_list_price": 0.22958,
+    "estimate_usd": 0.1049,
+    "results": null
+   }
+  }
+ ]
+}

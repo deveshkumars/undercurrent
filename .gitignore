@@ -10,3 +10,6 @@ frontend/dist/
 .vercel/
 .pytest_cache/
 .DS_Store
+data/opinionqa/
+data/validation/
+data/demo/

@@ -5,6 +5,7 @@
   thermometer rises by 10; nobody else moves. Vote choice follows the thermometer.
 - Backtest answers move vote choice by the planted demo effect when the event title is in the task.
 - Social activations comment on the first post in the feed, or write a post when the feed is empty.
+- Survey blocks: Democrats pick the first option, Republicans the last, everyone else the middle one.
 """
 
 from __future__ import annotations
@@ -76,6 +77,8 @@ class FakeLLM:
             obj = output(routes=[{"question_id": i, "expert": "psychologist", "why": "fake"} for i in ids])
         elif name == "SocialActivation":
             obj = self._social(task, output)
+        elif name == "SurveyBlock":
+            obj = self._survey(task, context, output)
         else:
             obj = generic(output, task[:80])
         usage = {"model": "fake", "input_tokens": len(task) // 4 + len(context) // 4, "output_tokens": 40,
@@ -117,6 +120,17 @@ class FakeLLM:
                 data[fname] = 7
             else:
                 data[fname] = "Honestly it didn't move me much."
+        return output(**data)
+
+    def _survey(self, task: str, context: str, output: type[BaseModel]) -> BaseModel:
+        m = re.search(r"PARTY=(\w+)", context) or re.search(r"Party identification: (\w+)", context)
+        party = m.group(1) if m else "independent"
+        counts = [len(re.findall(r"^   [A-L]\. ", chunk, re.M)) for chunk in re.split(r"^\[a\d+\] ", task, flags=re.M)[1:]]
+        data = {}
+        for i, fname in enumerate(output.model_fields, 0):
+            k = counts[i] if i < len(counts) else 1
+            idx = 0 if party == "democrat" else k - 1 if party == "republican" else (k - 1) // 2
+            data[fname] = "ABCDEFGHIJKL"[idx]
         return output(**data)
 
     def _social(self, task: str, output: type[BaseModel]) -> BaseModel:

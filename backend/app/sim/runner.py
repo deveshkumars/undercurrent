@@ -35,6 +35,7 @@ HANDLER_MODULES = {
     "calibration": "backend.app.sim.panel",
     "backtest": "backend.app.sim.candidate",
     "social": "backend.app.sim.social",
+    "survey": "backend.app.sim.survey",
 }
 USAGE_KEYS = ("input_tokens", "output_tokens", "cache_read_input_tokens", "cache_creation_input_tokens",
               "cache_creation_1h_input_tokens")

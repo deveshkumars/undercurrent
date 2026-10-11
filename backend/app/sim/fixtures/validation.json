@@ -1,0 +1,1800 @@
+{
+ "benchmark": "OpinionQA (Santurkar et al. 2023), Pew American Trends Panel",
+ "date": "2026-10-11",
+ "command": "LLM_BACKEND=claude-cli .venv/bin/python scripts/validate.py --split test",
+ "model": "claude-haiku-5-5",
+ "backend": "claude-cli",
+ "agent_effort": "low",
+ "split": "test",
+ "seed": 2026,
+ "waves": [
+  27,
+  34,
+  41,
+  42,
+  49,
+  50,
+  54
+ ],
+ "n_eligible_questions": 535,
+ "n_questions": 100,
+ "block_size": 10,
+ "n_agents": 400,
+ "population": {
+  "id": "b86456ca2936",
+  "size": 400,
+  "persona_mode": "interview",
+  "card_detail": "light",
+  "preset": "us_adults"
+ },
+ "weighting": {
+  "deff": 1.111,
+  "n_eff": 359.9,
+  "max_error": 6e-05
+ },
+ "group_sizes": {
+  "region=northeast": 72,
+  "age=30-49": 133,
+  "gender=female": 208,
+  "race=hispanic": 69,
+  "education=some_college": 120,
+  "income=100k+": 111,
+  "party=independent": 189,
+  "ideology=liberal": 114,
+  "region=west": 94,
+  "gender=male": 192,
+  "race=white": 225,
+  "education=hs_or_less": 156,
+  "region=south": 150,
+  "age=50-64": 99,
+  "education=bachelors": 69,
+  "party=democrat": 112,
+  "income=<30k": 97,
+  "ideology=conservative": 125,
+  "age=18-29": 80,
+  "party=republican": 99,
+  "ideology=moderate": 161,
+  "age=65+": 88,
+  "income=30-100k": 192,
+  "region=midwest": 84,
+  "race=black": 62,
+  "education=postgrad": 55,
+  "race=other": 44
+ },
+ "questions": [
+  {
+   "key": "INEQ5_d_W54",
+   "wave": 54,
+   "n_options": 4
+  },
+  {
+   "key": "CAREGIV3A_W27",
+   "wave": 27,
+   "n_options": 4
+  },
+  {
+   "key": "MED5_W34",
+   "wave": 34,
+   "n_options": 4
+  },
+  {
+   "key": "FUTR_ABR_W41",
+   "wave": 41,
+   "n_options": 4
+  },
+  {
+   "key": "Q7F2_W42",
+   "wave": 42,
+   "n_options": 3
+  },
+  {
+   "key": "CONCERNGRPb_W49",
+   "wave": 49,
+   "n_options": 3
+  },
+  {
+   "key": "FAMSURV9b_W50",
+   "wave": 50,
+   "n_options": 4
+  },
+  {
+   "key": "DEBTd_W54",
+   "wave": 54,
+   "n_options": 2
+  },
+  {
+   "key": "ROBJOB8E_W27",
+   "wave": 27,
+   "n_options": 4
+  },
+  {
+   "key": "FUD24_W34",
+   "wave": 34,
+   "n_options": 3
+  },
+  {
+   "key": "GOVPRIOjF1_W41",
+   "wave": 41,
+   "n_options": 4
+  },
+  {
+   "key": "RQ7_F1C_W42",
+   "wave": 42,
+   "n_options": 2
+  },
+  {
+   "key": "RTBFa_W49",
+   "wave": 49,
+   "n_options": 2
+  },
+  {
+   "key": "FAMSURV5d_W50",
+   "wave": 50,
+   "n_options": 3
+  },
+  {
+   "key": "FIN_SIT_W54",
+   "wave": 54,
+   "n_options": 4
+  },
+  {
+   "key": "CAREGIV6C_W27",
+   "wave": 27,
+   "n_options": 2
+  },
+  {
+   "key": "MED6D_W34",
+   "wave": 34,
+   "n_options": 4
+  },
+  {
+   "key": "GOVPRIOc_W41",
+   "wave": 41,
+   "n_options": 4
+  },
+  {
+   "key": "PQ8_F2A_W42",
+   "wave": 42,
+   "n_options": 4
+  },
+  {
+   "key": "PRIVACYNEWS1_W49",
+   "wave": 49,
+   "n_options": 4
+  },
+  {
+   "key": "FAMSURV1_W50",
+   "wave": 50,
+   "n_options": 3
+  },
+  {
+   "key": "INEQ8_c_W54",
+   "wave": 54,
+   "n_options": 4
+  },
+  {
+   "key": "DRONE1_W27",
+   "wave": 27,
+   "n_options": 2
+  },
+  {
+   "key": "EAT3I_W34",
+   "wave": 34,
+   "n_options": 2
+  },
+  {
+   "key": "FTRWORRYf_W41",
+   "wave": 41,
+   "n_options": 4
+  },
+  {
+   "key": "RQ6_F1B_W42",
+   "wave": 42,
+   "n_options": 2
+  },
+  {
+   "key": "CONCERNGOV_W49",
+   "wave": 49,
+   "n_options": 4
+  },
+  {
+   "key": "FAMSURV11M_W50",
+   "wave": 50,
+   "n_options": 3
+  },
+  {
+   "key": "INEQ5_b_W54",
+   "wave": 54,
+   "n_options": 4
+  },
+  {
+   "key": "ROBJOB3B_W27",
+   "wave": 27,
+   "n_options": 4
+  },
+  {
+   "key": "FUD35_W34",
+   "wave": 34,
+   "n_options": 4
+  },
+  {
+   "key": "HAPPENb_W41",
+   "wave": 41,
+   "n_options": 2
+  },
+  {
+   "key": "RQ4_F1Ae_W42",
+   "wave": 42,
+   "n_options": 4
+  },
+  {
+   "key": "ANONYMOUS1GOV_W49",
+   "wave": 49,
+   "n_options": 2
+  },
+  {
+   "key": "FAMSURV12_W50",
+   "wave": 50,
+   "n_options": 3
+  },
+  {
+   "key": "ECON5_d_W54",
+   "wave": 54,
+   "n_options": 5
+  },
+  {
+   "key": "HIRING4_W27",
+   "wave": 27,
+   "n_options": 2
+  },
+  {
+   "key": "EAT5A_W34",
+   "wave": 34,
+   "n_options": 4
+  },
+  {
+   "key": "SOLVPROBeF2_W41",
+   "wave": 41,
+   "n_options": 4
+  },
+  {
+   "key": "PQ3_F2Ab_W42",
+   "wave": 42,
+   "n_options": 2
+  },
+  {
+   "key": "PWMAN_W49",
+   "wave": 49,
+   "n_options": 2
+  },
+  {
+   "key": "SATLIFEb_W50",
+   "wave": 50,
+   "n_options": 4
+  },
+  {
+   "key": "INEQ5_h_W54",
+   "wave": 54,
+   "n_options": 4
+  },
+  {
+   "key": "CARS10C_W27",
+   "wave": 27,
+   "n_options": 2
+  },
+  {
+   "key": "MED2D_W34",
+   "wave": 34,
+   "n_options": 3
+  },
+  {
+   "key": "HARASS1NOWRKF2d_W41",
+   "wave": 41,
+   "n_options": 3
+  },
+  {
+   "key": "POP3_W42",
+   "wave": 42,
+   "n_options": 2
+  },
+  {
+   "key": "CONTROLGRPe_W49",
+   "wave": 49,
+   "n_options": 4
+  },
+  {
+   "key": "FAMSURV6_W50",
+   "wave": 50,
+   "n_options": 4
+  },
+  {
+   "key": "INEQ8_h_W54",
+   "wave": 54,
+   "n_options": 4
+  },
+  {
+   "key": "HIRING3B_W27",
+   "wave": 27,
+   "n_options": 4
+  },
+  {
+   "key": "FUD37B_W34",
+   "wave": 34,
+   "n_options": 4
+  },
+  {
+   "key": "GOVPRIOgF1_W41",
+   "wave": 41,
+   "n_options": 4
+  },
+  {
+   "key": "CONFa_W42",
+   "wave": 42,
+   "n_options": 4
+  },
+  {
+   "key": "CONCERNGRPd_W49",
+   "wave": 49,
+   "n_options": 3
+  },
+  {
+   "key": "FAMSURV8_W50",
+   "wave": 50,
+   "n_options": 2
+  },
+  {
+   "key": "ECIMPe_W54",
+   "wave": 54,
+   "n_options": 3
+  },
+  {
+   "key": "ROBJOB6_W27",
+   "wave": 27,
+   "n_options": 2
+  },
+  {
+   "key": "MED2F_W34",
+   "wave": 34,
+   "n_options": 3
+  },
+  {
+   "key": "HAPPEN2f_W41",
+   "wave": 41,
+   "n_options": 4
+  },
+  {
+   "key": "PQ3_F2Ac_W42",
+   "wave": 42,
+   "n_options": 2
+  },
+  {
+   "key": "PRIVACYREG_W49",
+   "wave": 49,
+   "n_options": 4
+  },
+  {
+   "key": "FAMSURV2Wb_W50",
+   "wave": 50,
+   "n_options": 3
+  },
+  {
+   "key": "ECON3_a_W54",
+   "wave": 54,
+   "n_options": 4
+  },
+  {
+   "key": "ROBJOB4E_W27",
+   "wave": 27,
+   "n_options": 2
+  },
+  {
+   "key": "FUD37A_W34",
+   "wave": 34,
+   "n_options": 4
+  },
+  {
+   "key": "HAPPENc_W41",
+   "wave": 41,
+   "n_options": 2
+  },
+  {
+   "key": "SCM5f_W42",
+   "wave": 42,
+   "n_options": 2
+  },
+  {
+   "key": "PP6b_W49",
+   "wave": 49,
+   "n_options": 4
+  },
+  {
+   "key": "FAMSURV2Wc_W50",
+   "wave": 50,
+   "n_options": 3
+  },
+  {
+   "key": "ECIMPa_W54",
+   "wave": 54,
+   "n_options": 3
+  },
+  {
+   "key": "HIRING1_W27",
+   "wave": 27,
+   "n_options": 3
+  },
+  {
+   "key": "EAT2_W34",
+   "wave": 34,
+   "n_options": 5
+  },
+  {
+   "key": "POPPROB_W41",
+   "wave": 41,
+   "n_options": 3
+  },
+  {
+   "key": "SCM3_W42",
+   "wave": 42,
+   "n_options": 2
+  },
+  {
+   "key": "PP6a_W49",
+   "wave": 49,
+   "n_options": 4
+  },
+  {
+   "key": "SATLIFEc_W50",
+   "wave": 50,
+   "n_options": 4
+  },
+  {
+   "key": "ECON4_d_W54",
+   "wave": 54,
+   "n_options": 4
+  },
+  {
+   "key": "CARS5_W27",
+   "wave": 27,
+   "n_options": 2
+  },
+  {
+   "key": "SCI3C_W34",
+   "wave": 34,
+   "n_options": 2
+  },
+  {
+   "key": "HARASS3F1_W41",
+   "wave": 41,
+   "n_options": 3
+  },
+  {
+   "key": "PQ7_F2C_W42",
+   "wave": 42,
+   "n_options": 2
+  },
+  {
+   "key": "PP5c_W49",
+   "wave": 49,
+   "n_options": 4
+  },
+  {
+   "key": "FAMSURV9e_W50",
+   "wave": 50,
+   "n_options": 4
+  },
+  {
+   "key": "INEQ7_W54",
+   "wave": 54,
+   "n_options": 4
+  },
+  {
+   "key": "CARS9A_W27",
+   "wave": 27,
+   "n_options": 4
+  },
+  {
+   "key": "BIOTECHE_W34",
+   "wave": 34,
+   "n_options": 2
+  },
+  {
+   "key": "ENVC_W41",
+   "wave": 41,
+   "n_options": 3
+  },
+  {
+   "key": "SCM5i_W42",
+   "wave": 42,
+   "n_options": 2
+  },
+  {
+   "key": "SHARE1_W49",
+   "wave": 49,
+   "n_options": 2
+  },
+  {
+   "key": "FAMSURV2Ma_W50",
+   "wave": 50,
+   "n_options": 3
+  },
+  {
+   "key": "BENEFITSb_W54",
+   "wave": 54,
+   "n_options": 2
+  },
+  {
+   "key": "DRONE2_W27",
+   "wave": 27,
+   "n_options": 2
+  },
+  {
+   "key": "MED2G_W34",
+   "wave": 34,
+   "n_options": 3
+  },
+  {
+   "key": "JOBSECURITY_W41",
+   "wave": 41,
+   "n_options": 3
+  },
+  {
+   "key": "Q6F1_W42",
+   "wave": 42,
+   "n_options": 3
+  },
+  {
+   "key": "DB1b_W49",
+   "wave": 49,
+   "n_options": 3
+  },
+  {
+   "key": "FAMSURV2Md_W50",
+   "wave": 50,
+   "n_options": 3
+  },
+  {
+   "key": "INEQ8_g_W54",
+   "wave": 54,
+   "n_options": 4
+  },
+  {
+   "key": "CAREGIV6A_W27",
+   "wave": 27,
+   "n_options": 2
+  }
+ ],
+ "scores": {
+  "interview": {
+   "overall": {
+    "R": 0.806,
+    "lo": 0.7835,
+    "hi": 0.8269,
+    "n_questions": 100
+   },
+   "groups": {
+    "region=northeast": {
+     "R": 0.7998,
+     "lo": 0.7775,
+     "hi": 0.8212,
+     "n_questions": 100
+    },
+    "region=midwest": {
+     "R": 0.8064,
+     "lo": 0.7846,
+     "hi": 0.8258,
+     "n_questions": 100
+    },
+    "region=south": {
+     "R": 0.8046,
+     "lo": 0.7843,
+     "hi": 0.8257,
+     "n_questions": 100
+    },
+    "region=west": {
+     "R": 0.8065,
+     "lo": 0.7832,
+     "hi": 0.8289,
+     "n_questions": 100
+    },
+    "age=18-29": {
+     "R": 0.7901,
+     "lo": 0.7671,
+     "hi": 0.8124,
+     "n_questions": 100
+    },
+    "age=30-49": {
+     "R": 0.7999,
+     "lo": 0.7757,
+     "hi": 0.8212,
+     "n_questions": 100
+    },
+    "age=50-64": {
+     "R": 0.8048,
+     "lo": 0.7821,
+     "hi": 0.8252,
+     "n_questions": 100
+    },
+    "age=65+": {
+     "R": 0.8089,
+     "lo": 0.7874,
+     "hi": 0.828,
+     "n_questions": 100
+    },
+    "gender=female": {
+     "R": 0.8036,
+     "lo": 0.7822,
+     "hi": 0.8244,
+     "n_questions": 100
+    },
+    "gender=male": {
+     "R": 0.8061,
+     "lo": 0.7847,
+     "hi": 0.828,
+     "n_questions": 100
+    },
+    "race=white": {
+     "R": 0.8086,
+     "lo": 0.786,
+     "hi": 0.8319,
+     "n_questions": 100
+    },
+    "race=black": {
+     "R": 0.7887,
+     "lo": 0.7663,
+     "hi": 0.8116,
+     "n_questions": 100
+    },
+    "race=hispanic": {
+     "R": 0.7952,
+     "lo": 0.773,
+     "hi": 0.816,
+     "n_questions": 100
+    },
+    "race=other": {
+     "R": 0.7918,
+     "lo": 0.7699,
+     "hi": 0.8127,
+     "n_questions": 100
+    },
+    "education=hs_or_less": {
+     "R": 0.7977,
+     "lo": 0.7766,
+     "hi": 0.8182,
+     "n_questions": 100
+    },
+    "education=some_college": {
+     "R": 0.8035,
+     "lo": 0.7826,
+     "hi": 0.8228,
+     "n_questions": 100
+    },
+    "education=bachelors": {
+     "R": 0.8066,
+     "lo": 0.7838,
+     "hi": 0.8291,
+     "n_questions": 100
+    },
+    "education=postgrad": {
+     "R": 0.8158,
+     "lo": 0.7917,
+     "hi": 0.8403,
+     "n_questions": 100
+    },
+    "income=<30k": {
+     "R": 0.7962,
+     "lo": 0.7733,
+     "hi": 0.8195,
+     "n_questions": 100
+    },
+    "income=30-100k": {
+     "R": 0.8072,
+     "lo": 0.7859,
+     "hi": 0.8272,
+     "n_questions": 100
+    },
+    "income=100k+": {
+     "R": 0.8113,
+     "lo": 0.7864,
+     "hi": 0.8367,
+     "n_questions": 100
+    },
+    "party=democrat": {
+     "R": 0.8024,
+     "lo": 0.7766,
+     "hi": 0.8242,
+     "n_questions": 100
+    },
+    "party=republican": {
+     "R": 0.7951,
+     "lo": 0.7735,
+     "hi": 0.8147,
+     "n_questions": 100
+    },
+    "party=independent": {
+     "R": 0.8015,
+     "lo": 0.7808,
+     "hi": 0.8218,
+     "n_questions": 100
+    },
+    "ideology=liberal": {
+     "R": 0.804,
+     "lo": 0.7797,
+     "hi": 0.8265,
+     "n_questions": 100
+    },
+    "ideology=moderate": {
+     "R": 0.8048,
+     "lo": 0.7821,
+     "hi": 0.8263,
+     "n_questions": 100
+    },
+    "ideology=conservative": {
+     "R": 0.795,
+     "lo": 0.7744,
+     "hi": 0.8152,
+     "n_questions": 100
+    }
+   },
+   "group_mean": 0.8021,
+   "group_worst": 0.7887,
+   "dispersion": {
+    "entropy": 0.4316,
+    "modal_share": 0.7981
+   },
+   "by_wave": {
+    "27": {
+     "R": 0.8125,
+     "lo": 0.7265,
+     "hi": 0.8832,
+     "n_questions": 15
+    },
+    "34": {
+     "R": 0.8139,
+     "lo": 0.7619,
+     "hi": 0.8634,
+     "n_questions": 14
+    },
+    "41": {
+     "R": 0.8059,
+     "lo": 0.7671,
+     "hi": 0.8409,
+     "n_questions": 14
+    },
+    "42": {
+     "R": 0.7821,
+     "lo": 0.7138,
+     "hi": 0.8485,
+     "n_questions": 14
+    },
+    "49": {
+     "R": 0.7769,
+     "lo": 0.7222,
+     "hi": 0.8277,
+     "n_questions": 14
+    },
+    "50": {
+     "R": 0.8286,
+     "lo": 0.783,
+     "hi": 0.8717,
+     "n_questions": 14
+    },
+    "54": {
+     "R": 0.8203,
+     "lo": 0.7829,
+     "hi": 0.8577,
+     "n_questions": 15
+    }
+   }
+  },
+  "card": {
+   "overall": {
+    "R": 0.8238,
+    "lo": 0.8011,
+    "hi": 0.8423,
+    "n_questions": 100
+   },
+   "groups": {
+    "region=northeast": {
+     "R": 0.8147,
+     "lo": 0.7932,
+     "hi": 0.8358,
+     "n_questions": 100
+    },
+    "region=midwest": {
+     "R": 0.8248,
+     "lo": 0.8016,
+     "hi": 0.8459,
+     "n_questions": 100
+    },
+    "region=south": {
+     "R": 0.8215,
+     "lo": 0.8026,
+     "hi": 0.8415,
+     "n_questions": 100
+    },
+    "region=west": {
+     "R": 0.8258,
+     "lo": 0.8008,
+     "hi": 0.847,
+     "n_questions": 100
+    },
+    "age=18-29": {
+     "R": 0.8098,
+     "lo": 0.789,
+     "hi": 0.8298,
+     "n_questions": 100
+    },
+    "age=30-49": {
+     "R": 0.8215,
+     "lo": 0.7983,
+     "hi": 0.8406,
+     "n_questions": 100
+    },
+    "age=50-64": {
+     "R": 0.8207,
+     "lo": 0.7959,
+     "hi": 0.8417,
+     "n_questions": 100
+    },
+    "age=65+": {
+     "R": 0.8244,
+     "lo": 0.8006,
+     "hi": 0.8456,
+     "n_questions": 100
+    },
+    "gender=female": {
+     "R": 0.8187,
+     "lo": 0.7977,
+     "hi": 0.8389,
+     "n_questions": 100
+    },
+    "gender=male": {
+     "R": 0.8258,
+     "lo": 0.8058,
+     "hi": 0.8463,
+     "n_questions": 100
+    },
+    "race=white": {
+     "R": 0.8248,
+     "lo": 0.8021,
+     "hi": 0.8461,
+     "n_questions": 100
+    },
+    "race=black": {
+     "R": 0.7993,
+     "lo": 0.7775,
+     "hi": 0.8196,
+     "n_questions": 100
+    },
+    "race=hispanic": {
+     "R": 0.8139,
+     "lo": 0.7913,
+     "hi": 0.8352,
+     "n_questions": 100
+    },
+    "race=other": {
+     "R": 0.8149,
+     "lo": 0.7942,
+     "hi": 0.8327,
+     "n_questions": 100
+    },
+    "education=hs_or_less": {
+     "R": 0.8169,
+     "lo": 0.7945,
+     "hi": 0.8369,
+     "n_questions": 100
+    },
+    "education=some_college": {
+     "R": 0.8182,
+     "lo": 0.7959,
+     "hi": 0.8374,
+     "n_questions": 100
+    },
+    "education=bachelors": {
+     "R": 0.8247,
+     "lo": 0.8015,
+     "hi": 0.8469,
+     "n_questions": 100
+    },
+    "education=postgrad": {
+     "R": 0.8246,
+     "lo": 0.8016,
+     "hi": 0.8479,
+     "n_questions": 100
+    },
+    "income=<30k": {
+     "R": 0.8115,
+     "lo": 0.7914,
+     "hi": 0.8319,
+     "n_questions": 100
+    },
+    "income=30-100k": {
+     "R": 0.8249,
+     "lo": 0.8052,
+     "hi": 0.8438,
+     "n_questions": 100
+    },
+    "income=100k+": {
+     "R": 0.8279,
+     "lo": 0.806,
+     "hi": 0.8513,
+     "n_questions": 100
+    },
+    "party=democrat": {
+     "R": 0.814,
+     "lo": 0.7897,
+     "hi": 0.8362,
+     "n_questions": 100
+    },
+    "party=republican": {
+     "R": 0.8,
+     "lo": 0.7758,
+     "hi": 0.8206,
+     "n_questions": 100
+    },
+    "party=independent": {
+     "R": 0.8137,
+     "lo": 0.7923,
+     "hi": 0.8331,
+     "n_questions": 100
+    },
+    "ideology=liberal": {
+     "R": 0.8132,
+     "lo": 0.788,
+     "hi": 0.8371,
+     "n_questions": 100
+    },
+    "ideology=moderate": {
+     "R": 0.8188,
+     "lo": 0.7967,
+     "hi": 0.8399,
+     "n_questions": 100
+    },
+    "ideology=conservative": {
+     "R": 0.7968,
+     "lo": 0.773,
+     "hi": 0.8203,
+     "n_questions": 100
+    }
+   },
+   "group_mean": 0.8173,
+   "group_worst": 0.7968,
+   "dispersion": {
+    "entropy": 0.5233,
+    "modal_share": 0.7406
+   },
+   "by_wave": {
+    "27": {
+     "R": 0.8136,
+     "lo": 0.7501,
+     "hi": 0.8651,
+     "n_questions": 15
+    },
+    "34": {
+     "R": 0.845,
+     "lo": 0.7878,
+     "hi": 0.8915,
+     "n_questions": 14
+    },
+    "41": {
+     "R": 0.837,
+     "lo": 0.7887,
+     "hi": 0.8844,
+     "n_questions": 14
+    },
+    "42": {
+     "R": 0.7455,
+     "lo": 0.6605,
+     "hi": 0.8162,
+     "n_questions": 14
+    },
+    "49": {
+     "R": 0.8011,
+     "lo": 0.7582,
+     "hi": 0.8373,
+     "n_questions": 14
+    },
+    "50": {
+     "R": 0.8614,
+     "lo": 0.8192,
+     "hi": 0.8979,
+     "n_questions": 14
+    },
+    "54": {
+     "R": 0.8611,
+     "lo": 0.8363,
+     "hi": 0.8874,
+     "n_questions": 15
+    }
+   }
+  },
+  "demographics": {
+   "overall": {
+    "R": 0.8151,
+    "lo": 0.7925,
+    "hi": 0.835,
+    "n_questions": 100
+   },
+   "groups": {
+    "region=northeast": {
+     "R": 0.8043,
+     "lo": 0.7822,
+     "hi": 0.8266,
+     "n_questions": 100
+    },
+    "region=midwest": {
+     "R": 0.8161,
+     "lo": 0.7958,
+     "hi": 0.8364,
+     "n_questions": 100
+    },
+    "region=south": {
+     "R": 0.8127,
+     "lo": 0.7919,
+     "hi": 0.8329,
+     "n_questions": 100
+    },
+    "region=west": {
+     "R": 0.8187,
+     "lo": 0.795,
+     "hi": 0.8387,
+     "n_questions": 100
+    },
+    "age=18-29": {
+     "R": 0.8042,
+     "lo": 0.7827,
+     "hi": 0.826,
+     "n_questions": 100
+    },
+    "age=30-49": {
+     "R": 0.8143,
+     "lo": 0.7915,
+     "hi": 0.8334,
+     "n_questions": 100
+    },
+    "age=50-64": {
+     "R": 0.8138,
+     "lo": 0.7898,
+     "hi": 0.835,
+     "n_questions": 100
+    },
+    "age=65+": {
+     "R": 0.813,
+     "lo": 0.7898,
+     "hi": 0.8338,
+     "n_questions": 100
+    },
+    "gender=female": {
+     "R": 0.8104,
+     "lo": 0.7882,
+     "hi": 0.832,
+     "n_questions": 100
+    },
+    "gender=male": {
+     "R": 0.8178,
+     "lo": 0.7981,
+     "hi": 0.838,
+     "n_questions": 100
+    },
+    "race=white": {
+     "R": 0.8134,
+     "lo": 0.7912,
+     "hi": 0.8338,
+     "n_questions": 100
+    },
+    "race=black": {
+     "R": 0.7863,
+     "lo": 0.7635,
+     "hi": 0.8086,
+     "n_questions": 100
+    },
+    "race=hispanic": {
+     "R": 0.8097,
+     "lo": 0.7881,
+     "hi": 0.8303,
+     "n_questions": 100
+    },
+    "race=other": {
+     "R": 0.808,
+     "lo": 0.7862,
+     "hi": 0.8284,
+     "n_questions": 100
+    },
+    "education=hs_or_less": {
+     "R": 0.8062,
+     "lo": 0.7852,
+     "hi": 0.8257,
+     "n_questions": 100
+    },
+    "education=some_college": {
+     "R": 0.809,
+     "lo": 0.7886,
+     "hi": 0.8278,
+     "n_questions": 100
+    },
+    "education=bachelors": {
+     "R": 0.8163,
+     "lo": 0.7928,
+     "hi": 0.8379,
+     "n_questions": 100
+    },
+    "education=postgrad": {
+     "R": 0.8098,
+     "lo": 0.7861,
+     "hi": 0.8351,
+     "n_questions": 100
+    },
+    "income=<30k": {
+     "R": 0.7973,
+     "lo": 0.7747,
+     "hi": 0.8188,
+     "n_questions": 100
+    },
+    "income=30-100k": {
+     "R": 0.8135,
+     "lo": 0.7941,
+     "hi": 0.8326,
+     "n_questions": 100
+    },
+    "income=100k+": {
+     "R": 0.814,
+     "lo": 0.7923,
+     "hi": 0.8349,
+     "n_questions": 100
+    },
+    "party=democrat": {
+     "R": 0.8048,
+     "lo": 0.7807,
+     "hi": 0.8267,
+     "n_questions": 100
+    },
+    "party=republican": {
+     "R": 0.7809,
+     "lo": 0.7567,
+     "hi": 0.8033,
+     "n_questions": 100
+    },
+    "party=independent": {
+     "R": 0.81,
+     "lo": 0.7891,
+     "hi": 0.8301,
+     "n_questions": 100
+    },
+    "ideology=liberal": {
+     "R": 0.7986,
+     "lo": 0.7752,
+     "hi": 0.8212,
+     "n_questions": 100
+    },
+    "ideology=moderate": {
+     "R": 0.805,
+     "lo": 0.7834,
+     "hi": 0.827,
+     "n_questions": 100
+    },
+    "ideology=conservative": {
+     "R": 0.7745,
+     "lo": 0.751,
+     "hi": 0.798,
+     "n_questions": 100
+    }
+   },
+   "group_mean": 0.8068,
+   "group_worst": 0.7745,
+   "dispersion": {
+    "entropy": 0.4929,
+    "modal_share": 0.7483
+   },
+   "by_wave": {
+    "27": {
+     "R": 0.8104,
+     "lo": 0.7635,
+     "hi": 0.8599,
+     "n_questions": 15
+    },
+    "34": {
+     "R": 0.8158,
+     "lo": 0.7581,
+     "hi": 0.8664,
+     "n_questions": 14
+    },
+    "41": {
+     "R": 0.8333,
+     "lo": 0.7866,
+     "hi": 0.8785,
+     "n_questions": 14
+    },
+    "42": {
+     "R": 0.7302,
+     "lo": 0.6554,
+     "hi": 0.8018,
+     "n_questions": 14
+    },
+    "49": {
+     "R": 0.7862,
+     "lo": 0.7403,
+     "hi": 0.8294,
+     "n_questions": 14
+    },
+    "50": {
+     "R": 0.8548,
+     "lo": 0.8134,
+     "hi": 0.8925,
+     "n_questions": 14
+    },
+    "54": {
+     "R": 0.8715,
+     "lo": 0.8393,
+     "hi": 0.9028,
+     "n_questions": 15
+    }
+   }
+  },
+  "uniform": {
+   "overall": {
+    "R": 0.8204,
+    "lo": 0.8016,
+    "hi": 0.8375,
+    "n_questions": 100
+   },
+   "groups": {
+    "region=northeast": {
+     "R": 0.8175,
+     "lo": 0.7981,
+     "hi": 0.8354,
+     "n_questions": 100
+    },
+    "region=midwest": {
+     "R": 0.8196,
+     "lo": 0.8005,
+     "hi": 0.8379,
+     "n_questions": 100
+    },
+    "region=south": {
+     "R": 0.823,
+     "lo": 0.8042,
+     "hi": 0.8412,
+     "n_questions": 100
+    },
+    "region=west": {
+     "R": 0.8159,
+     "lo": 0.7967,
+     "hi": 0.8346,
+     "n_questions": 100
+    },
+    "age=18-29": {
+     "R": 0.8277,
+     "lo": 0.8082,
+     "hi": 0.8456,
+     "n_questions": 100
+    },
+    "age=30-49": {
+     "R": 0.8199,
+     "lo": 0.8016,
+     "hi": 0.8393,
+     "n_questions": 100
+    },
+    "age=50-64": {
+     "R": 0.8108,
+     "lo": 0.7896,
+     "hi": 0.8305,
+     "n_questions": 100
+    },
+    "age=65+": {
+     "R": 0.7994,
+     "lo": 0.7787,
+     "hi": 0.8197,
+     "n_questions": 100
+    },
+    "gender=female": {
+     "R": 0.8119,
+     "lo": 0.7904,
+     "hi": 0.8317,
+     "n_questions": 100
+    },
+    "gender=male": {
+     "R": 0.8271,
+     "lo": 0.8081,
+     "hi": 0.8464,
+     "n_questions": 100
+    },
+    "race=white": {
+     "R": 0.8154,
+     "lo": 0.7954,
+     "hi": 0.8351,
+     "n_questions": 100
+    },
+    "race=black": {
+     "R": 0.8264,
+     "lo": 0.8048,
+     "hi": 0.8457,
+     "n_questions": 100
+    },
+    "race=hispanic": {
+     "R": 0.8184,
+     "lo": 0.8002,
+     "hi": 0.8373,
+     "n_questions": 100
+    },
+    "race=other": {
+     "R": 0.8285,
+     "lo": 0.8102,
+     "hi": 0.8465,
+     "n_questions": 100
+    },
+    "education=hs_or_less": {
+     "R": 0.8222,
+     "lo": 0.8027,
+     "hi": 0.8418,
+     "n_questions": 100
+    },
+    "education=some_college": {
+     "R": 0.8178,
+     "lo": 0.7989,
+     "hi": 0.8356,
+     "n_questions": 100
+    },
+    "education=bachelors": {
+     "R": 0.8085,
+     "lo": 0.789,
+     "hi": 0.8279,
+     "n_questions": 100
+    },
+    "education=postgrad": {
+     "R": 0.8049,
+     "lo": 0.7837,
+     "hi": 0.8247,
+     "n_questions": 100
+    },
+    "income=<30k": {
+     "R": 0.8258,
+     "lo": 0.804,
+     "hi": 0.8455,
+     "n_questions": 100
+    },
+    "income=30-100k": {
+     "R": 0.8146,
+     "lo": 0.7951,
+     "hi": 0.8341,
+     "n_questions": 100
+    },
+    "income=100k+": {
+     "R": 0.8083,
+     "lo": 0.7878,
+     "hi": 0.8284,
+     "n_questions": 100
+    },
+    "party=democrat": {
+     "R": 0.8034,
+     "lo": 0.7836,
+     "hi": 0.8235,
+     "n_questions": 100
+    },
+    "party=republican": {
+     "R": 0.8147,
+     "lo": 0.7938,
+     "hi": 0.837,
+     "n_questions": 100
+    },
+    "party=independent": {
+     "R": 0.8228,
+     "lo": 0.8042,
+     "hi": 0.8416,
+     "n_questions": 100
+    },
+    "ideology=liberal": {
+     "R": 0.8002,
+     "lo": 0.779,
+     "hi": 0.8203,
+     "n_questions": 100
+    },
+    "ideology=moderate": {
+     "R": 0.8136,
+     "lo": 0.7928,
+     "hi": 0.8313,
+     "n_questions": 100
+    },
+    "ideology=conservative": {
+     "R": 0.8188,
+     "lo": 0.7987,
+     "hi": 0.8374,
+     "n_questions": 100
+    }
+   },
+   "group_mean": 0.8162,
+   "group_worst": 0.7994
+  },
+  "overall_distribution": {
+   "overall": {
+    "R": 1.0,
+    "lo": 1.0,
+    "hi": 1.0,
+    "n_questions": 100
+   },
+   "groups": {
+    "region=northeast": {
+     "R": 0.9813,
+     "lo": 0.9787,
+     "hi": 0.9837,
+     "n_questions": 100
+    },
+    "region=midwest": {
+     "R": 0.9834,
+     "lo": 0.981,
+     "hi": 0.9854,
+     "n_questions": 100
+    },
+    "region=south": {
+     "R": 0.9856,
+     "lo": 0.9836,
+     "hi": 0.9875,
+     "n_questions": 100
+    },
+    "region=west": {
+     "R": 0.9779,
+     "lo": 0.9753,
+     "hi": 0.9808,
+     "n_questions": 100
+    },
+    "age=18-29": {
+     "R": 0.95,
+     "lo": 0.9414,
+     "hi": 0.9582,
+     "n_questions": 100
+    },
+    "age=30-49": {
+     "R": 0.9772,
+     "lo": 0.9724,
+     "hi": 0.9812,
+     "n_questions": 100
+    },
+    "age=50-64": {
+     "R": 0.9725,
+     "lo": 0.9683,
+     "hi": 0.9765,
+     "n_questions": 100
+    },
+    "age=65+": {
+     "R": 0.9525,
+     "lo": 0.9427,
+     "hi": 0.9619,
+     "n_questions": 100
+    },
+    "gender=female": {
+     "R": 0.9776,
+     "lo": 0.9741,
+     "hi": 0.9808,
+     "n_questions": 100
+    },
+    "gender=male": {
+     "R": 0.9758,
+     "lo": 0.9722,
+     "hi": 0.9791,
+     "n_questions": 100
+    },
+    "race=white": {
+     "R": 0.9816,
+     "lo": 0.9793,
+     "hi": 0.9838,
+     "n_questions": 100
+    },
+    "race=black": {
+     "R": 0.9411,
+     "lo": 0.9333,
+     "hi": 0.9485,
+     "n_questions": 100
+    },
+    "race=hispanic": {
+     "R": 0.9589,
+     "lo": 0.9534,
+     "hi": 0.9645,
+     "n_questions": 100
+    },
+    "race=other": {
+     "R": 0.9648,
+     "lo": 0.9595,
+     "hi": 0.9699,
+     "n_questions": 100
+    },
+    "education=hs_or_less": {
+     "R": 0.9655,
+     "lo": 0.9602,
+     "hi": 0.9703,
+     "n_questions": 100
+    },
+    "education=some_college": {
+     "R": 0.9854,
+     "lo": 0.9829,
+     "hi": 0.9877,
+     "n_questions": 100
+    },
+    "education=bachelors": {
+     "R": 0.9641,
+     "lo": 0.9591,
+     "hi": 0.9689,
+     "n_questions": 100
+    },
+    "education=postgrad": {
+     "R": 0.9462,
+     "lo": 0.9372,
+     "hi": 0.9551,
+     "n_questions": 100
+    },
+    "income=<30k": {
+     "R": 0.9559,
+     "lo": 0.9476,
+     "hi": 0.9638,
+     "n_questions": 100
+    },
+    "income=30-100k": {
+     "R": 0.9861,
+     "lo": 0.9839,
+     "hi": 0.9882,
+     "n_questions": 100
+    },
+    "income=100k+": {
+     "R": 0.9485,
+     "lo": 0.9393,
+     "hi": 0.9567,
+     "n_questions": 100
+    },
+    "party=democrat": {
+     "R": 0.9575,
+     "lo": 0.9489,
+     "hi": 0.9659,
+     "n_questions": 100
+    },
+    "party=republican": {
+     "R": 0.9412,
+     "lo": 0.9291,
+     "hi": 0.9525,
+     "n_questions": 100
+    },
+    "party=independent": {
+     "R": 0.9827,
+     "lo": 0.9804,
+     "hi": 0.9847,
+     "n_questions": 100
+    },
+    "ideology=liberal": {
+     "R": 0.9436,
+     "lo": 0.9319,
+     "hi": 0.9533,
+     "n_questions": 100
+    },
+    "ideology=moderate": {
+     "R": 0.9826,
+     "lo": 0.9799,
+     "hi": 0.9851,
+     "n_questions": 100
+    },
+    "ideology=conservative": {
+     "R": 0.9438,
+     "lo": 0.9324,
+     "hi": 0.955,
+     "n_questions": 100
+    }
+   },
+   "group_mean": 0.966,
+   "group_worst": 0.9411
+  }
+ },
+ "ceiling": {
+  "overall": {
+   "R": 0.9841
+  },
+  "groups": {
+   "region=northeast": {
+    "R": 0.963
+   },
+   "region=midwest": {
+    "R": 0.9641
+   },
+   "region=south": {
+    "R": 0.9745
+   },
+   "region=west": {
+    "R": 0.9672
+   },
+   "age=18-29": {
+    "R": 0.9633
+   },
+   "age=30-49": {
+    "R": 0.9705
+   },
+   "age=50-64": {
+    "R": 0.9691
+   },
+   "age=65+": {
+    "R": 0.9666
+   },
+   "gender=female": {
+    "R": 0.9788
+   },
+   "gender=male": {
+    "R": 0.9768
+   },
+   "race=white": {
+    "R": 0.9782
+   },
+   "race=black": {
+    "R": 0.9591
+   },
+   "race=hispanic": {
+    "R": 0.9632
+   },
+   "race=other": {
+    "R": 0.9518
+   },
+   "education=hs_or_less": {
+    "R": 0.9744
+   },
+   "education=some_college": {
+    "R": 0.9707
+   },
+   "education=bachelors": {
+    "R": 0.9636
+   },
+   "education=postgrad": {
+    "R": 0.9588
+   },
+   "income=<30k": {
+    "R": 0.9656
+   },
+   "income=30-100k": {
+    "R": 0.9784
+   },
+   "income=100k+": {
+    "R": 0.9701
+   },
+   "party=democrat": {
+    "R": 0.971
+   },
+   "party=republican": {
+    "R": 0.9689
+   },
+   "party=independent": {
+    "R": 0.9758
+   },
+   "ideology=liberal": {
+    "R": 0.9713
+   },
+   "ideology=moderate": {
+    "R": 0.9758
+   },
+   "ideology=conservative": {
+    "R": 0.972
+   }
+  },
+  "group_mean": 0.969,
+  "group_worst": 0.9518
+ },
+ "human_groups_vs_overall": {
+  "groups": {
+   "region=northeast": 0.9813,
+   "region=midwest": 0.9834,
+   "region=south": 0.9856,
+   "region=west": 0.9779,
+   "age=18-29": 0.95,
+   "age=30-49": 0.9772,
+   "age=50-64": 0.9725,
+   "age=65+": 0.9525,
+   "gender=female": 0.9776,
+   "gender=male": 0.9758,
+   "race=white": 0.9816,
+   "race=black": 0.9411,
+   "race=hispanic": 0.9589,
+   "race=other": 0.9648,
+   "education=hs_or_less": 0.9655,
+   "education=some_college": 0.9854,
+   "education=bachelors": 0.9641,
+   "education=postgrad": 0.9462,
+   "income=<30k": 0.9559,
+   "income=30-100k": 0.9861,
+   "income=100k+": 0.9485,
+   "party=democrat": 0.9575,
+   "party=republican": 0.9412,
+   "party=independent": 0.9827,
+   "ideology=liberal": 0.9436,
+   "ideology=moderate": 0.9826,
+   "ideology=conservative": 0.9438
+  },
+  "mean": 0.966,
+  "worst": 0.9411
+ },
+ "real_dispersion": {
+  "entropy": 0.8418,
+  "modal_share": 0.5519
+ },
+ "runs": {
+  "interview": {
+   "wall_minutes": 38.5,
+   "id": "7d96147385fc",
+   "title": "OpinionQA test \u00b7 interview \u00b7 100q \u00b7 400 agents \u00b7 seed 2026",
+   "created_at": "2026-10-11T04:15:14+00:00",
+   "updated_at": "2026-10-11T04:53:44+00:00",
+   "calls": 4000,
+   "failed_units": 0,
+   "input_tokens": 8000,
+   "output_tokens": 3270013,
+   "cache_read_input_tokens": 16954972,
+   "cache_creation_input_tokens": 5685788,
+   "cache_creation_1h_input_tokens": 5685788,
+   "usd_list_price": 2.94251,
+   "estimate_usd": 0.7204,
+   "results": {
+    "n_agents": 400,
+    "n_complete": 400,
+    "n_block_errors": 0,
+    "n_questions": 100,
+    "invalid_answer_rate": 0.0
+   }
+  },
+  "card": {
+   "wall_minutes": 28.5,
+   "id": "ebf96ba6f4ee",
+   "title": "OpinionQA test \u00b7 card \u00b7 100q \u00b7 400 agents \u00b7 seed 2026",
+   "created_at": "2026-10-11T04:53:44+00:00",
+   "updated_at": "2026-10-11T05:22:14+00:00",
+   "calls": 4000,
+   "failed_units": 0,
+   "input_tokens": 8000,
+   "output_tokens": 2529546,
+   "cache_read_input_tokens": 7960149,
+   "cache_creation_input_tokens": 4972131,
+   "cache_creation_1h_input_tokens": 4972131,
+   "usd_list_price": 2.3396,
+   "estimate_usd": 0.5628,
+   "results": {
+    "n_agents": 400,
+    "n_complete": 400,
+    "n_block_errors": 0,
+    "n_questions": 100,
+    "invalid_answer_rate": 0.0
+   }
+  },
+  "demographics": {
+   "wall_minutes": 22.4,
+   "id": "7d074c9b6527",
+   "title": "OpinionQA test \u00b7 demographics \u00b7 100q \u00b7 400 agents \u00b7 seed 2026",
+   "created_at": "2026-10-11T05:22:14+00:00",
+   "updated_at": "2026-10-11T05:44:41+00:00",
+   "calls": 4000,
+   "failed_units": 0,
+   "input_tokens": 8000,
+   "output_tokens": 2359810,
+   "cache_read_input_tokens": 7486375,
+   "cache_creation_input_tokens": 4948975,
+   "cache_creation_1h_input_tokens": 4948975,
+   "usd_list_price": 2.24536,
+   "estimate_usd": 0.658,
+   "results": {
+    "n_agents": 400,
+    "n_complete": 400,
+    "n_block_errors": 0,
+    "n_questions": 100,
+    "invalid_answer_rate": 0.0
+   }
+  }
+ },
+ "population_run": {
+  "wall_minutes": 24.5,
+  "id": "086e4364bdda",
+  "title": "Generate personas: OpinionQA validation (n=400, seed 2026)",
+  "created_at": "2026-10-11T03:45:11+00:00",
+  "updated_at": "2026-10-11T04:09:40+00:00",
+  "calls": 400,
+  "failed_units": 0,
+  "input_tokens": 980,
+  "output_tokens": 1786876,
+  "cache_read_input_tokens": 706791,
+  "cache_creation_input_tokens": 720306,
+  "cache_creation_1h_input_tokens": 720306,
+  "usd_list_price": 1.04466,
+  "estimate_usd": 0.4826,
+  "results": {
+   "ready": 400,
+   "failed": 0
+  }
+ }
+}

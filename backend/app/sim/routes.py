@@ -31,6 +31,7 @@ from .models import (
     ReweightIn,
     RunPatch,
     SocialIn,
+    SurveyIn,
 )
 
 
@@ -218,6 +219,13 @@ def create_social_run(body: SocialIn) -> dict:
     from . import social
 
     return public_run(social.create_social(body))
+
+
+@router.post("/runs/survey", status_code=201)
+def create_survey_run(body: SurveyIn) -> dict:
+    from . import survey
+
+    return public_run(survey.create_survey(body))
 
 
 @router.get("/runs")

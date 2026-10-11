@@ -29,6 +29,7 @@ export const KIND_LABEL: Record<string, string> = {
   calibration: "Calibration",
   backtest: "Backtest",
   social: "Social spread",
+  survey: "Survey",
 };
 
 export function pct(v: number | null | undefined, digits = 0): string {

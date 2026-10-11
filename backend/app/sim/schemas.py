@@ -87,6 +87,15 @@ def make_panel_schema(questions: list[dict], name: str = "PanelAnswers") -> type
     return create_model(name, **fields)  # type: ignore[call-overload]
 
 
+def make_survey_schema(block_size: int, name: str = "SurveyBlock") -> type[BaseModel]:
+    """One schema per survey run: a1..aN, each one option letter. Blocks in a run all have N questions,
+    so the schema (part of the prompt-cache key) never changes; letters past a question's options are
+    discarded server-side."""
+    letter = Literal[tuple("ABCDEFGHIJKL")]  # type: ignore[valid-type]
+    fields: dict[str, Any] = {f"a{i}": (letter, Field(description=f"Letter of your answer to [a{i}].")) for i in range(1, block_size + 1)}
+    return create_model(name, **fields)  # type: ignore[call-overload]
+
+
 # ---------------------------------------------------------------- social (POSIM Social-BDI, one call)
 
 Intensity = Literal["very_low", "low", "medium", "high", "very_high"]

@@ -4,6 +4,7 @@ import { CandidateForm } from "./components/Forms";
 import { Card, ErrorNotice, Modal, Working } from "./components/ui";
 import { readSimRoute, type SimRoute } from "./sim/nav";
 import { SimArea } from "./sim/SimArea";
+import { ValidationView } from "./sim/ValidationView";
 import { daysUntil, fmtDate, metricLabel } from "./format";
 import type { Analysis, AnalysisParams, Candidate, Meta } from "./types";
 import { DataView } from "./views/DataView";
@@ -25,8 +26,12 @@ type Tab = (typeof TABS)[number]["id"];
 
 const LAST_KEY = "undercurrent.lastCandidate";
 
+function isValidationRoute(hash: string): boolean {
+  return hash.replace(/^#\/?/, "").split(/[/?]/)[0] === "validation";
+}
+
 function readHash(): { cid: string | null; tab: Tab } {
-  if (readSimRoute(window.location.hash)) return { cid: null, tab: "overview" };
+  if (readSimRoute(window.location.hash) || isValidationRoute(window.location.hash)) return { cid: null, tab: "overview" };
   const [cid, tab] = window.location.hash.replace(/^#\/?/, "").split("/");
   return { cid: cid || null, tab: (TABS.some((t) => t.id === tab) ? tab : "overview") as Tab };
 }
@@ -47,6 +52,7 @@ export default function App() {
   const [candidates, setCandidates] = useState<Candidate[] | null>(null);
   const [{ cid, tab }, setRoute] = useState(readHash);
   const [simRoute, setSimRoute] = useState<SimRoute | null>(() => readSimRoute(window.location.hash));
+  const [validationPage, setValidationPage] = useState(() => isValidationRoute(window.location.hash));
   const [params, setParams] = useState<AnalysisParams>({ metric: "vote_share", segment: "All", window_days: 14 });
   const [analysis, setAnalysis] = useState<Analysis | null>(null);
   const [loadingAnalysis, setLoadingAnalysis] = useState(false);
@@ -58,6 +64,7 @@ export default function App() {
     setUnauthorizedHandler(() => setNeedCode(true));
     const onHash = () => {
       setSimRoute(readSimRoute(window.location.hash));
+      setValidationPage(isValidationRoute(window.location.hash));
       setRoute(readHash());
       window.scrollTo(0, 0);
     };
@@ -69,6 +76,7 @@ export default function App() {
     window.location.hash = nextCid ? `/${nextCid}/${nextTab}` : "";
     setRoute({ cid: nextCid, tab: nextTab });
     setSimRoute(null);
+    setValidationPage(false);
     if (nextCid) {
       try {
         localStorage.setItem(LAST_KEY, nextCid);
@@ -97,7 +105,7 @@ export default function App() {
 
   // pick a candidate when the URL has none, or one that no longer exists (e.g. remembered from another database)
   useEffect(() => {
-    if (!candidates || simRoute) return;
+    if (!candidates || simRoute || validationPage) return;
     if (!candidates.length) {
       if (cid) navigate(null);
       return;
@@ -110,9 +118,9 @@ export default function App() {
       /* ignore */
     }
     navigate(candidates.find((c) => c.id === last)?.id ?? candidates[0].id, tab);
-  }, [candidates, cid, tab, navigate, simRoute]);
+  }, [candidates, cid, tab, navigate, simRoute, validationPage]);
 
-  const candidate = simRoute ? null : (candidates?.find((c) => c.id === cid) ?? null);
+  const candidate = simRoute || validationPage ? null : (candidates?.find((c) => c.id === cid) ?? null);
   // only ever fetch for a candidate we know exists, never a stale id from the URL
   const activeCid = candidate?.id ?? null;
 
@@ -181,6 +189,9 @@ export default function App() {
         <a className={`btn sm ${simRoute ? "primary" : "ghost"}`} href="#/sim">
           Simulations
         </a>
+        <a className={`btn sm ${validationPage ? "primary" : "ghost"}`} href="#/validation">
+          Validation
+        </a>
         <span className="spacer" />
         {meta && (
           <span className="model-badge" title={meta.llm_ready ? "Model ready" : "No API key configured"}>
@@ -206,8 +217,9 @@ export default function App() {
         {candidates === null && !needCode && !error && <Working label="Loading…" />}
 
         {simRoute && candidates && <SimArea route={simRoute} candidates={candidates} />}
+        {validationPage && candidates && <ValidationView />}
 
-        {!simRoute && candidates && candidates.length === 0 && (
+        {!simRoute && !validationPage && candidates && candidates.length === 0 && (
           <Card>
             <div className="empty">
               <h2>See what's moving the numbers</h2>

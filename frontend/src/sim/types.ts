@@ -1,7 +1,7 @@
 // Mirrors backend/app/sim (models.py, routes.py and the results each run kind produces).
 
 export type Expert = "psychologist" | "behavioral_economist" | "political_scientist" | "demographer";
-export type RunKind = "populate" | "panel" | "calibration" | "backtest" | "social";
+export type RunKind = "populate" | "panel" | "calibration" | "backtest" | "social" | "survey";
 export type RunStatus = "pending" | "running" | "paused" | "finalizing" | "done" | "failed" | "canceled" | "budget_exhausted";
 export type Margins = Record<string, Record<string, number>>;
 
@@ -461,4 +461,109 @@ export interface SegmentMapping {
   segments: { segment: string; agents: number; weighted_share: number }[];
   unmapped: string[];
   suggested_targets: Record<string, number>;
+}
+
+// ---------------------------------------------------------------- validation (mirrors scripts/validate.py output)
+
+export interface RScore {
+  R: number | null;
+  lo?: number | null;
+  hi?: number | null;
+  n_questions?: number;
+}
+
+export interface ConditionScores {
+  overall: RScore;
+  groups: Record<string, RScore>; // "attr=level"
+  group_mean: number | null;
+  group_worst: number | null;
+  by_wave?: Record<string, RScore>;
+  dispersion?: { entropy: number | null; modal_share: number | null };
+}
+
+export interface ValidationRunRecord {
+  wall_minutes?: number;
+  id: string;
+  title: string;
+  created_at: string;
+  updated_at: string;
+  calls: number;
+  failed_units: number;
+  input_tokens: number;
+  output_tokens: number;
+  cache_read_input_tokens: number;
+  cache_creation_input_tokens: number;
+  cache_creation_1h_input_tokens: number;
+  usd_list_price: number;
+  estimate_usd: number;
+  results: { n_agents: number; n_complete: number; n_block_errors: number; n_questions: number; invalid_answer_rate: number } | null;
+}
+
+export interface ValidationResults {
+  benchmark: string;
+  date: string;
+  command: string;
+  model: string;
+  backend: string;
+  agent_effort: string;
+  split: "dev" | "test";
+  seed: number;
+  waves: number[];
+  n_eligible_questions: number;
+  n_questions: number;
+  block_size: number;
+  n_agents: number;
+  population: { id: string; size: number; persona_mode: string; card_detail: string; preset: string };
+  weighting: { deff: number; n_eff: number; max_error: number | null };
+  group_sizes: Record<string, number>;
+  questions: { key: string; wave: number; n_options: number }[];
+  scores: Record<string, ConditionScores>; // interview, card, demographics, uniform, overall_distribution
+  ceiling: { overall: RScore; groups: Record<string, RScore>; group_mean: number | null; group_worst: number | null };
+  human_groups_vs_overall: { groups: Record<string, number>; mean: number | null; worst: number | null };
+  real_dispersion?: { entropy: number | null; modal_share: number | null };
+  runs: Record<string, ValidationRunRecord>;
+  population_run: ValidationRunRecord | null;
+  experiments: ExperimentResults | null;
+}
+
+export interface PublishedEffect {
+  source: string;
+  values: Record<string, number>;
+  d: number | null;
+  d_ci95?: [number, number];
+  note?: string;
+  original?: { source: string; values: Record<string, number>; d: number | null };
+}
+
+export interface ExperimentResult {
+  id: string;
+  label: string;
+  kind: "share" | "mean";
+  measure: string;
+  contrast: [string, string];
+  published: PublishedEffect | null;
+  result: {
+    n_a: number;
+    n_b: number;
+    n_agents: number;
+    value_a: number | null;
+    value_b: number | null;
+    diff: number | null;
+    diff_ci95: [number | null, number | null];
+    d: number | null;
+    d_rank: number | null;
+    direction_matches: boolean | null;
+    diff_vs_published: number | null;
+  };
+  run: ValidationRunRecord;
+}
+
+export interface ExperimentResults {
+  date: string;
+  command: string;
+  model: string;
+  backend: string;
+  population: { id: string; name: string; persona_mode: string };
+  n_agents: number;
+  experiments: ExperimentResult[];
 }

@@ -4,19 +4,46 @@
     {
       "name": "web",
       "runtimeExecutable": "npm",
-      "runtimeArgs": ["--prefix", "frontend", "run", "dev"],
+      "runtimeArgs": [
+        "--prefix",
+        "frontend",
+        "run",
+        "dev"
+      ],
       "port": 5173
     },
     {
       "name": "api",
       "runtimeExecutable": "env",
-      "runtimeArgs": ["LLM_BACKEND=claude-cli", ".venv/bin/uvicorn", "backend.app.main:app", "--port", "8010"],
+      "runtimeArgs": [
+        "LLM_BACKEND=claude-cli",
+        ".venv/bin/uvicorn",
+        "backend.app.main:app",
+        "--port",
+        "8010"
+      ],
       "port": 8010
     },
     {
       "name": "shim",
       "runtimeExecutable": ".venv/bin/uvicorn",
-      "runtimeArgs": ["shim.claude_cli_api:app", "--port", "8788"],
+      "runtimeArgs": [
+        "shim.claude_cli_api:app",
+        "--port",
+        "8788"
+      ],
+      "port": 8788
+    },
+    {
+      "name": "shim-runs",
+      "runtimeExecutable": "env",
+      "runtimeArgs": [
+        "SHIM_MAX_CONCURRENCY=12",
+        ".venv/bin/uvicorn",
+        "shim.claude_cli_api:app",
+        "--port",
+        "8788"
+      ],
       "port": 8788
     }
   ]

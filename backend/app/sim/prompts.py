@@ -266,6 +266,39 @@ Write a focus-group style debrief. Rules:
 - Recommended edits must be concrete rewrites or cuts."""
 
 
+# ---------------------------------------------------------------- closed-ended surveys (validation)
+
+SURVEY_LETTERS = "ABCDEFGHIJKL"
+
+
+def demographics_block(agent: dict, geography: str = "") -> str:
+    """Demographic attributes only (the OpinionQA-style prompt baseline): no traits, interview or notes."""
+    demo = agent.get("demographics", {})
+    keep = {k: demo.get(k) for k in ("age", "age_band", "gender", "race", "education", "income", "urbanicity", "region",
+                                     "state", "party", "lean", "ideology")}
+    return "<person>\n" + full_card(keep, {}, geography) + "\n</person>"
+
+
+def card_block(agent: dict, geography: str = "") -> str:
+    """The full card (demographics plus seeded traits) without any interview, survey record or notes."""
+    bare = {k: v for k, v in agent.items() if k not in ("transcript", "raw", "reflections", "identity")}
+    return persona_block(bare, "full", geography)
+
+
+def survey_task(questions: list[dict], preamble: str = "") -> str:
+    """questions: [{text, options}], answered in fields a1..aN with one option letter each."""
+    lines = []
+    for i, q in enumerate(questions, 1):
+        lines.append(f"[a{i}] {q['text']}")
+        lines.extend(f"   {SURVEY_LETTERS[j]}. {opt}" for j, opt in enumerate(q["options"]))
+    pre = f"{preamble.strip()}\n\n" if preamble.strip() else ""
+    return f"""{pre}You are filling out an online opinion survey. There are no right or wrong answers. Answer each \
+question the way you really would, picking the option closest to your view even if none fits perfectly. Answer every \
+question with the letter of one option.
+
+""" + "\n".join(lines)
+
+
 # ---------------------------------------------------------------- social (POSIM)
 
 SOCIAL_SYSTEM = """You are role-playing one account on a Twitter/Weibo-style microblog in a research simulation of how \

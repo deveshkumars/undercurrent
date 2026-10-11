@@ -28,6 +28,8 @@ make dev-cli
 
 This starts `shim/claude_cli_api.py` on `:8788` and runs the backend with `LLM_BACKEND=claude-cli`. The shim implements the part of `POST /v1/messages` that Undercurrent uses: system prompt, text messages, structured outputs (`output_config.format` → `claude -p --json-schema`), `effort`, and streaming (it replays the finished result as the same SSE events the API sends). The app keeps using the official Anthropic SDK; only `base_url` changes. Each request runs as a fresh `claude -p` with tools, MCP servers and your customizations turned off (`--tools "" --safe-mode`), from an empty working directory. It uses whatever account `claude` is logged into.
 
+A single user turn is passed as stream-json with its content blocks intact, so cache breakpoints reach the API and a cached persona is read by the agent's later calls. Two differences from the direct API path show up in usage: the CLI writes 1-hour cache entries (billed at 2× input instead of 1.25×; breakpoints are sent with `ttl: 1h` to match), and it satisfies `--json-schema` through an internal tool call, which adds output tokens and a second turn. Usage, including the 1-hour/5-minute cache-write split, is passed through, and cost estimates price it accordingly.
+
 You can run the shim on its own and point any Anthropic SDK client at it:
 
 ```bash
@@ -85,6 +87,19 @@ A seed event lands on a follower network (homophily plus preferential attachment
 Runs advance in steps driven by the open browser tab (`POST /api/sim/runs/{id}/step`): each step claims a lease, makes calls in parallel until its time budget is spent, and saves results under fixed ids, so it works on a 300-second serverless function and a second tab just watches. Estimates are shown before you start. On Haiku 5.5, generating 200 interview personas and running a three-arm panel on them costs roughly $0.50–1 in total; time is the real limit, especially through the CLI shim (about 3 calls at once, 15–40 s each). On Vercel, simulations require `MONGODB_URI`.
 
 Treat results as a way to compare messages and find risks, not as a poll: intervals measure simulation noise only, and LLM agents can stereotype groups and overreact to messages.
+
+## Validation
+
+**Validation** in the top bar shows how closely simulated respondents reproduce real Americans' answers to real survey questions: Pew American Trends Panel questions from [OpinionQA](https://github.com/tatsu-lab/opinions_qa) (Santurkar et al., 2023) on technology, science, health, the economy and daily life, scored with OpinionQA's representativeness metric overall and for 27 demographic groups. It compares interview agents, card-only agents, a demographics-only prompt, a uniform-random baseline, the real topline used for every group, and the finite-sample ceiling. Classic survey experiments (gain/loss framing, allowed/forbidden wording, anchoring, sunk cost, plus paraphrases) are replicated as message tests next to their Many Labs 1 results. Method, results and the exact runs are in [docs/validation.md](docs/validation.md).
+
+```bash
+.venv/bin/python scripts/fetch_opinionqa.py         # the raw Pew data is downloaded, never committed
+.venv/bin/python scripts/validate.py --dry-run      # cost estimate
+LLM_BACKEND=claude-cli SIM_CONCURRENCY=12 .venv/bin/python scripts/validate.py --split test
+LLM_BACKEND=claude-cli SIM_CONCURRENCY=12 .venv/bin/python scripts/experiments.py
+```
+
+The questions are asked through `survey` runs (`POST /api/sim/runs/survey`): closed-ended questionnaires in fixed-size blocks, one call per agent per block, with one output schema per run so the cached persona is reused.
 
 ## Data
 
@@ -157,7 +172,10 @@ backend/app/
   sample_data.py  fictional demo campaign
   sim/            simulations: demographics.py (sampling, raking), personas.py (traits, CSV import),
                   panel.py, candidate.py (calibration, backtest), social.py + network/hawkes/feed/dynamics,
+                  survey.py (closed-ended surveys), validation.py (OpinionQA scoring),
                   metrics.py, runner.py (step protocol), routes.py
+scripts/                 fetch_opinionqa.py, validate.py, experiments.py
+docs/                    validation.md
 shim/claude_cli_api.py   Claude Code CLI exposed as /v1/messages
 frontend/src/            React + Vite UI (charts are hand-built SVG)
 api/index.py             Vercel entrypoint

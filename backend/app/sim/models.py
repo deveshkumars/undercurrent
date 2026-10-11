@@ -10,7 +10,7 @@ Expert = Literal["psychologist", "behavioral_economist", "political_scientist", 
 EXPERTS: tuple[str, ...] = Expert.__args__  # type: ignore[attr-defined]
 PsychType = Literal["curiosity_seeking", "self_actualization", "bandwagon", "cathartic_venting", "anti_authority"]
 Preset = Literal["us_adults", "us_registered_voters", "us_likely_voters"]
-RunKind = Literal["populate", "panel", "calibration", "backtest", "social"]
+RunKind = Literal["populate", "panel", "calibration", "backtest", "social", "survey"]
 RunStatus = Literal["pending", "running", "paused", "finalizing", "done", "failed", "canceled", "budget_exhausted"]
 StimulusFormat = Literal[
     "news_article", "ad_script", "speech_excerpt", "social_post", "debate_clip",
@@ -154,6 +154,42 @@ class PanelIn(BaseModel):
             raise ValueError("a panel needs 1-4 treatment arms")
         if len({a.id for a in self.arms}) != len(self.arms):
             raise ValueError("arm ids must be unique")
+        return self
+
+
+class SurveyQuestion(BaseModel):
+    id: str = Field(pattern=r"^[A-Za-z][A-Za-z0-9_]{0,63}$")
+    text: str = Field(min_length=3, max_length=1500)
+    options: list[str] = Field(min_length=2, max_length=12)
+
+
+class SurveyBlockIn(BaseModel):
+    id: str = Field(pattern=r"^[a-z0-9_]{1,24}$")
+    questions: list[SurveyQuestion] = Field(min_length=1, max_length=20)
+
+
+class SurveyIn(BaseModel):
+    """A closed-ended questionnaire asked in blocks, one call per agent per block (validation runs)."""
+
+    population_id: str
+    title: str = Field(min_length=1, max_length=160)
+    blocks: list[SurveyBlockIn] = Field(min_length=1, max_length=60)
+    # interview = the agent as the app builds it; card = card only; demographics = attributes only
+    persona_style: Literal["interview", "card", "demographics"] = "interview"
+    preamble: str = Field(default="", max_length=1000)
+    sample_size: int | None = Field(default=None, ge=5)
+    seed: int | None = None
+
+    @model_validator(mode="after")
+    def _check(self) -> "SurveyIn":
+        sizes = {len(b.questions) for b in self.blocks}
+        if len(sizes) != 1:
+            raise ValueError("every block needs the same number of questions (one output schema per run)")
+        if len({b.id for b in self.blocks}) != len(self.blocks):
+            raise ValueError("block ids must be unique")
+        keys = [q.id for b in self.blocks for q in b.questions]
+        if len(set(keys)) != len(keys):
+            raise ValueError("question ids must be unique")
         return self
 
 
