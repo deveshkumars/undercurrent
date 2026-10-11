@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useState } from "react";
+import { useReadOnly } from "../readOnly";
 import { sim } from "../api";
 import { Card, ErrorNotice, Modal, Working } from "../components/ui";
 import { relTime } from "../format";
@@ -15,6 +16,7 @@ import { isActive, useRunDriver } from "./useRunDriver";
 const PAGE = 50;
 
 export function PopulationView({ meta, pid, candidates }: { meta: SimMeta; pid: string; candidates: Candidate[] }) {
+  const readOnly = useReadOnly();
   const [pop, setPop] = useState<Population | null>(null);
   const [agents, setAgents] = useState<{ total: number; agents: Agent[] } | null>(null);
   const [page, setPage] = useState(0);
@@ -91,7 +93,7 @@ export function PopulationView({ meta, pid, candidates }: { meta: SimMeta; pid: 
             <span className="dot-sep">{relTime(pop.created_at)}</span>
           </div>
         </div>
-        <div className="row">
+        <div className="row" hidden={readOnly}>
           <a className="btn primary" href={ready ? simHref("panel/new", { pop: pop.id, cand: pop.candidate_id }) : undefined} aria-disabled={!ready}>
             Test a message
           </a>

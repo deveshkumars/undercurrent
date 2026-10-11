@@ -1,11 +1,12 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
-import { api, ApiError, saveAccessCode, setUnauthorizedHandler } from "./api";
+import { api, ApiError, hasAccessCode, saveAccessCode, setUnauthorizedHandler } from "./api";
 import { CandidateForm } from "./components/Forms";
 import { Card, ErrorNotice, Modal, Working } from "./components/ui";
 import { readSimRoute, type SimRoute } from "./sim/nav";
 import { SimArea } from "./sim/SimArea";
 import { ValidationView } from "./sim/ValidationView";
 import { daysUntil, fmtDate, metricLabel } from "./format";
+import { ReadOnlyContext } from "./readOnly";
 import type { Analysis, AnalysisParams, Candidate, Meta } from "./types";
 import { DataView } from "./views/DataView";
 import { ForecastView } from "./views/ForecastView";
@@ -73,6 +74,8 @@ function Logo() {
 export default function App() {
   const [meta, setMeta] = useState<Meta | null>(null);
   const [needCode, setNeedCode] = useState(false);
+  // public demo without the access code: read-only, demo runs and validation results only
+  const [visitor, setVisitor] = useState(false);
   const [candidates, setCandidates] = useState<Candidate[] | null>(null);
   const [{ cid, tab }, setRoute] = useState(readHash);
   const [area, setArea] = useState<Area>(readArea);
@@ -124,7 +127,30 @@ export default function App() {
   }, []);
 
   useEffect(() => {
-    api.meta().then(setMeta).catch((e) => setError(`Can't reach the API: ${(e as Error).message}`));
+    (async () => {
+      let m: Meta;
+      try {
+        m = await api.meta();
+        setMeta(m);
+      } catch (e) {
+        setError(`Can't reach the API: ${(e as Error).message}`);
+        return;
+      }
+      if (m.public_demo) {
+        const ok = hasAccessCode() && (await api.checkAuth().then(() => true).catch(() => false));
+        if (!ok) {
+          setVisitor(true);
+          setNeedCode(false);
+          setCandidates([]);
+          return;
+        }
+      }
+      loadCandidates();
+    })();
+  }, [loadCandidates]);
+
+  const unlocked = useCallback(() => {
+    setVisitor(false);
     loadCandidates();
   }, [loadCandidates]);
 
@@ -192,7 +218,7 @@ export default function App() {
   const llmLabel = meta ? (meta.llm_backend === "claude-cli" ? `Claude CLI · ${meta.model}` : meta.model) : "";
 
   return (
-    <>
+    <ReadOnlyContext.Provider value={visitor}>
       <header className="topbar">
         <a className="brand" href="#/" style={{ color: "inherit", textDecoration: "none" }}>
           <Logo />
@@ -218,7 +244,7 @@ export default function App() {
             ))}
           </select>
         )}
-        {area === "campaigns" && (
+        {area === "campaigns" && !visitor && (
           <button className="btn ghost sm" onClick={() => setShowNew(true)}>
             + New candidate
           </button>
@@ -243,6 +269,14 @@ export default function App() {
             AI features are off until ANTHROPIC_API_KEY is set (or LLM_BACKEND=claude-cli for local testing). Polling analysis still works.
           </div>
         )}
+        {visitor && (
+          <div className="notice" style={{ marginBottom: 16 }}>
+            <b>Public demo, read-only.</b> You can browse the saved demo runs and the validation results. Running new simulations needs the access code.{" "}
+            <button className="btn sm" onClick={() => setNeedCode(true)}>
+              Enter access code
+            </button>
+          </div>
+        )}
         <ErrorNotice error={error} />
 
         {candidates === null && !needCode && !error && <Working label="Loading…" />}
@@ -250,7 +284,23 @@ export default function App() {
         {area === "sim" && candidates && <SimArea route={simRoute} candidates={candidates} />}
         {area === "validation" && candidates && <ValidationView />}
 
-        {area === "campaigns" && candidates && candidates.length === 0 && (
+        {area === "campaigns" && visitor && (
+          <Card>
+            <div className="empty">
+              <h2>Campaign analysis</h2>
+              <p style={{ maxWidth: 560, margin: "0 auto" }}>
+                Polling averages, event impacts, forecasts and strategy for a candidate. These tools call the model and store your data, so they need the access code.
+              </p>
+              <div className="row" style={{ justifyContent: "center", marginTop: 20 }}>
+                <button className="btn primary" onClick={() => setNeedCode(true)}>
+                  Enter access code
+                </button>
+              </div>
+            </div>
+          </Card>
+        )}
+
+        {area === "campaigns" && !visitor && candidates && candidates.length === 0 && (
           <Card>
             <div className="empty">
               <h2>Campaign analysis</h2>
@@ -376,12 +426,12 @@ export default function App() {
           }}
         />
       )}
-      {needCode && <AccessGate onUnlocked={() => loadCandidates()} />}
-    </>
+      {needCode && <AccessGate onUnlocked={unlocked} onClose={meta?.public_demo ? () => setNeedCode(false) : undefined} />}
+    </ReadOnlyContext.Provider>
   );
 }
 
-function AccessGate({ onUnlocked }: { onUnlocked: () => void }) {
+function AccessGate({ onUnlocked, onClose }: { onUnlocked: () => void; onClose?: () => void }) {
   const [code, setCode] = useState("");
   const [error, setError] = useState<string | null>(null);
   async function submit(e: React.FormEvent) {
@@ -395,9 +445,11 @@ function AccessGate({ onUnlocked }: { onUnlocked: () => void }) {
     }
   }
   return (
-    <Modal title="Enter access code" onClose={() => {}}>
+    <Modal title="Enter access code" onClose={onClose ?? (() => {})}>
       <form onSubmit={submit} className="stack-sm">
-        <p className="small secondary">This deployment is private. Ask the owner for the access code.</p>
+        <p className="small secondary">
+          {onClose ? "Running simulations and the campaign tools need the access code. Ask the owner for it." : "This deployment is private. Ask the owner for the access code."}
+        </p>
         <input className="input" type="password" autoComplete="current-password" value={code} onChange={(e) => setCode(e.target.value)} />
         <ErrorNotice error={error} />
         <div className="modal-actions">

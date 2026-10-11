@@ -2,7 +2,6 @@
 
 from __future__ import annotations
 
-import hmac
 import json
 import logging
 from collections import Counter
@@ -14,6 +13,7 @@ from fastapi.responses import FileResponse, JSONResponse
 from fastapi.staticfiles import StaticFiles
 
 from . import analytics, prompts
+from .access import AccessMiddleware, LEVEL
 from .ai_schemas import DraftFeatures, EventTags, ForecastOutput, InsightsOutput, RecommendationsOutput
 from .config import ROOT, get_settings
 from .importers import parse_events, parse_polls
@@ -42,6 +42,7 @@ from .storage import get_store
 logging.basicConfig(level=logging.INFO)
 
 app = FastAPI(title="Undercurrent", version="0.1.0", docs_url="/api/docs", openapi_url="/api/openapi.json")
+app.add_middleware(AccessMiddleware)  # classifies every request: full / visitor (public demo, read-only) / 401
 
 
 @app.exception_handler(LLMError)
@@ -50,8 +51,9 @@ async def _llm_error(_: Request, exc: LLMError) -> JSONResponse:
 
 
 def require_access(x_access_code: str | None = Header(default=None)) -> None:
-    code = get_settings().access_code
-    if code and not hmac.compare_digest(x_access_code or "", code):
+    """Defense in depth behind AccessMiddleware: denied requests never get here, and visitors only reach
+    the read-only routes it allows."""
+    if LEVEL.get() == "deny":
         raise HTTPException(401, "Access code required")
 
 
@@ -76,7 +78,8 @@ def meta() -> dict:
         "effort": s.llm_effort,
         "llm_ready": s.llm_backend == "claude-cli" or bool(s.anthropic_api_key),
         "storage": s.storage_backend,
-        "access_required": bool(s.access_code),
+        "access_required": bool(s.access_code) or s.public_demo,
+        "public_demo": s.public_demo,
         "ephemeral_storage": s.on_vercel and s.storage_backend == "json-file",
         "sim": {
             "enabled": s.sim_enabled,

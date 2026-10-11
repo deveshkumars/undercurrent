@@ -45,6 +45,20 @@
         "8788"
       ],
       "port": 8788
+    },
+    {
+      "name": "api-public",
+      "runtimeExecutable": "env",
+      "runtimeArgs": [
+        "PUBLIC_DEMO=1",
+        "ACCESS_CODE=local-dev-only",
+        "LLM_BACKEND=claude-cli",
+        ".venv/bin/uvicorn",
+        "backend.app.main:app",
+        "--port",
+        "8011"
+      ],
+      "port": 8011
     }
   ]
 }

@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useReadOnly } from "../readOnly";
 import { sim } from "../api";
 import { Card, ErrorNotice, Working } from "../components/ui";
 import { relTime } from "../format";
@@ -13,6 +14,7 @@ import type { BacktestResults, CalibrationResults, PanelResults, Population, Sim
 import { useRunDriver } from "./useRunDriver";
 
 export function RunView({ meta, rid, candidates }: { meta: SimMeta; rid: string; candidates: Candidate[] }) {
+  const readOnly = useReadOnly();
   const driver = useRunDriver<unknown>(rid);
   const { run } = driver;
   const [pop, setPop] = useState<Population | null>(null);
@@ -59,14 +61,16 @@ export function RunView({ meta, rid, candidates }: { meta: SimMeta; rid: string;
           </div>
         </div>
         <div className="row">
-          {run.kind === "panel" && run.status === "done" && (
+          {!readOnly && run.kind === "panel" && run.status === "done" && (
             <a className="btn sm" href={simHref("panel/new", { pop: run.population_id, cand: run.candidate_id })}>
               New test
             </a>
           )}
-          <button className="btn ghost sm danger" onClick={remove}>
-            Delete
-          </button>
+          {!readOnly && (
+            <button className="btn ghost sm danger" onClick={remove}>
+              Delete
+            </button>
+          )}
         </div>
       </div>
 

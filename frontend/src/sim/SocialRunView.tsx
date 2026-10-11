@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
+import { useReadOnly } from "../readOnly";
 import { sim } from "../api";
 import { Card, ErrorNotice, Modal } from "../components/ui";
 import { MultiLine, PARTY_COLOR, armColor, type LineSeries } from "./charts";
@@ -11,6 +12,7 @@ import { useRunDriver } from "./useRunDriver";
 const EMO_ICON: Record<string, string> = { happy: "😊", sad: "😢", angry: "😠", fear: "😨", surprise: "😮", disgust: "🤢" };
 
 export function SocialRunView({ run, meta }: { run: SimRun<unknown>; meta: SimMeta }) {
+  const readOnly = useReadOnly();
   const [ticks, setTicks] = useState<Tick[]>([]);
   const [posts, setPosts] = useState<Post[]>([]);
   const [network, setNetwork] = useState<NetworkSummary | null>(null);
@@ -49,7 +51,7 @@ export function SocialRunView({ run, meta }: { run: SimRun<unknown>; meta: SimMe
     const emotional = ticks.reduce((a, t) => a + t.emotional, 0);
     return { activations: ticks.reduce((a, t) => a + t.served, 0), content, ner: emotional ? neg / emotional : null };
   }, [ticks]);
-  const canBranch = ["done", "paused", "running", "budget_exhausted"].includes(run.status) && ticks.length > 0;
+  const canBranch = !readOnly && ["done", "paused", "running", "budget_exhausted"].includes(run.status) && ticks.length > 0;
 
   return (
     <div className="stack">

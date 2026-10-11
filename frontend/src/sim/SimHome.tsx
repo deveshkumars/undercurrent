@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useReadOnly } from "../readOnly";
 import { sim } from "../api";
 import { Card, ErrorNotice, Working } from "../components/ui";
 import { relTime } from "../format";
@@ -8,6 +9,7 @@ import { StatusChip, fmtUsd } from "./RunProgress";
 import type { DemoList, DemoRun, Population, SimRun } from "./types";
 
 export function SimHome() {
+  const readOnly = useReadOnly();
   const [pops, setPops] = useState<Population[] | null>(null);
   const [runs, setRuns] = useState<SimRun[] | null>(null);
   const [demos, setDemos] = useState<DemoList | null>(null);
@@ -44,7 +46,7 @@ export function SimHome() {
           title="Populations"
           sub="The people you simulate. Build a stratified sample or import real respondents."
           actions={
-            <>
+            readOnly ? undefined : <>
               <a className="btn sm primary" href={simHref("pop/new")}>
                 + New population
               </a>
@@ -79,7 +81,7 @@ export function SimHome() {
           title="Runs"
           sub="Message tests, calibrations, backtests and social scenarios."
           actions={
-            <>
+            readOnly ? undefined : <>
               <a className="btn sm primary" href={ready.length ? simHref("panel/new") : undefined} aria-disabled={!ready.length}>
                 + Message test
               </a>

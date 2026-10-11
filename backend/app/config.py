@@ -39,6 +39,8 @@ class Settings:
     data_file: Path
 
     access_code: str | None
+    # read-only public demo: visitors without the code can view saved demo runs and validation results
+    public_demo: bool
     on_vercel: bool
 
     # Simulations (backend/app/sim). Agents default to the app's model; SIM_MODEL can pin a cheaper one.
@@ -88,6 +90,7 @@ def get_settings() -> Settings:
         mongodb_db=os.environ.get("MONGODB_DB", "undercurrent"),
         data_file=Path(os.environ.get("DATA_FILE", str(default_data_file))),
         access_code=os.environ.get("ACCESS_CODE") or None,
+        public_demo=os.environ.get("PUBLIC_DEMO", "").strip().lower() in ("1", "true", "yes", "on"),
         on_vercel=on_vercel,
         sim_model=os.environ.get("SIM_MODEL") or llm_model,
         sim_concurrency=int(os.environ.get("SIM_CONCURRENCY") or (3 if cli else 12)),

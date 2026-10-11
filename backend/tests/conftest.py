@@ -3,6 +3,10 @@ from fastapi.testclient import TestClient
 
 from .fakes import FakeLLM
 
+# Import the app before any test monkeypatches llm.structured: main.py binds `structured` at import time,
+# so importing it for the first time under the fake would leak the fake into later tests.
+import backend.app.main  # noqa: E402,F401
+
 
 @pytest.fixture()
 def fake_llm(monkeypatch):

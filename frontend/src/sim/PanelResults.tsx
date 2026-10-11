@@ -1,4 +1,5 @@
 import { Fragment, useMemo, useState } from "react";
+import { useReadOnly } from "../readOnly";
 import { downloadFile } from "../api";
 import { Card, ErrorNotice, Paragraphs } from "../components/ui";
 import { AgentModal } from "./AgentModal";
@@ -12,6 +13,7 @@ const VERDICT_CHIP: Record<string, string> = { strongest: "good", effective: "go
 type Act = (a: "summarize" | "recompute") => Promise<SimRun<PanelResults> | undefined> | unknown;
 
 export function PanelResultsView({ run, pop, meta, act }: { run: SimRun<PanelResults>; pop: Population | null; meta: SimMeta; act: Act }) {
+  const readOnly = useReadOnly();
   const res = run.results;
   const arms = (run.config.arms as Arm[]) ?? [];
   const questions = (run.config.questions as Question[]) ?? [];
@@ -144,7 +146,7 @@ export function PanelResultsView({ run, pop, meta, act }: { run: SimRun<PanelRes
         <Card title="Debrief">
           <div className="row">
             <ErrorNotice error={res.summary_error ?? "No debrief yet."} />
-            <button className="btn sm" onClick={() => doAct("summarize")} disabled={busy === "summarize"}>
+            <button className="btn sm" onClick={() => doAct("summarize")} disabled={busy === "summarize"} hidden={readOnly}>
               {busy === "summarize" ? "Writing…" : "Write debrief"}
             </button>
           </div>
@@ -193,7 +195,7 @@ export function PanelResultsView({ run, pop, meta, act }: { run: SimRun<PanelRes
         <button className="btn sm" onClick={() => downloadFile(`/sim/runs/${run.id}/export.csv`, `${run.title.replace(/[^\w]+/g, "-").toLowerCase()}.csv`)}>
           Export responses (CSV)
         </button>
-        <button className="btn ghost sm" onClick={() => doAct("recompute")} disabled={busy === "recompute"} title="Re-aggregate with the population's current weights">
+        <button className="btn ghost sm" onClick={() => doAct("recompute")} disabled={busy === "recompute"} hidden={readOnly} title="Re-aggregate with the population's current weights">
           {busy === "recompute" ? "Recomputing…" : "Recompute with current weights"}
         </button>
         <span className="tiny muted">{meta.model}</span>

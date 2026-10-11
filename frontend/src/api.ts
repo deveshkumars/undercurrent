@@ -63,6 +63,10 @@ export function saveAccessCode(code: string) {
 }
 
 let memoryCode = readCode();
+
+export function hasAccessCode(): boolean {
+  return Boolean(memoryCode);
+}
 let onUnauthorized: (() => void) | null = null;
 export function setUnauthorizedHandler(fn: () => void) {
   onUnauthorized = fn;

@@ -21,6 +21,7 @@ export interface Meta {
   llm_ready: boolean;
   storage: "mongodb" | "json-file";
   access_required: boolean;
+  public_demo?: boolean; // read-only demo for visitors without the access code
   ephemeral_storage: boolean;
   sim?: { enabled: boolean; reason: string; model: string };
 }

@@ -146,6 +146,8 @@ Storage is a JSON file at `data/undercurrent.json` unless `MONGODB_URI` is set.
 | `CLAUDE_CLI_SHIM_URL` | `http://127.0.0.1:8788` | |
 | `MONGODB_URI` / `MONGODB_DB` | / `undercurrent` | required in production |
 | `ACCESS_CODE` | | if set, the API requires it (the UI asks once) |
+| `PUBLIC_DEMO` | off | `1`: visitors without the code can read the saved demo runs and the validation results; everything that writes or calls the model still needs `ACCESS_CODE` (with no code set, nobody can) |
+| `SIM_DEMO_FIXTURES` | `on` | `off` skips loading the built-in demo scenarios |
 | `SIM_MODEL` | `LLM_MODEL` | model for simulation agents |
 | `SIM_CONCURRENCY` | `12` (`3` with the shim) | parallel calls per step |
 | `SIM_STEP_SECONDS` | `45` (`150` on Vercel) | time budget per step |
@@ -157,14 +159,16 @@ Storage is a JSON file at `data/undercurrent.json` unless `MONGODB_URI` is set.
 The repo is set up for Vercel: the Vite build is served statically and `api/index.py` runs the FastAPI app as a Python function (`vercel.json` rewrites `/api/*` to it).
 
 1. **Database**: Vercel's filesystem is ephemeral, so use MongoDB Atlas (a free M0 cluster is plenty). Create a cluster and a database user, allow access from anywhere (`0.0.0.0/0`, since Vercel IPs vary), and copy the `mongodb+srv://…` connection string.
-2. **Project and secrets**:
+2. **Project and secrets** (each `vercel env add` prompts for the value, so secrets never go in the repo or your shell history):
    ```bash
    vercel link
    vercel env add ANTHROPIC_API_KEY production
    vercel env add MONGODB_URI production
-   vercel env add ACCESS_CODE production     # strongly recommended: the app spends your API credits
+   vercel env add ACCESS_CODE production     # required: the app spends your API credits
+   vercel env add PUBLIC_DEMO production     # optional: "1" lets visitors browse the demos and validation read-only
    vercel --prod
    ```
+   The demo scenarios load into MongoDB on the first simulation request; the validation results are served from the committed fixture.
 3. **Domain**: `vercel domains add undercurrent.deveshkumar.net`, then add the CNAME at GoDaddy:
    ```bash
    gddy dns add deveshkumar.net --type CNAME --name undercurrent --data cname.vercel-dns.com

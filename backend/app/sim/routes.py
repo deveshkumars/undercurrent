@@ -11,6 +11,7 @@ from fastapi import APIRouter, Depends, HTTPException, Query
 from fastapi.responses import Response
 
 from .. import llm
+from ..access import is_visitor
 from ..config import get_settings
 from ..storage import get_store
 from . import candidate as C
@@ -48,11 +49,27 @@ RUN_LIST_FIELDS = ["kind", "population_id", "candidate_id", "parent_run_id", "ti
                    "updated_at", "cursor", "total", "progress", "estimate", "error", "branch_tick", "demo"]
 
 
+def _visible(doc: dict | None) -> bool:
+    """Public-demo visitors see only the built-in demo documents."""
+    return bool(doc) and (doc.get("demo") or not is_visitor())
+
+
+def _scope() -> dict[str, Any]:
+    return {"demo": True} if is_visitor() else {}
+
+
 def _run(rid: str) -> dict:
     run = get_store().get("sim_runs", rid)
-    if not run:
+    if not _visible(run):
         raise HTTPException(404, "Run not found")
-    return run
+    return run  # type: ignore[return-value]
+
+
+def _population(pid: str) -> dict:
+    pop = jobs.get_population(pid)
+    if not _visible(pop):
+        raise HTTPException(404, "Population not found")
+    return pop
 
 
 def public_run(run: dict) -> dict:
@@ -159,13 +176,13 @@ def create_population(body: PopulationIn) -> dict:
 
 @router.get("/populations")
 def list_populations(candidate_id: str | None = None) -> list[dict]:
-    filters: dict[str, Any] = {"candidate_id": candidate_id} if candidate_id else {}
+    filters: dict[str, Any] = ({"candidate_id": candidate_id} if candidate_id else {}) | _scope()
     return get_store().find("populations", sort="-created_at", **filters)
 
 
 @router.get("/populations/{pid}")
 def get_population(pid: str) -> dict:
-    pop = jobs.get_population(pid)
+    pop = _population(pid)
     if pop.get("populate_run_id"):
         run = get_store().get("sim_runs", pop["populate_run_id"])
         pop["populate_run"] = {k: run.get(k) for k in ("id", "status", "cursor", "total", "progress", "error")} if run else None
@@ -211,7 +228,7 @@ def list_agents(
     limit: int = Query(50, ge=1, le=500),
     status: str | None = None,
 ) -> dict:
-    jobs.get_population(pid)
+    _population(pid)
     filters: dict[str, Any] = {"population_id": pid}
     if status:
         filters["persona_status"] = status
@@ -226,9 +243,9 @@ def list_agents(
 def get_agent(aid: str) -> dict:
     store = get_store()
     agent = store.get("agents", aid)
-    if not agent:
+    if not _visible(agent):
         raise HTTPException(404, "Agent not found")
-    responses = store.find("sim_results", agent_id=aid)[-40:]
+    responses = store.find("sim_results", agent_id=aid, **_scope())[-40:]
     titles = {}
     for r in responses:
         if r["run_id"] not in titles:
@@ -263,7 +280,7 @@ def create_survey_run(body: SurveyIn) -> dict:
 @router.get("/runs")
 def list_runs(population_id: str | None = None, candidate_id: str | None = None, kind: str | None = None) -> list[dict]:
     filters = {k: v for k, v in (("population_id", population_id), ("candidate_id", candidate_id), ("kind", kind)) if v}
-    return get_store().find("sim_runs", sort="-created_at", fields=RUN_LIST_FIELDS, **filters)
+    return get_store().find("sim_runs", sort="-created_at", fields=RUN_LIST_FIELDS, **filters, **_scope())
 
 
 @router.get("/runs/{rid}")
