@@ -13,3 +13,4 @@ frontend/dist/
 data/opinionqa/
 data/validation/
 data/demo/
+data/*.log

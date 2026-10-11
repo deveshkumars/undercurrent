@@ -17,6 +17,7 @@ export function ProvenanceBadge({ population }: { population: Pick<Population, "
 
 const COMMON = [
   "These are simulated people. Use the results to compare messages and spot risks, not as a poll.",
+  "Simulated people agree with each other more than real people do: on real survey questions their answers piled onto one option and didn't beat a random guess (see Validation).",
   "Intervals reflect simulation noise only (which agents, which model draw), not whether the agents resemble real voters.",
 ];
 
@@ -43,7 +44,7 @@ export function Caveats({ kind, population }: { kind: string; population?: Pick<
     population && population.source !== "csv"
       ? [
           population.persona_mode === "demographic"
-            ? "Card-only agents correspond to the weakest setup in Park et al. (2024): about 74% of human test-retest accuracy on the GSS, versus 85% for agents built from real interviews."
+            ? "Card-only agents correspond to the weakest setup in Park et al. (2024): about 74% of human test-retest accuracy on the GSS, versus 83% for agents built from real interviews (paper v3)."
             : "Synthetic interviews are written by the model from a demographic card, so they add detail but not real information. Park et al.'s accuracy gains came from real people's interviews; import real survey or interview data for higher fidelity.",
         ]
       : [];

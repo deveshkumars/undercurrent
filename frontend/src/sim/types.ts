@@ -91,6 +91,7 @@ export interface PopulationInput {
 export interface Population extends PopulationInput {
   id: string;
   created_at: string;
+  demo?: boolean; // built-in demo (loaded from fixtures)
   source: "synthetic" | "csv";
   status: "draft" | "generating" | "ready" | "failed";
   agent_count: number;
@@ -194,6 +195,7 @@ export interface Arm {
 }
 
 export interface SimRun<R = Record<string, unknown>> {
+  demo?: boolean;
   id: string;
   kind: RunKind;
   population_id: string;
@@ -566,4 +568,30 @@ export interface ExperimentResults {
   population: { id: string; name: string; persona_mode: string };
   n_agents: number;
   experiments: ExperimentResult[];
+}
+
+// ---------------------------------------------------------------- built-in demos (GET /api/sim/demos)
+
+export interface DemoHighlight {
+  headline?: string | null; // panel: the debrief headline
+  arms?: { label: string; est: number | null; lo: number | null; hi: number | null }[]; // panel: primary outcome vs control
+  ner?: number | null; // social: negative emotion ratio after the branch point
+  final_stance?: number | null;
+}
+
+export interface DemoRun {
+  id: string;
+  kind: RunKind;
+  title: string;
+  status: RunStatus;
+  parent_run_id: string | null;
+  branch_tick?: number | null;
+  created_at: string;
+  highlight?: DemoHighlight;
+}
+
+export interface DemoList {
+  populations: { id: string; name: string; agent_count: number; persona_mode: string; source: string; preset: string }[];
+  runs: DemoRun[];
+  generated: { date: string; command: string; model: string; backend: string } | null;
 }

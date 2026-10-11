@@ -14,7 +14,7 @@ from .. import llm
 from ..config import get_settings
 from ..storage import get_store
 from . import candidate as C
-from . import costs, jobs, panel
+from . import costs, demo, jobs, panel
 from . import presets as P
 from . import runner
 from .models import (
@@ -38,13 +38,14 @@ from .models import (
 def require_sim() -> None:
     if not get_settings().sim_enabled:
         raise HTTPException(503, "Simulations need MONGODB_URI on this deployment (serverless instances don't share /tmp).")
+    demo.ensure_loaded()
 
 
 router = APIRouter(prefix="/api/sim", dependencies=[Depends(require_sim)])
 cand_router = APIRouter(prefix="/api/candidates/{cid}/sim", dependencies=[Depends(require_sim)])
 
 RUN_LIST_FIELDS = ["kind", "population_id", "candidate_id", "parent_run_id", "title", "status", "created_at",
-                   "updated_at", "cursor", "total", "progress", "estimate", "error", "branch_tick"]
+                   "updated_at", "cursor", "total", "progress", "estimate", "error", "branch_tick", "demo"]
 
 
 def _run(rid: str) -> dict:
@@ -89,6 +90,37 @@ def sim_meta() -> dict:
         "limits": {"max_agents": s.sim_max_agents, "max_social_agents": s.sim_max_social_agents,
                    "max_calls_per_run": s.sim_max_calls_per_run, "concurrency": s.sim_concurrency},
         "pricing": dict(zip(("input", "output"), costs.prices())),
+    }
+
+
+@router.get("/demos")
+def list_demos() -> dict:
+    """The built-in demo population and runs (loaded from fixtures), for the home page."""
+    from . import social
+
+    store = get_store()
+    data = demo.fixture()
+    runs = store.find("sim_runs", sort="created_at", fields=RUN_LIST_FIELDS + ["results", "config"], demo=True)
+    out = []
+    for r in runs:
+        res, cfg = r.pop("results", None) or {}, r.pop("config", None) or {}
+        if r["kind"] == "panel" and res:
+            arms = {a["id"]: a["label"] for a in cfg.get("arms", [])}
+            prim = res.get("primary")
+            r["highlight"] = {
+                "headline": (res.get("summary") or {}).get("headline"),
+                "arms": [{"label": arms.get(t, t), **{k: (e.get(prim) or {}).get(k) for k in ("est", "lo", "hi")}}
+                         for t, e in (res.get("effects") or {}).items()],
+            }
+        elif r["kind"] == "social" and r.get("status") == "done":
+            summary = social.compare(store.get("sim_runs", r["id"]) or r, [])["runs"][0]["summary"]
+            r["highlight"] = {"ner": summary.get("ner"), "final_stance": summary.get("final_stance")}
+        if r["kind"] != "populate":
+            out.append(r)
+    return {
+        "populations": store.find("populations", fields=["name", "agent_count", "persona_mode", "source", "preset"], demo=True),
+        "runs": out,
+        "generated": (data or {}).get("generated"),
     }
 
 

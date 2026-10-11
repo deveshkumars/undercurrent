@@ -23,6 +23,7 @@ def sim_client(tmp_path, monkeypatch, fake_llm):
     monkeypatch.setenv("VERCEL", "")
     monkeypatch.setenv("SIM_CONCURRENCY", "4")
     monkeypatch.setenv("SIM_STEP_SECONDS", "30")
+    monkeypatch.setenv("SIM_DEMO_FIXTURES", "off")  # tests that want the built-in demos turn them on
     from backend.app import config, llm, storage
 
     config.get_settings.cache_clear()

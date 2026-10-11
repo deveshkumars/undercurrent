@@ -3,13 +3,14 @@ import { sim } from "../api";
 import { Card, ErrorNotice, Working } from "../components/ui";
 import { relTime } from "../format";
 import { ProvenanceBadge } from "./Caveats";
-import { KIND_LABEL, simHref } from "./nav";
+import { KIND_LABEL, signed, simHref } from "./nav";
 import { StatusChip, fmtUsd } from "./RunProgress";
-import type { Population, SimRun } from "./types";
+import type { DemoList, DemoRun, Population, SimRun } from "./types";
 
 export function SimHome() {
   const [pops, setPops] = useState<Population[] | null>(null);
   const [runs, setRuns] = useState<SimRun[] | null>(null);
+  const [demos, setDemos] = useState<DemoList | null>(null);
   const [error, setError] = useState<string | null>(null);
   useEffect(() => {
     Promise.all([sim.populations(), sim.runs()])
@@ -18,19 +19,26 @@ export function SimHome() {
         setRuns(r.filter((x) => x.kind !== "populate"));
       })
       .catch((e) => setError((e as Error).message));
+    sim
+      .demos()
+      .then(setDemos)
+      .catch(() => setDemos(null)); // the demos are optional; the rest of the page works without them
   }, []);
 
   const ready = pops?.filter((p) => p.status === "ready") ?? [];
   return (
     <div className="stack">
-      <div className="sim-head">
-        <div>
-          <h1>Simulations</h1>
-          <div className="cand-sub small">Populations of AI agents that react to messages, products and policies the way specific people would.</div>
-        </div>
+      <div className="hero">
+        <h1>Test messages on simulated audiences before you ship them.</h1>
+        <p className="secondary">
+          Show an ad, a product pitch, a policy or a crisis response to a population of AI agents modeled on different kinds of people. See who moves and why, and
+          watch how news spreads on a simulated feed. Use it to compare options and catch risks early, not as a poll: simulated people agree with each other more than
+          real ones do (<a href="#/validation">see how they scored against real survey answers</a>).
+        </p>
       </div>
       <ErrorNotice error={error} />
-      {pops && pops.length === 0 && <HowItWorks />}
+      {demos && demos.runs.length > 0 && <Demos demos={demos} />}
+      {pops && pops.filter((p) => !p.demo).length === 0 && <HowItWorks />}
       <div className="grid cols-2-even">
         <Card
           title="Populations"
@@ -102,6 +110,60 @@ export function SimHome() {
   );
 }
 
+function Demos({ demos }: { demos: DemoList }) {
+  const product = demos.runs.find((r) => r.kind === "panel");
+  const socials = demos.runs.filter((r) => r.kind === "social");
+  const base = socials.find((r) => !r.parent_run_id);
+  const branches = socials.filter((r) => r.parent_run_id);
+  return (
+    <Card title="Try the demos" sub="Two finished scenarios with fictional brands, saved from real runs, so they open instantly.">
+      <div className="grid cols-2-even">
+        {product && (
+          <a className="demo-card" href={simHref(`run/${product.id}`)}>
+            <div className="tiny muted">Message test · product launch</div>
+            <div className="list-title">{product.title}</div>
+            <p className="small secondary">A control and three ads (savings, comfort, climate) shown to the same simulated U.S. adults.</p>
+            {product.highlight?.arms && product.highlight.arms.length > 0 && (
+              <div className="tiny">
+                Purchase intent vs control:{" "}
+                {product.highlight.arms.map((a, i) => (
+                  <span key={a.label}>
+                    {i > 0 && " · "}
+                    {a.label} {signed(a.est)}
+                  </span>
+                ))}
+              </div>
+            )}
+            {product.highlight?.headline && <p className="small" style={{ marginTop: 6 }}>{product.highlight.headline}</p>}
+          </a>
+        )}
+        {base && (
+          <a className="demo-card" href={simHref(`run/${base.id}`)}>
+            <div className="tiny muted">Social scenario · brand crisis</div>
+            <div className="list-title">{base.title}</div>
+            <p className="small secondary">A product recall spreads on a simulated feed; two hours in it branches into an apology, a transparency response and a no-change control.</p>
+            {branches.length > 0 && <BranchList branches={branches} />}
+          </a>
+        )}
+      </div>
+    </Card>
+  );
+}
+
+function BranchList({ branches }: { branches: DemoRun[] }) {
+  return (
+    <div className="tiny" style={{ marginTop: 6 }}>
+      Negative-emotion share after the branch:{" "}
+      {branches.map((b, i) => (
+        <span key={b.id}>
+          {i > 0 && " · "}
+          {b.title.split(" at ")[0].replace(/^Control from .*/, "No change")} {b.highlight?.ner != null ? `${Math.round(b.highlight.ner * 100)}%` : "—"}
+        </span>
+      ))}
+    </div>
+  );
+}
+
 function HowItWorks() {
   return (
     <Card title="How simulations work">
@@ -110,8 +172,10 @@ function HowItWorks() {
           <strong>Message tests</strong>
           <p className="secondary">
             Each agent is a model given one person's life-history interview (or real survey answers) plus notes from four expert perspectives: a psychologist, a
-            behavioral economist, a political scientist and a demographer. This follows Park et al. (2024), whose agents matched 85% of how consistently real people
-            answer the General Social Survey. Every agent sees the control and every message variant, so effects are measured within the same people.
+            behavioral economist, a political scientist and a demographer. This follows Park et al. (2024), whose agents built from real people's two-hour interviews
+            reproduced their General Social Survey answers 83% as well as the people themselves did two weeks later (85% in the paper's first version). Here the
+            interviews are written by the model, which adds detail but not information. Every agent sees the control and every message variant, so effects are measured
+            within the same people.
           </p>
         </div>
         <div className="stack-sm small">

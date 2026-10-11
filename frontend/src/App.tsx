@@ -26,14 +26,38 @@ type Tab = (typeof TABS)[number]["id"];
 
 const LAST_KEY = "undercurrent.lastCandidate";
 
-function isValidationRoute(hash: string): boolean {
-  return hash.replace(/^#\/?/, "").split(/[/?]/)[0] === "validation";
+// Routes: "#/" and "#/sim/..." → Simulations (the home page); "#/validation"; "#/campaigns/<cid>/<tab>".
+// Older "#/<cid>/<tab>" links are redirected into Campaigns.
+type Area = "sim" | "validation" | "campaigns";
+
+function hashParts(): string[] {
+  return window.location.hash.replace(/^#\/?/, "").split("?")[0].split("/").filter(Boolean);
+}
+
+function readArea(): Area {
+  const [first] = hashParts();
+  if (!first || first === "sim") return "sim";
+  return first === "validation" ? "validation" : "campaigns";
+}
+
+function readSim(): SimRoute {
+  return readSimRoute(window.location.hash) ?? { parts: [], query: new URLSearchParams() };
+}
+
+function asTab(t: string | undefined): Tab {
+  return (TABS.some((x) => x.id === t) ? t : "overview") as Tab;
 }
 
 function readHash(): { cid: string | null; tab: Tab } {
-  if (readSimRoute(window.location.hash) || isValidationRoute(window.location.hash)) return { cid: null, tab: "overview" };
-  const [cid, tab] = window.location.hash.replace(/^#\/?/, "").split("/");
-  return { cid: cid || null, tab: (TABS.some((t) => t.id === tab) ? tab : "overview") as Tab };
+  const parts = hashParts();
+  if (readArea() !== "campaigns") return { cid: null, tab: "overview" };
+  const [cid, tab] = parts[0] === "campaigns" ? parts.slice(1) : parts;
+  return { cid: cid || null, tab: asTab(tab) };
+}
+
+function redirectLegacy() {
+  const parts = hashParts();
+  if (readArea() === "campaigns" && parts[0] !== "campaigns") window.location.replace(`#/campaigns/${parts.join("/")}`);
 }
 
 function Logo() {
@@ -51,8 +75,8 @@ export default function App() {
   const [needCode, setNeedCode] = useState(false);
   const [candidates, setCandidates] = useState<Candidate[] | null>(null);
   const [{ cid, tab }, setRoute] = useState(readHash);
-  const [simRoute, setSimRoute] = useState<SimRoute | null>(() => readSimRoute(window.location.hash));
-  const [validationPage, setValidationPage] = useState(() => isValidationRoute(window.location.hash));
+  const [area, setArea] = useState<Area>(readArea);
+  const [simRoute, setSimRoute] = useState<SimRoute>(readSim);
   const [params, setParams] = useState<AnalysisParams>({ metric: "vote_share", segment: "All", window_days: 14 });
   const [analysis, setAnalysis] = useState<Analysis | null>(null);
   const [loadingAnalysis, setLoadingAnalysis] = useState(false);
@@ -62,9 +86,11 @@ export default function App() {
 
   useEffect(() => {
     setUnauthorizedHandler(() => setNeedCode(true));
+    redirectLegacy();
     const onHash = () => {
-      setSimRoute(readSimRoute(window.location.hash));
-      setValidationPage(isValidationRoute(window.location.hash));
+      redirectLegacy();
+      setArea(readArea());
+      setSimRoute(readSim());
       setRoute(readHash());
       window.scrollTo(0, 0);
     };
@@ -73,10 +99,9 @@ export default function App() {
   }, []);
 
   const navigate = useCallback((nextCid: string | null, nextTab: Tab = "overview") => {
-    window.location.hash = nextCid ? `/${nextCid}/${nextTab}` : "";
+    window.location.hash = nextCid ? `/campaigns/${nextCid}/${nextTab}` : "/campaigns";
     setRoute({ cid: nextCid, tab: nextTab });
-    setSimRoute(null);
-    setValidationPage(false);
+    setArea("campaigns");
     if (nextCid) {
       try {
         localStorage.setItem(LAST_KEY, nextCid);
@@ -105,7 +130,7 @@ export default function App() {
 
   // pick a candidate when the URL has none, or one that no longer exists (e.g. remembered from another database)
   useEffect(() => {
-    if (!candidates || simRoute || validationPage) return;
+    if (!candidates || area !== "campaigns") return;
     if (!candidates.length) {
       if (cid) navigate(null);
       return;
@@ -118,9 +143,9 @@ export default function App() {
       /* ignore */
     }
     navigate(candidates.find((c) => c.id === last)?.id ?? candidates[0].id, tab);
-  }, [candidates, cid, tab, navigate, simRoute, validationPage]);
+  }, [candidates, cid, tab, navigate, area]);
 
-  const candidate = simRoute || validationPage ? null : (candidates?.find((c) => c.id === cid) ?? null);
+  const candidate = area !== "campaigns" ? null : (candidates?.find((c) => c.id === cid) ?? null);
   // only ever fetch for a candidate we know exists, never a stale id from the URL
   const activeCid = candidate?.id ?? null;
 
@@ -169,13 +194,23 @@ export default function App() {
   return (
     <>
       <header className="topbar">
-        <a className="brand" href="#" style={{ color: "inherit", textDecoration: "none" }} onClick={(e) => (e.preventDefault(), candidate && navigate(candidate.id, "overview"))}>
+        <a className="brand" href="#/" style={{ color: "inherit", textDecoration: "none" }}>
           <Logo />
           Undercurrent
         </a>
-        {candidates && candidates.length > 0 && (
-          <select className="input" style={{ width: "auto", maxWidth: 260 }} value={simRoute ? "" : (cid ?? "")} onChange={(e) => e.target.value && navigate(e.target.value, simRoute ? "overview" : tab)} aria-label="Candidate">
-            {simRoute && <option value="">Candidates…</option>}
+        <nav className="area-nav" aria-label="Sections">
+          <a className={`btn sm ${area === "sim" ? "primary" : "ghost"}`} href="#/sim" aria-current={area === "sim" ? "page" : undefined}>
+            Simulations
+          </a>
+          <a className={`btn sm ${area === "campaigns" ? "primary" : "ghost"}`} href="#/campaigns" aria-current={area === "campaigns" ? "page" : undefined}>
+            Campaigns
+          </a>
+          <a className={`btn sm ${area === "validation" ? "primary" : "ghost"}`} href="#/validation" aria-current={area === "validation" ? "page" : undefined}>
+            Validation
+          </a>
+        </nav>
+        {area === "campaigns" && candidates && candidates.length > 0 && (
+          <select className="input" style={{ width: "auto", maxWidth: 200 }} value={cid ?? ""} onChange={(e) => e.target.value && navigate(e.target.value, tab)} aria-label="Candidate">
             {candidates.map((c) => (
               <option key={c.id} value={c.id}>
                 {c.name}
@@ -183,15 +218,11 @@ export default function App() {
             ))}
           </select>
         )}
-        <button className="btn ghost sm" onClick={() => setShowNew(true)}>
-          + New
-        </button>
-        <a className={`btn sm ${simRoute ? "primary" : "ghost"}`} href="#/sim">
-          Simulations
-        </a>
-        <a className={`btn sm ${validationPage ? "primary" : "ghost"}`} href="#/validation">
-          Validation
-        </a>
+        {area === "campaigns" && (
+          <button className="btn ghost sm" onClick={() => setShowNew(true)}>
+            + New candidate
+          </button>
+        )}
         <span className="spacer" />
         {meta && (
           <span className="model-badge" title={meta.llm_ready ? "Model ready" : "No API key configured"}>
@@ -207,7 +238,7 @@ export default function App() {
             No database is configured, so data on this deployment is temporary. Set MONGODB_URI to keep it.
           </div>
         )}
-        {meta && !meta.llm_ready && (
+        {meta && !meta.llm_ready && area === "campaigns" && (
           <div className="notice warn" style={{ marginBottom: 16 }}>
             AI features are off until ANTHROPIC_API_KEY is set (or LLM_BACKEND=claude-cli for local testing). Polling analysis still works.
           </div>
@@ -216,16 +247,16 @@ export default function App() {
 
         {candidates === null && !needCode && !error && <Working label="Loading…" />}
 
-        {simRoute && candidates && <SimArea route={simRoute} candidates={candidates} />}
-        {validationPage && candidates && <ValidationView />}
+        {area === "sim" && candidates && <SimArea route={simRoute} candidates={candidates} />}
+        {area === "validation" && candidates && <ValidationView />}
 
-        {!simRoute && !validationPage && candidates && candidates.length === 0 && (
+        {area === "campaigns" && candidates && candidates.length === 0 && (
           <Card>
             <div className="empty">
-              <h2>See what's moving the numbers</h2>
+              <h2>Campaign analysis</h2>
               <p style={{ maxWidth: 560, margin: "0 auto" }}>
-                Undercurrent lines up a candidate's polling with what they said and did, forecasts how a new speech or interview will land, and recommends what to do
-                next.
+                For campaigns: line up a candidate's polling with what they said and did, see which events moved the numbers, forecast how a new speech or interview
+                will land, and get a plan for what to do next.
               </p>
               <div className="row" style={{ justifyContent: "center", marginTop: 20 }}>
                 <button className="btn primary" onClick={() => setShowNew(true)}>
@@ -234,9 +265,6 @@ export default function App() {
                 <button className="btn" onClick={createDemo} disabled={creatingDemo}>
                   {creatingDemo ? "Loading…" : "Explore a demo campaign"}
                 </button>
-                <a className="btn" href="#/sim">
-                  Simulate how people react
-                </a>
               </div>
               <p className="tiny muted" style={{ marginTop: 14 }}>
                 The demo is a fictional race with synthetic polls.
