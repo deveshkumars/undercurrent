@@ -17,3 +17,4 @@ data/*.log
 .vercel
 .env*
 !.env.example
+data/benchmark/
