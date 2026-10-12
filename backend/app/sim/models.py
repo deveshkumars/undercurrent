@@ -10,6 +10,9 @@ Expert = Literal["psychologist", "behavioral_economist", "political_scientist", 
 EXPERTS: tuple[str, ...] = Expert.__args__  # type: ignore[attr-defined]
 PsychType = Literal["curiosity_seeking", "self_actualization", "bandwagon", "cathartic_venting", "anti_authority"]
 Preset = Literal["us_adults", "us_registered_voters", "us_likely_voters"]
+# Schema ceiling on agent counts; the configured limit (SIM_MAX_AGENTS, default 500) is enforced when a
+# population or run is created, so deployments can raise it (e.g. 1,000 for the benchmark) without a code change.
+HARD_MAX_AGENTS = 10_000
 RunKind = Literal["populate", "panel", "calibration", "backtest", "social", "survey"]
 RunStatus = Literal["pending", "running", "paused", "finalizing", "done", "failed", "canceled", "budget_exhausted"]
 StimulusFormat = Literal[
@@ -24,7 +27,7 @@ StimulusFormat = Literal[
 class PopulationIn(BaseModel):
     name: str = Field(min_length=1, max_length=120)
     description: str = Field(default="", max_length=2000)
-    size: int = Field(default=100, ge=10, le=500)
+    size: int = Field(default=100, ge=10, le=HARD_MAX_AGENTS)
     preset: Preset = "us_registered_voters"
     # {variable: {level: share}} overriding preset margins, e.g. a district's partisan mix
     targets: dict[str, dict[str, float]] = Field(default_factory=dict)
@@ -137,7 +140,7 @@ class PanelIn(BaseModel):
     arms: list[Arm]
     questionnaire: Literal["political", "product", "policy", "custom"] = "political"
     questions: list[Question] = Field(default_factory=list)  # custom questions (added to the preset's)
-    sample_size: int | None = Field(default=None, ge=5, le=500)
+    sample_size: int | None = Field(default=None, ge=5, le=HARD_MAX_AGENTS)
     replicates: int = Field(default=1, ge=1, le=3)
     weight_set: Literal["demographic", "calibrated"] = "demographic"
     likely_voter: bool = False
@@ -177,7 +180,7 @@ class SurveyIn(BaseModel):
     # interview = the agent as the app builds it; card = card only; demographics = attributes only
     persona_style: Literal["interview", "card", "demographics"] = "interview"
     preamble: str = Field(default="", max_length=1000)
-    sample_size: int | None = Field(default=None, ge=5)
+    sample_size: int | None = Field(default=None, ge=5, le=HARD_MAX_AGENTS)
     seed: int | None = None
 
     @model_validator(mode="after")
@@ -195,7 +198,7 @@ class SurveyIn(BaseModel):
 
 class CalibrationIn(BaseModel):
     population_id: str
-    sample_size: int | None = Field(default=None, ge=5, le=500)
+    sample_size: int | None = Field(default=None, ge=5, le=HARD_MAX_AGENTS)
     context: str | None = Field(default=None, max_length=8_000)
 
 

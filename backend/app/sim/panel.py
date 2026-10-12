@@ -87,7 +87,7 @@ def create_panel(body: PanelIn, kind: str = "panel", extra_config: dict | None =
     seed = body.seed if body.seed is not None else int(new_id()[:7], 16)
     chosen = _sample(agents, body.sample_size, seed)
     if len(chosen) > s.sim_max_agents:
-        chosen = chosen[: s.sim_max_agents]
+        raise HTTPException(422, f"Panels are limited to {s.sim_max_agents} agents (SIM_MAX_AGENTS); set a sample size.")
     questions = build_questions(body.questionnaire, subject or "the subject", opponent,
                                 [q.model_dump() for q in body.questions])
     arms = sorted([a.model_dump() for a in body.arms], key=lambda a: a["kind"] != "control")
@@ -220,7 +220,8 @@ def step(ctx: StepCtx) -> None:
                 docs.append(response_doc(rid, agent["id"], arm["id"], rep, value, err))
                 if err is not None:
                     failed_agents.add(agent["id"])
-        store.upsert_many("sim_results", docs)
+        if not ctx.save("sim_results", docs):
+            return
         ctx.failed += len(failed_agents)
         ctx.done += len(agents) - len(failed_agents)
 

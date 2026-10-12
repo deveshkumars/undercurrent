@@ -10,6 +10,7 @@ def client(tmp_path, monkeypatch):
     monkeypatch.setenv("ANTHROPIC_API_KEY", "")
     monkeypatch.setenv("MONGODB_URI", "")
     monkeypatch.setenv("ACCESS_CODE", "")
+    monkeypatch.setenv("PUBLIC_DEMO", "")
     from backend.app import config, llm, storage
 
     config.get_settings.cache_clear()

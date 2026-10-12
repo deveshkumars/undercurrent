@@ -1,0 +1,2752 @@
+{
+ "date": "2026-10-11",
+ "command": "LLM_BACKEND=claude-cli SIM_CONCURRENCY=12 .venv/bin/python scripts/benchmark.py ",
+ "model": "claude-haiku-5-5",
+ "backend": "claude-cli",
+ "concurrency": 12,
+ "agents": 1000,
+ "arms": [
+  "No ad (placebo news)",
+  "Savings",
+  "Comfort"
+ ],
+ "questions": 7,
+ "message_test": {
+  "run": {
+   "wall_minutes": 25.2,
+   "id": "64f4e791f7e3",
+   "title": "Benchmark: 1,000-agent message test (1000 agents, seed 1000)",
+   "created_at": "2026-10-12T00:49:08+00:00",
+   "updated_at": "2026-10-12T01:14:19+00:00",
+   "calls": 3001,
+   "failed_units": 0,
+   "input_tokens": 6050,
+   "output_tokens": 1621364,
+   "cache_read_input_tokens": 10205932,
+   "cache_creation_input_tokens": 6145693,
+   "cache_creation_1h_input_tokens": 6145693,
+   "usd_list_price": 2.14249,
+   "estimate_usd": 0.9298,
+   "results": {
+    "n_agents": 1000,
+    "n_responses": 3000,
+    "n_errors": 0,
+    "n_eff": 992.4,
+    "weight_set": "demographic",
+    "primary": "purchase_intent",
+    "toplines": {
+     "control": {
+      "purchase_intent": {
+       "mean": 32.02,
+       "sd": 15.81,
+       "n": 1000,
+       "shares": {
+        "definitely would": 0.0,
+        "probably would": 0.0,
+        "might or might not": 0.3798,
+        "probably would not": 0.5212,
+        "definitely would not": 0.099
+       }
+      },
+      "appeal": {
+       "mean": 3.29,
+       "sd": 0.72,
+       "n": 1000,
+       "hist": [
+        0.0,
+        0.0019,
+        0.1104,
+        0.5268,
+        0.3215,
+        0.0382,
+        0.0011,
+        0.0,
+        0.0,
+        0.0
+       ]
+      },
+      "recommend": {
+       "mean": 2.72,
+       "sd": 0.84,
+       "n": 1000,
+       "hist": [
+        0.0,
+        0.0576,
+        0.3455,
+        0.4337,
+        0.147,
+        0.0162,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+       ]
+      },
+      "price_fairness": {
+       "shares": {
+        "a great deal": 0.0,
+        "fair": 0.1211,
+        "a bit expensive": 0.3425,
+        "a rip-off": 0.0,
+        "no idea what it costs": 0.5364
+       },
+       "n": 1000
+      },
+      "emotion": {
+       "shares": {
+        "excited": 0.0,
+        "curious": 0.0328,
+        "indifferent": 0.611,
+        "skeptical": 0.3561,
+        "annoyed": 0.0
+       },
+       "n": 1000
+      }
+     },
+     "savings": {
+      "purchase_intent": {
+       "mean": 44.35,
+       "sd": 10.46,
+       "n": 1000,
+       "shares": {
+        "definitely would": 0.0,
+        "probably would": 0.0,
+        "might or might not": 0.7739,
+        "probably would not": 0.2261,
+        "definitely would not": 0.0
+       }
+      },
+      "appeal": {
+       "mean": 4.72,
+       "sd": 0.65,
+       "n": 1000,
+       "hist": [
+        0.0,
+        0.0,
+        0.0,
+        0.033,
+        0.291,
+        0.6018,
+        0.0742,
+        0.0,
+        0.0,
+        0.0
+       ]
+      },
+      "recommend": {
+       "mean": 3.88,
+       "sd": 0.76,
+       "n": 1000,
+       "hist": [
+        0.0,
+        0.0,
+        0.0289,
+        0.2582,
+        0.5192,
+        0.1874,
+        0.0064,
+        0.0,
+        0.0,
+        0.0
+       ]
+      },
+      "price_fairness": {
+       "shares": {
+        "a great deal": 0.0,
+        "fair": 0.516,
+        "a bit expensive": 0.3829,
+        "a rip-off": 0.0,
+        "no idea what it costs": 0.101
+       },
+       "n": 1000
+      },
+      "emotion": {
+       "shares": {
+        "excited": 0.0,
+        "curious": 0.3538,
+        "indifferent": 0.0275,
+        "skeptical": 0.6187,
+        "annoyed": 0.0
+       },
+       "n": 1000
+      }
+     },
+     "comfort": {
+      "purchase_intent": {
+       "mean": 31.32,
+       "sd": 12.68,
+       "n": 1000,
+       "shares": {
+        "definitely would": 0.0,
+        "probably would": 0.0,
+        "might or might not": 0.287,
+        "probably would not": 0.6789,
+        "definitely would not": 0.0341
+       }
+      },
+      "appeal": {
+       "mean": 3.58,
+       "sd": 0.71,
+       "n": 1000,
+       "hist": [
+        0.0,
+        0.0,
+        0.0397,
+        0.4248,
+        0.4496,
+        0.0828,
+        0.0031,
+        0.0,
+        0.0,
+        0.0
+       ]
+      },
+      "recommend": {
+       "mean": 2.86,
+       "sd": 0.83,
+       "n": 1000,
+       "hist": [
+        0.0,
+        0.0191,
+        0.3275,
+        0.4588,
+        0.1608,
+        0.0337,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+       ]
+      },
+      "price_fairness": {
+       "shares": {
+        "a great deal": 0.0,
+        "fair": 0.1287,
+        "a bit expensive": 0.5746,
+        "a rip-off": 0.0,
+        "no idea what it costs": 0.2968
+       },
+       "n": 1000
+      },
+      "emotion": {
+       "shares": {
+        "excited": 0.0,
+        "curious": 0.075,
+        "indifferent": 0.3369,
+        "skeptical": 0.5881,
+        "annoyed": 0.0
+       },
+       "n": 1000
+      }
+     }
+    },
+    "effects": {
+     "savings": {
+      "purchase_intent": {
+       "est": 12.33,
+       "lo": 11.29,
+       "hi": 13.49,
+       "se": 0.518,
+       "p": 0.0,
+       "n": 1000,
+       "options": {
+        "definitely would": {
+         "est": 0.0,
+         "lo": 0.0,
+         "hi": 0.0,
+         "se": 0.0,
+         "p": 1.0,
+         "n": 1000
+        },
+        "probably would": {
+         "est": 0.0,
+         "lo": 0.0,
+         "hi": 0.0,
+         "se": 0.0,
+         "p": 1.0,
+         "n": 1000
+        },
+        "might or might not": {
+         "est": 39.41,
+         "lo": 35.66,
+         "hi": 42.47,
+         "se": 1.77,
+         "p": 0.0,
+         "n": 1000
+        },
+        "probably would not": {
+         "est": -29.51,
+         "lo": -32.92,
+         "hi": -25.71,
+         "se": 1.943,
+         "p": 0.0,
+         "n": 1000
+        },
+        "definitely would not": {
+         "est": -9.9,
+         "lo": -11.93,
+         "hi": -8.2,
+         "se": 0.949,
+         "p": 0.0,
+         "n": 1000
+        }
+       }
+      },
+      "appeal": {
+       "est": 1.43,
+       "lo": 1.38,
+       "hi": 1.48,
+       "se": 0.025,
+       "p": 0.0,
+       "n": 1000
+      },
+      "recommend": {
+       "est": 1.17,
+       "lo": 1.11,
+       "hi": 1.22,
+       "se": 0.03,
+       "p": 0.0,
+       "n": 1000
+      },
+      "price_fairness": {
+       "options": {
+        "a great deal": {
+         "est": 0.0,
+         "lo": 0.0,
+         "hi": 0.0,
+         "se": 0.0,
+         "p": 1.0,
+         "n": 1000
+        },
+        "fair": {
+         "est": 39.5,
+         "lo": 35.72,
+         "hi": 42.62,
+         "se": 1.643,
+         "p": 0.0,
+         "n": 1000
+        },
+        "a bit expensive": {
+         "est": 4.04,
+         "lo": 0.39,
+         "hi": 7.87,
+         "se": 1.844,
+         "p": 0.0284,
+         "n": 1000
+        },
+        "a rip-off": {
+         "est": 0.0,
+         "lo": 0.0,
+         "hi": 0.0,
+         "se": 0.0,
+         "p": 1.0,
+         "n": 1000
+        },
+        "no idea what it costs": {
+         "est": -43.54,
+         "lo": -46.35,
+         "hi": -40.14,
+         "se": 1.828,
+         "p": 0.0,
+         "n": 1000
+        }
+       }
+      },
+      "emotion": {
+       "options": {
+        "excited": {
+         "est": 0.0,
+         "lo": 0.0,
+         "hi": 0.0,
+         "se": 0.0,
+         "p": 1.0,
+         "n": 1000
+        },
+        "curious": {
+         "est": 32.1,
+         "lo": 29.34,
+         "hi": 34.93,
+         "se": 1.515,
+         "p": 0.0,
+         "n": 1000
+        },
+        "indifferent": {
+         "est": -58.36,
+         "lo": -61.74,
+         "hi": -55.33,
+         "se": 1.565,
+         "p": 0.0,
+         "n": 1000
+        },
+        "skeptical": {
+         "est": 26.26,
+         "lo": 22.9,
+         "hi": 29.76,
+         "se": 1.9,
+         "p": 0.0,
+         "n": 1000
+        },
+        "annoyed": {
+         "est": 0.0,
+         "lo": 0.0,
+         "hi": 0.0,
+         "se": 0.0,
+         "p": 1.0,
+         "n": 1000
+        }
+       }
+      }
+     },
+     "comfort": {
+      "purchase_intent": {
+       "est": -0.7,
+       "lo": -1.71,
+       "hi": 0.5,
+       "se": 0.508,
+       "p": 0.1707,
+       "n": 1000,
+       "options": {
+        "definitely would": {
+         "est": 0.0,
+         "lo": 0.0,
+         "hi": 0.0,
+         "se": 0.0,
+         "p": 1.0,
+         "n": 1000
+        },
+        "probably would": {
+         "est": 0.0,
+         "lo": 0.0,
+         "hi": 0.0,
+         "se": 0.0,
+         "p": 1.0,
+         "n": 1000
+        },
+        "might or might not": {
+         "est": -9.28,
+         "lo": -12.64,
+         "hi": -5.99,
+         "se": 1.671,
+         "p": 0.0,
+         "n": 1000
+        },
+        "probably would not": {
+         "est": 15.78,
+         "lo": 12.06,
+         "hi": 19.44,
+         "se": 1.853,
+         "p": 0.0,
+         "n": 1000
+        },
+        "definitely would not": {
+         "est": -6.5,
+         "lo": -8.57,
+         "hi": -4.78,
+         "se": 0.994,
+         "p": 0.0,
+         "n": 1000
+        }
+       }
+      },
+      "appeal": {
+       "est": 0.3,
+       "lo": 0.26,
+       "hi": 0.35,
+       "se": 0.024,
+       "p": 0.0,
+       "n": 1000
+      },
+      "recommend": {
+       "est": 0.14,
+       "lo": 0.09,
+       "hi": 0.2,
+       "se": 0.027,
+       "p": 0.0,
+       "n": 1000
+      },
+      "price_fairness": {
+       "options": {
+        "a great deal": {
+         "est": 0.0,
+         "lo": 0.0,
+         "hi": 0.0,
+         "se": 0.0,
+         "p": 1.0,
+         "n": 1000
+        },
+        "fair": {
+         "est": 0.76,
+         "lo": -1.8,
+         "hi": 3.05,
+         "se": 1.296,
+         "p": 0.5581,
+         "n": 1000
+        },
+        "a bit expensive": {
+         "est": 23.21,
+         "lo": 20.08,
+         "hi": 26.85,
+         "se": 1.932,
+         "p": 0.0,
+         "n": 1000
+        },
+        "a rip-off": {
+         "est": 0.0,
+         "lo": 0.0,
+         "hi": 0.0,
+         "se": 0.0,
+         "p": 1.0,
+         "n": 1000
+        },
+        "no idea what it costs": {
+         "est": -23.97,
+         "lo": -27.83,
+         "hi": -20.66,
+         "se": 2.064,
+         "p": 0.0,
+         "n": 1000
+        }
+       }
+      },
+      "emotion": {
+       "options": {
+        "excited": {
+         "est": 0.0,
+         "lo": 0.0,
+         "hi": 0.0,
+         "se": 0.0,
+         "p": 1.0,
+         "n": 1000
+        },
+        "curious": {
+         "est": 4.21,
+         "lo": 2.82,
+         "hi": 5.64,
+         "se": 0.836,
+         "p": 0.0,
+         "n": 1000
+        },
+        "indifferent": {
+         "est": -27.41,
+         "lo": -30.82,
+         "hi": -24.08,
+         "se": 1.787,
+         "p": 0.0,
+         "n": 1000
+        },
+        "skeptical": {
+         "est": 23.2,
+         "lo": 19.97,
+         "hi": 26.35,
+         "se": 1.704,
+         "p": 0.0,
+         "n": 1000
+        },
+        "annoyed": {
+         "est": 0.0,
+         "lo": 0.0,
+         "hi": 0.0,
+         "se": 0.0,
+         "p": 1.0,
+         "n": 1000
+        }
+       }
+      }
+     }
+    },
+    "segments": [
+     {
+      "treatment": "savings",
+      "dim": "age_band",
+      "level": "18-29",
+      "est": 11.65,
+      "lo": 9.31,
+      "hi": 13.98,
+      "se": 1.183,
+      "p": 0.0,
+      "n": 200,
+      "n_eff": 198.6,
+      "control_mean": 30.53,
+      "small": false,
+      "fdr": true
+     },
+     {
+      "treatment": "savings",
+      "dim": "age_band",
+      "level": "30-44",
+      "est": 10.13,
+      "lo": 8.16,
+      "hi": 12.11,
+      "se": 1.007,
+      "p": 0.0,
+      "n": 260,
+      "n_eff": 258.1,
+      "control_mean": 34.91,
+      "small": false,
+      "fdr": true
+     },
+     {
+      "treatment": "savings",
+      "dim": "age_band",
+      "level": "45-64",
+      "est": 12.47,
+      "lo": 10.71,
+      "hi": 14.23,
+      "se": 0.898,
+      "p": 0.0,
+      "n": 320,
+      "n_eff": 317.4,
+      "control_mean": 33.19,
+      "small": false,
+      "fdr": true
+     },
+     {
+      "treatment": "savings",
+      "dim": "age_band",
+      "level": "65+",
+      "est": 15.33,
+      "lo": 13.18,
+      "hi": 17.48,
+      "se": 1.096,
+      "p": 0.0,
+      "n": 220,
+      "n_eff": 218.3,
+      "control_mean": 28.25,
+      "small": false,
+      "fdr": true
+     },
+     {
+      "treatment": "savings",
+      "dim": "college",
+      "level": "college grad",
+      "est": 10.09,
+      "lo": 8.42,
+      "hi": 11.76,
+      "se": 0.854,
+      "p": 0.0,
+      "n": 353,
+      "n_eff": 350.2,
+      "control_mean": 36.49,
+      "small": false,
+      "fdr": true
+     },
+     {
+      "treatment": "savings",
+      "dim": "college",
+      "level": "non-college",
+      "est": 13.53,
+      "lo": 12.27,
+      "hi": 14.8,
+      "se": 0.646,
+      "p": 0.0,
+      "n": 647,
+      "n_eff": 642.3,
+      "control_mean": 29.61,
+      "small": false,
+      "fdr": true
+     },
+     {
+      "treatment": "savings",
+      "dim": "education",
+      "level": "bachelors",
+      "est": 10.67,
+      "lo": 8.59,
+      "hi": 12.74,
+      "se": 1.057,
+      "p": 0.0,
+      "n": 225,
+      "n_eff": 223.3,
+      "control_mean": 35.65,
+      "small": false,
+      "fdr": true
+     },
+     {
+      "treatment": "savings",
+      "dim": "education",
+      "level": "hs_or_less",
+      "est": 14.85,
+      "lo": 13.17,
+      "hi": 16.52,
+      "se": 0.854,
+      "p": 0.0,
+      "n": 377,
+      "n_eff": 374.1,
+      "control_mean": 26.87,
+      "small": false,
+      "fdr": true
+     },
+     {
+      "treatment": "savings",
+      "dim": "education",
+      "level": "postgrad",
+      "est": 9.11,
+      "lo": 6.26,
+      "hi": 11.97,
+      "se": 1.445,
+      "p": 0.0,
+      "n": 128,
+      "n_eff": 127.0,
+      "control_mean": 37.92,
+      "small": false,
+      "fdr": true
+     },
+     {
+      "treatment": "savings",
+      "dim": "education",
+      "level": "some_college",
+      "est": 11.69,
+      "lo": 9.77,
+      "hi": 13.6,
+      "se": 0.979,
+      "p": 0.0,
+      "n": 270,
+      "n_eff": 268.2,
+      "control_mean": 33.46,
+      "small": false,
+      "fdr": true
+     },
+     {
+      "treatment": "savings",
+      "dim": "gender",
+      "level": "female",
+      "est": 13.0,
+      "lo": 11.58,
+      "hi": 14.42,
+      "se": 0.726,
+      "p": 0.0,
+      "n": 510,
+      "n_eff": 506.0,
+      "control_mean": 30.83,
+      "small": false,
+      "fdr": true
+     },
+     {
+      "treatment": "savings",
+      "dim": "gender",
+      "level": "male",
+      "est": 11.63,
+      "lo": 10.18,
+      "hi": 13.08,
+      "se": 0.739,
+      "p": 0.0,
+      "n": 490,
+      "n_eff": 486.4,
+      "control_mean": 33.25,
+      "small": false,
+      "fdr": true
+     },
+     {
+      "treatment": "savings",
+      "dim": "ideology",
+      "level": "conservative",
+      "est": 11.6,
+      "lo": 9.98,
+      "hi": 13.22,
+      "se": 0.826,
+      "p": 0.0,
+      "n": 386,
+      "n_eff": 383.7,
+      "control_mean": 33.48,
+      "small": false,
+      "fdr": true
+     },
+     {
+      "treatment": "savings",
+      "dim": "ideology",
+      "level": "liberal",
+      "est": 11.76,
+      "lo": 9.56,
+      "hi": 13.95,
+      "se": 1.119,
+      "p": 0.0,
+      "n": 224,
+      "n_eff": 223.0,
+      "control_mean": 32.43,
+      "small": false,
+      "fdr": true
+     },
+     {
+      "treatment": "savings",
+      "dim": "ideology",
+      "level": "moderate",
+      "est": 13.35,
+      "lo": 11.74,
+      "hi": 14.96,
+      "se": 0.822,
+      "p": 0.0,
+      "n": 390,
+      "n_eff": 387.5,
+      "control_mean": 30.41,
+      "small": false,
+      "fdr": true
+     },
+     {
+      "treatment": "savings",
+      "dim": "lean",
+      "level": "dem",
+      "est": 12.78,
+      "lo": 11.23,
+      "hi": 14.33,
+      "se": 0.791,
+      "p": 0.0,
+      "n": 447,
+      "n_eff": 445.7,
+      "control_mean": 32.16,
+      "small": false,
+      "fdr": true
+     },
+     {
+      "treatment": "savings",
+      "dim": "lean",
+      "level": "none",
+      "est": 10.24,
+      "lo": 6.71,
+      "hi": 13.77,
+      "se": 1.775,
+      "p": 0.0,
+      "n": 85,
+      "n_eff": 84.8,
+      "control_mean": 32.4,
+      "small": false,
+      "fdr": true
+     },
+     {
+      "treatment": "savings",
+      "dim": "lean",
+      "level": "rep",
+      "est": 12.24,
+      "lo": 10.81,
+      "hi": 13.68,
+      "se": 0.732,
+      "p": 0.0,
+      "n": 468,
+      "n_eff": 466.5,
+      "control_mean": 31.79,
+      "small": false,
+      "fdr": true
+     },
+     {
+      "treatment": "savings",
+      "dim": "party",
+      "level": "democrat",
+      "est": 13.15,
+      "lo": 11.05,
+      "hi": 15.25,
+      "se": 1.072,
+      "p": 0.0,
+      "n": 262,
+      "n_eff": 261.6,
+      "control_mean": 31.66,
+      "small": false,
+      "fdr": true
+     },
+     {
+      "treatment": "savings",
+      "dim": "party",
+      "level": "independent",
+      "est": 10.96,
+      "lo": 9.48,
+      "hi": 12.45,
+      "se": 0.756,
+      "p": 0.0,
+      "n": 427,
+      "n_eff": 426.3,
+      "control_mean": 32.93,
+      "small": false,
+      "fdr": true
+     },
+     {
+      "treatment": "savings",
+      "dim": "party",
+      "level": "republican",
+      "est": 13.57,
+      "lo": 11.78,
+      "hi": 15.35,
+      "se": 0.911,
+      "p": 0.0,
+      "n": 311,
+      "n_eff": 310.6,
+      "control_mean": 30.99,
+      "small": false,
+      "fdr": true
+     },
+     {
+      "treatment": "savings",
+      "dim": "race",
+      "level": "asian",
+      "est": 10.62,
+      "lo": 6.24,
+      "hi": 15.0,
+      "se": 2.189,
+      "p": 0.0,
+      "n": 60,
+      "n_eff": 59.6,
+      "control_mean": 33.24,
+      "small": false,
+      "fdr": true
+     },
+     {
+      "treatment": "savings",
+      "dim": "race",
+      "level": "black",
+      "est": 11.74,
+      "lo": 8.68,
+      "hi": 14.79,
+      "se": 1.544,
+      "p": 0.0,
+      "n": 120,
+      "n_eff": 119.4,
+      "control_mean": 31.78,
+      "small": false,
+      "fdr": true
+     },
+     {
+      "treatment": "savings",
+      "dim": "race",
+      "level": "hispanic",
+      "est": 13.12,
+      "lo": 10.42,
+      "hi": 15.82,
+      "se": 1.368,
+      "p": 0.0,
+      "n": 170,
+      "n_eff": 168.7,
+      "control_mean": 30.76,
+      "small": false,
+      "fdr": true
+     },
+     {
+      "treatment": "savings",
+      "dim": "race",
+      "level": "other",
+      "est": 13.29,
+      "lo": 8.59,
+      "hi": 17.99,
+      "se": 2.34,
+      "p": 0.0,
+      "n": 50,
+      "n_eff": 49.6,
+      "control_mean": 31.31,
+      "small": false,
+      "fdr": true
+     },
+     {
+      "treatment": "savings",
+      "dim": "race",
+      "level": "white",
+      "est": 12.31,
+      "lo": 11.05,
+      "hi": 13.58,
+      "se": 0.645,
+      "p": 0.0,
+      "n": 600,
+      "n_eff": 595.1,
+      "control_mean": 32.36,
+      "small": false,
+      "fdr": true
+     },
+     {
+      "treatment": "savings",
+      "dim": "region",
+      "level": "midwest",
+      "est": 14.58,
+      "lo": 12.38,
+      "hi": 16.78,
+      "se": 1.124,
+      "p": 0.0,
+      "n": 210,
+      "n_eff": 208.4,
+      "control_mean": 29.97,
+      "small": false,
+      "fdr": true
+     },
+     {
+      "treatment": "savings",
+      "dim": "region",
+      "level": "northeast",
+      "est": 13.85,
+      "lo": 11.29,
+      "hi": 16.4,
+      "se": 1.294,
+      "p": 0.0,
+      "n": 170,
+      "n_eff": 168.6,
+      "control_mean": 31.09,
+      "small": false,
+      "fdr": true
+     },
+     {
+      "treatment": "savings",
+      "dim": "region",
+      "level": "south",
+      "est": 11.49,
+      "lo": 9.86,
+      "hi": 13.13,
+      "se": 0.834,
+      "p": 0.0,
+      "n": 380,
+      "n_eff": 377.1,
+      "control_mean": 32.16,
+      "small": false,
+      "fdr": true
+     },
+     {
+      "treatment": "savings",
+      "dim": "region",
+      "level": "west",
+      "est": 10.6,
+      "lo": 8.57,
+      "hi": 12.63,
+      "se": 1.037,
+      "p": 0.0,
+      "n": 240,
+      "n_eff": 238.3,
+      "control_mean": 34.24,
+      "small": false,
+      "fdr": true
+     },
+     {
+      "treatment": "savings",
+      "dim": "urbanicity",
+      "level": "rural",
+      "est": 12.48,
+      "lo": 10.33,
+      "hi": 14.63,
+      "se": 1.097,
+      "p": 0.0,
+      "n": 230,
+      "n_eff": 228.3,
+      "control_mean": 30.94,
+      "small": false,
+      "fdr": true
+     },
+     {
+      "treatment": "savings",
+      "dim": "urbanicity",
+      "level": "suburban",
+      "est": 12.23,
+      "lo": 10.79,
+      "hi": 13.66,
+      "se": 0.731,
+      "p": 0.0,
+      "n": 485,
+      "n_eff": 481.3,
+      "control_mean": 32.66,
+      "small": false,
+      "fdr": true
+     },
+     {
+      "treatment": "savings",
+      "dim": "urbanicity",
+      "level": "urban",
+      "est": 12.38,
+      "lo": 10.44,
+      "hi": 14.31,
+      "se": 0.987,
+      "p": 0.0,
+      "n": 285,
+      "n_eff": 283.0,
+      "control_mean": 31.8,
+      "small": false,
+      "fdr": true
+     },
+     {
+      "treatment": "savings",
+      "dim": "vote_2024",
+      "level": "dem",
+      "est": 12.74,
+      "lo": 10.74,
+      "hi": 14.74,
+      "se": 1.02,
+      "p": 0.0,
+      "n": 279,
+      "n_eff": 278.1,
+      "control_mean": 32.9,
+      "small": false,
+      "fdr": true
+     },
+     {
+      "treatment": "savings",
+      "dim": "vote_2024",
+      "level": "nonvoter",
+      "est": 11.58,
+      "lo": 9.92,
+      "hi": 13.23,
+      "se": 0.843,
+      "p": 0.0,
+      "n": 368,
+      "n_eff": 366.2,
+      "control_mean": 31.51,
+      "small": false,
+      "fdr": true
+     },
+     {
+      "treatment": "savings",
+      "dim": "vote_2024",
+      "level": "other",
+      "est": 9.82,
+      "lo": 2.39,
+      "hi": 17.26,
+      "se": 3.524,
+      "p": 0.0053,
+      "n": 18,
+      "n_eff": 17.9,
+      "control_mean": 33.34,
+      "small": true,
+      "fdr": true
+     },
+     {
+      "treatment": "savings",
+      "dim": "vote_2024",
+      "level": "rep",
+      "est": 12.99,
+      "lo": 11.28,
+      "hi": 14.69,
+      "se": 0.868,
+      "p": 0.0,
+      "n": 335,
+      "n_eff": 333.8,
+      "control_mean": 31.68,
+      "small": false,
+      "fdr": true
+     },
+     {
+      "treatment": "comfort",
+      "dim": "age_band",
+      "level": "18-29",
+      "est": -0.57,
+      "lo": -2.88,
+      "hi": 1.74,
+      "se": 1.172,
+      "p": 0.625,
+      "n": 200,
+      "n_eff": 198.6,
+      "control_mean": 30.53,
+      "small": false,
+      "fdr": false
+     },
+     {
+      "treatment": "comfort",
+      "dim": "age_band",
+      "level": "30-44",
+      "est": -1.08,
+      "lo": -3.03,
+      "hi": 0.87,
+      "se": 0.993,
+      "p": 0.2767,
+      "n": 260,
+      "n_eff": 258.1,
+      "control_mean": 34.91,
+      "small": false,
+      "fdr": false
+     },
+     {
+      "treatment": "comfort",
+      "dim": "age_band",
+      "level": "45-64",
+      "est": -0.42,
+      "lo": -2.17,
+      "hi": 1.33,
+      "se": 0.893,
+      "p": 0.6346,
+      "n": 320,
+      "n_eff": 317.4,
+      "control_mean": 33.19,
+      "small": false,
+      "fdr": false
+     },
+     {
+      "treatment": "comfort",
+      "dim": "age_band",
+      "level": "65+",
+      "est": -0.75,
+      "lo": -2.85,
+      "hi": 1.35,
+      "se": 1.07,
+      "p": 0.4847,
+      "n": 220,
+      "n_eff": 218.3,
+      "control_mean": 28.25,
+      "small": false,
+      "fdr": false
+     },
+     {
+      "treatment": "comfort",
+      "dim": "college",
+      "level": "college grad",
+      "est": -1.19,
+      "lo": -2.91,
+      "hi": 0.52,
+      "se": 0.875,
+      "p": 0.1727,
+      "n": 353,
+      "n_eff": 350.2,
+      "control_mean": 36.49,
+      "small": false,
+      "fdr": false
+     },
+     {
+      "treatment": "comfort",
+      "dim": "college",
+      "level": "non-college",
+      "est": -0.43,
+      "lo": -1.65,
+      "hi": 0.79,
+      "se": 0.624,
+      "p": 0.4924,
+      "n": 647,
+      "n_eff": 642.3,
+      "control_mean": 29.61,
+      "small": false,
+      "fdr": false
+     },
+     {
+      "treatment": "comfort",
+      "dim": "education",
+      "level": "bachelors",
+      "est": -1.31,
+      "lo": -3.38,
+      "hi": 0.75,
+      "se": 1.054,
+      "p": 0.2127,
+      "n": 225,
+      "n_eff": 223.3,
+      "control_mean": 35.65,
+      "small": false,
+      "fdr": false
+     },
+     {
+      "treatment": "comfort",
+      "dim": "education",
+      "level": "hs_or_less",
+      "est": 0.4,
+      "lo": -1.21,
+      "hi": 2.0,
+      "se": 0.82,
+      "p": 0.629,
+      "n": 377,
+      "n_eff": 374.1,
+      "control_mean": 26.87,
+      "small": false,
+      "fdr": false
+     },
+     {
+      "treatment": "comfort",
+      "dim": "education",
+      "level": "postgrad",
+      "est": -0.99,
+      "lo": -4.04,
+      "hi": 2.06,
+      "se": 1.541,
+      "p": 0.5219,
+      "n": 128,
+      "n_eff": 127.0,
+      "control_mean": 37.92,
+      "small": false,
+      "fdr": false
+     },
+     {
+      "treatment": "comfort",
+      "dim": "education",
+      "level": "some_college",
+      "est": -1.59,
+      "lo": -3.46,
+      "hi": 0.29,
+      "se": 0.957,
+      "p": 0.0971,
+      "n": 270,
+      "n_eff": 268.2,
+      "control_mean": 33.46,
+      "small": false,
+      "fdr": false
+     },
+     {
+      "treatment": "comfort",
+      "dim": "gender",
+      "level": "female",
+      "est": -0.08,
+      "lo": -1.47,
+      "hi": 1.3,
+      "se": 0.707,
+      "p": 0.9096,
+      "n": 510,
+      "n_eff": 506.0,
+      "control_mean": 30.83,
+      "small": false,
+      "fdr": false
+     },
+     {
+      "treatment": "comfort",
+      "dim": "gender",
+      "level": "male",
+      "est": -1.34,
+      "lo": -2.77,
+      "hi": 0.09,
+      "se": 0.73,
+      "p": 0.0672,
+      "n": 490,
+      "n_eff": 486.4,
+      "control_mean": 33.25,
+      "small": false,
+      "fdr": false
+     },
+     {
+      "treatment": "comfort",
+      "dim": "ideology",
+      "level": "conservative",
+      "est": -1.5,
+      "lo": -3.12,
+      "hi": 0.13,
+      "se": 0.829,
+      "p": 0.0709,
+      "n": 386,
+      "n_eff": 383.7,
+      "control_mean": 33.48,
+      "small": false,
+      "fdr": false
+     },
+     {
+      "treatment": "comfort",
+      "dim": "ideology",
+      "level": "liberal",
+      "est": -0.88,
+      "lo": -2.88,
+      "hi": 1.12,
+      "se": 1.02,
+      "p": 0.3886,
+      "n": 224,
+      "n_eff": 223.0,
+      "control_mean": 32.43,
+      "small": false,
+      "fdr": false
+     },
+     {
+      "treatment": "comfort",
+      "dim": "ideology",
+      "level": "moderate",
+      "est": 0.16,
+      "lo": -1.46,
+      "hi": 1.78,
+      "se": 0.826,
+      "p": 0.8458,
+      "n": 390,
+      "n_eff": 387.5,
+      "control_mean": 30.41,
+      "small": false,
+      "fdr": false
+     },
+     {
+      "treatment": "comfort",
+      "dim": "lean",
+      "level": "dem",
+      "est": 0.08,
+      "lo": -1.39,
+      "hi": 1.56,
+      "se": 0.751,
+      "p": 0.9108,
+      "n": 447,
+      "n_eff": 445.7,
+      "control_mean": 32.16,
+      "small": false,
+      "fdr": false
+     },
+     {
+      "treatment": "comfort",
+      "dim": "lean",
+      "level": "none",
+      "est": -4.19,
+      "lo": -7.61,
+      "hi": -0.78,
+      "se": 1.717,
+      "p": 0.0146,
+      "n": 85,
+      "n_eff": 84.8,
+      "control_mean": 32.4,
+      "small": false,
+      "fdr": true
+     },
+     {
+      "treatment": "comfort",
+      "dim": "lean",
+      "level": "rep",
+      "est": -0.87,
+      "lo": -2.33,
+      "hi": 0.6,
+      "se": 0.747,
+      "p": 0.2464,
+      "n": 468,
+      "n_eff": 466.5,
+      "control_mean": 31.79,
+      "small": false,
+      "fdr": false
+     },
+     {
+      "treatment": "comfort",
+      "dim": "party",
+      "level": "democrat",
+      "est": 0.45,
+      "lo": -1.49,
+      "hi": 2.4,
+      "se": 0.993,
+      "p": 0.6499,
+      "n": 262,
+      "n_eff": 261.6,
+      "control_mean": 31.66,
+      "small": false,
+      "fdr": false
+     },
+     {
+      "treatment": "comfort",
+      "dim": "party",
+      "level": "independent",
+      "est": -2.19,
+      "lo": -3.71,
+      "hi": -0.68,
+      "se": 0.774,
+      "p": 0.0046,
+      "n": 427,
+      "n_eff": 426.3,
+      "control_mean": 32.93,
+      "small": false,
+      "fdr": true
+     },
+     {
+      "treatment": "comfort",
+      "dim": "party",
+      "level": "republican",
+      "est": 0.42,
+      "lo": -1.34,
+      "hi": 2.18,
+      "se": 0.897,
+      "p": 0.6413,
+      "n": 311,
+      "n_eff": 310.6,
+      "control_mean": 30.99,
+      "small": false,
+      "fdr": false
+     },
+     {
+      "treatment": "comfort",
+      "dim": "race",
+      "level": "asian",
+      "est": -2.47,
+      "lo": -6.04,
+      "hi": 1.11,
+      "se": 1.786,
+      "p": 0.1669,
+      "n": 60,
+      "n_eff": 59.6,
+      "control_mean": 33.24,
+      "small": false,
+      "fdr": false
+     },
+     {
+      "treatment": "comfort",
+      "dim": "race",
+      "level": "black",
+      "est": -1.84,
+      "lo": -4.3,
+      "hi": 0.62,
+      "se": 1.242,
+      "p": 0.1392,
+      "n": 120,
+      "n_eff": 119.4,
+      "control_mean": 31.78,
+      "small": false,
+      "fdr": false
+     },
+     {
+      "treatment": "comfort",
+      "dim": "race",
+      "level": "hispanic",
+      "est": 0.85,
+      "lo": -1.79,
+      "hi": 3.48,
+      "se": 1.336,
+      "p": 0.5261,
+      "n": 170,
+      "n_eff": 168.7,
+      "control_mean": 30.76,
+      "small": false,
+      "fdr": false
+     },
+     {
+      "treatment": "comfort",
+      "dim": "race",
+      "level": "other",
+      "est": -1.65,
+      "lo": -5.93,
+      "hi": 2.63,
+      "se": 2.13,
+      "p": 0.4385,
+      "n": 50,
+      "n_eff": 49.6,
+      "control_mean": 31.31,
+      "small": false,
+      "fdr": false
+     },
+     {
+      "treatment": "comfort",
+      "dim": "race",
+      "level": "white",
+      "est": -0.65,
+      "lo": -1.96,
+      "hi": 0.66,
+      "se": 0.67,
+      "p": 0.3334,
+      "n": 600,
+      "n_eff": 595.1,
+      "control_mean": 32.36,
+      "small": false,
+      "fdr": false
+     },
+     {
+      "treatment": "comfort",
+      "dim": "region",
+      "level": "midwest",
+      "est": 0.34,
+      "lo": -1.96,
+      "hi": 2.64,
+      "se": 1.175,
+      "p": 0.772,
+      "n": 210,
+      "n_eff": 208.4,
+      "control_mean": 29.97,
+      "small": false,
+      "fdr": false
+     },
+     {
+      "treatment": "comfort",
+      "dim": "region",
+      "level": "northeast",
+      "est": 0.05,
+      "lo": -2.45,
+      "hi": 2.56,
+      "se": 1.269,
+      "p": 0.9678,
+      "n": 170,
+      "n_eff": 168.6,
+      "control_mean": 31.09,
+      "small": false,
+      "fdr": false
+     },
+     {
+      "treatment": "comfort",
+      "dim": "region",
+      "level": "south",
+      "est": -1.05,
+      "lo": -2.58,
+      "hi": 0.47,
+      "se": 0.778,
+      "p": 0.1765,
+      "n": 380,
+      "n_eff": 377.1,
+      "control_mean": 32.16,
+      "small": false,
+      "fdr": false
+     },
+     {
+      "treatment": "comfort",
+      "dim": "region",
+      "level": "west",
+      "est": -1.57,
+      "lo": -3.62,
+      "hi": 0.49,
+      "se": 1.048,
+      "p": 0.1348,
+      "n": 240,
+      "n_eff": 238.3,
+      "control_mean": 34.24,
+      "small": false,
+      "fdr": false
+     },
+     {
+      "treatment": "comfort",
+      "dim": "urbanicity",
+      "level": "rural",
+      "est": 0.01,
+      "lo": -2.11,
+      "hi": 2.13,
+      "se": 1.083,
+      "p": 0.9929,
+      "n": 230,
+      "n_eff": 228.3,
+      "control_mean": 30.94,
+      "small": false,
+      "fdr": false
+     },
+     {
+      "treatment": "comfort",
+      "dim": "urbanicity",
+      "level": "suburban",
+      "est": -0.46,
+      "lo": -1.85,
+      "hi": 0.94,
+      "se": 0.712,
+      "p": 0.5208,
+      "n": 485,
+      "n_eff": 481.3,
+      "control_mean": 32.66,
+      "small": false,
+      "fdr": false
+     },
+     {
+      "treatment": "comfort",
+      "dim": "urbanicity",
+      "level": "urban",
+      "est": -1.64,
+      "lo": -3.55,
+      "hi": 0.26,
+      "se": 0.971,
+      "p": 0.0905,
+      "n": 285,
+      "n_eff": 283.0,
+      "control_mean": 31.8,
+      "small": false,
+      "fdr": false
+     },
+     {
+      "treatment": "comfort",
+      "dim": "vote_2024",
+      "level": "dem",
+      "est": 0.1,
+      "lo": -1.75,
+      "hi": 1.96,
+      "se": 0.947,
+      "p": 0.914,
+      "n": 279,
+      "n_eff": 278.1,
+      "control_mean": 32.9,
+      "small": false,
+      "fdr": false
+     },
+     {
+      "treatment": "comfort",
+      "dim": "vote_2024",
+      "level": "nonvoter",
+      "est": -1.25,
+      "lo": -2.95,
+      "hi": 0.45,
+      "se": 0.867,
+      "p": 0.1495,
+      "n": 368,
+      "n_eff": 366.2,
+      "control_mean": 31.51,
+      "small": false,
+      "fdr": false
+     },
+     {
+      "treatment": "comfort",
+      "dim": "vote_2024",
+      "level": "other",
+      "est": 4.08,
+      "lo": -3.67,
+      "hi": 11.84,
+      "se": 3.675,
+      "p": 0.2667,
+      "n": 18,
+      "n_eff": 17.9,
+      "control_mean": 33.34,
+      "small": true,
+      "fdr": false
+     },
+     {
+      "treatment": "comfort",
+      "dim": "vote_2024",
+      "level": "rep",
+      "est": -1.12,
+      "lo": -2.77,
+      "hi": 0.54,
+      "se": 0.846,
+      "p": 0.1875,
+      "n": 335,
+      "n_eff": 333.8,
+      "control_mean": 31.68,
+      "small": false,
+      "fdr": false
+     }
+    ],
+    "vote_segments": [],
+    "transitions": {},
+    "quotes": [
+     {
+      "agent_id": "d3d9498a491e",
+      "arm_id": "control",
+      "arm": "No ad (placebo news)",
+      "name": "Yesenia",
+      "who": "39 \u00b7 F \u00b7 hispanic \u00b7 Dem \u00b7 HS or less",
+      "delta": null,
+      "texts": {
+       "gut_reaction": "A hundred and twenty-nine dollars for a thermostat? With my power bill and my card, that's a lot. Maybe if it really cut the summer bill, but I'd want to see that first. I'm a renter too.",
+       "tell_a_friend": "If your power bill is killing you every summer and you've got the cash, maybe look at it. But don't buy it at midnight on a credit card like I would. Check if it really saves money first."
+      },
+      "reasoning": "I skimmed the Route 9 notice and it's just a detour I'll have to deal with on my drive to work, so no help there. A $129 thermostat is a lot of money when my rent is $850 and my card is already too high, and I know I'd see it online at night and talk myself into it. Still, the power bill jumps every summer, so I can see the appeal, but I'd want to see proof it actually saves me money first."
+     },
+     {
+      "agent_id": "b1032d5cc083",
+      "arm_id": "control",
+      "arm": "No ad (placebo news)",
+      "name": "Daniel",
+      "who": "30 \u00b7 M \u00b7 asian \u00b7 Rep \u00b7 Some college",
+      "delta": null,
+      "texts": {
+       "gut_reaction": "Okay, I guess. I'd want to know what it actually saves per month before I spend $129 when I'm already behind. Sounds like a lot of tech I'd forget to set up.",
+       "tell_a_friend": "It's a thermostat, installs in twenty minutes if you're handy. Doesn't seem bad for the price. Check if it actually cuts your heating bill before you buy it."
+      },
+      "reasoning": "A weather blurb doesn't tell me anything about thermostats, so I'm mostly thinking about whether $129 is something I can spare with a credit card balance from gas. I'm skeptical of anything that promises savings, since my commission checks swing so much. Still, a screwdriver install and a bill cut is the kind of quick win that appeals to me."
+     },
+     {
+      "agent_id": "e2b26b76a827",
+      "arm_id": "control",
+      "arm": "No ad (placebo news)",
+      "name": "Tyler",
+      "who": "27 \u00b7 M \u00b7 white \u00b7 Ind\u2192Dem \u00b7 Bachelor's",
+      "delta": null,
+      "texts": {
+       "gut_reaction": "Another gadget with an app I'd have to set up. I rent, so I'd have to ask my landlord first. Maybe it saves a few bucks on heat, but I'd need to see the math before spending $129.",
+       "tell_a_friend": "Probably fine if you own your place and want to fiddle with an app. If you rent and money's tight, I'd skip it unless the savings are obvious. I'm not sold."
+      },
+      "reasoning": "The library thing has nothing to do with me, so I'm mostly thinking about the thermostat. I rent a one-bedroom, so I'd need the landlord's okay before swapping anything, and $129 is real money when rent eats most of my check. I'd probably put it off like I put off the dentist."
+     },
+     {
+      "agent_id": "8ac648161278",
+      "arm_id": "control",
+      "arm": "No ad (placebo news)",
+      "name": "Heather",
+      "who": "40 \u00b7 F \u00b7 white \u00b7 Rep \u00b7 Some college",
+      "delta": null,
+      "texts": {
+       "gut_reaction": "Another gadget that wants to be my whole house's brain. $129 is not nothing when groceries are eating us alive. Show me what it saves on the power bill and maybe I'll look at it. Until then, our old thermostat works fine.",
+       "tell_a_friend": "It's $129 and you can install it yourself in about 20 minutes, which is the only part that sounds good to me. I'd want to see real numbers on savings before I'd bother. Unless it pays for itself, skip it."
+      },
+      "reasoning": "I skimmed the Route 9 notice and only registered that Oak Street to the fairgrounds means a detour on Mill Road for three weeks, which is annoying but not my problem. A $129 thermostat with no stated savings doesn't tell me what it does for my power bill, and I already have a working thermostat. I'd want proof it pays for itself before I spend anything."
+     },
+     {
+      "agent_id": "583e96e5828f",
+      "arm_id": "control",
+      "arm": "No ad (placebo news)",
+      "name": "Rhonda",
+      "who": "52 \u00b7 F \u00b7 white \u00b7 Ind \u00b7 HS or less",
+      "delta": null,
+      "texts": {
+       "gut_reaction": "Don't know much about it. It's a thermostat for $129, and I'd want to know how much it would really cut the power bill before I put money into it. Right now I've got bills I can't put off.",
+       "tell_a_friend": "I haven't looked into it. If it really cuts the power bill, maybe worth a look. Otherwise I'd keep my money in the notebook."
+      },
+      "reasoning": "A thermostat ad with a weather blurb in front of me doesn't mean much to me; I've got a notebook to balance and a shoulder to get fixed. $129 is money I'd have to think about, and I don't know what it would save on the power bill. I'd want to hear from somebody at lunch before I spent it."
+     },
+     {
+      "agent_id": "4bc2b51c037e",
+      "arm_id": "control",
+      "arm": "No ad (placebo news)",
+      "name": "Lauren",
+      "who": "45 \u00b7 F \u00b7 white \u00b7 Rep \u00b7 Postgrad",
+      "delta": null,
+      "texts": {
+       "gut_reaction": "Another gadget to set up on a Saturday. If it really cuts the heating bill and installs with a screwdriver, fine, but I'd want to see the number first. I don't buy things on hope.",
+       "tell_a_friend": "It's a $129 thermostat that's supposed to work with most systems. Ask Greg if your furnace can take it, and check whether it actually pays for itself before you buy it."
+      },
+      "reasoning": "The library notice is nice but has nothing to do with thermostats, so I barely register it and move on to the Brightloop question. A $129 gadget is a small but real expense when we're counting gas and groceries, and I don't know my gas bill or heating bill well enough to promise savings. I'd want to see a plain number on what it saves before I'd spend anything."
+     },
+     {
+      "agent_id": "f3f92330117c",
+      "arm_id": "control",
+      "arm": "No ad (placebo news)",
+      "name": "Rolando",
+      "who": "58 \u00b7 M \u00b7 hispanic \u00b7 Rep \u00b7 Bachelor's",
+      "delta": null,
+      "texts": {
+       "gut_reaction": "Never heard of Brightloop. Our thermostat works fine. If it's cheap to install and saves on the power bill, maybe, but I'd want to see who makes it and what it actually does first.",
+       "tell_a_friend": "Haven't used it, so I can't vouch for it. Install looks easy enough. Check the reviews and make sure it saves money before you spend the $129."
+      },
+      "reasoning": "A thermostat ad isn't something I was looking for, and the only thing I actually read was a road closure notice about Route 9. I'm skimming this, I don't know the brand, and $129 for a gadget is one more thing on a tight budget, so I'm not excited but I'm not hostile either."
+     },
+     {
+      "agent_id": "c9c76917d055",
+      "arm_id": "control",
+      "arm": "No ad (placebo news)",
+      "name": "Denise",
+      "who": "53 \u00b7 F \u00b7 white \u00b7 Dem \u00b7 Bachelor's",
+      "delta": null,
+      "texts": {
+       "gut_reaction": "Another gadget with a catchy pitch. I'd want to know what it actually saves me in dollars before spending $129 on it. Right now it just looks like something to buy.",
+       "tell_a_friend": "Skip it unless you can see the savings on your own bill. It's $129 for something that might or might not pay for itself. Wait for the numbers."
+      },
+      "reasoning": "The weather blurb has nothing to do with thermostats, so I skim past it. A $129 gadget from a small Ohio company I've never heard of, with no clear reason I need it, sounds like one more thing trying to sell me something. My furnace works, and I'm already doing math every night about the bills I've got."
+     },
+     {
+      "agent_id": "8e05ef443155",
+      "arm_id": "control",
+      "arm": "No ad (placebo news)",
+      "name": "Denise",
+      "who": "62 \u00b7 F \u00b7 white \u00b7 Dem \u00b7 Bachelor's",
+      "delta": null,
+      "texts": {
+       "gut_reaction": "Another gadget that promises to save money. Show me how much it saves on my power bill and I'll listen. Otherwise I've got enough to pay without buying something new for the wall.",
+       "tell_a_friend": "I haven't looked into it, so I can't say much. If you're thinking about it, ask for a real estimate of what it saves on your bill first, and check whether your heating and cooling system works with it."
+      },
+      "reasoning": "I saw a library notice about weekend hours and a free tax clinic, which is what caught my eye, not the thermostat. Nothing about Brightloop is in front of me beyond a $129 price and a screwdriver install, and I don't know much about smart thermostats or whether they save anything. I'd want a real number on savings before I spend money, given how tight March feels."
+     },
+     {
+      "agent_id": "aaf7f3038a12",
+      "arm_id": "control",
+      "arm": "No ad (placebo news)",
+      "name": "Ernie",
+      "who": "74 \u00b7 M \u00b7 asian \u00b7 Ind\u2192Dem \u00b7 Some college",
+      "delta": null,
+      "texts": {
+       "gut_reaction": "Okay, sounds handy, but I'd want to know if it really pays for itself on the power bill. I keep a spreadsheet, so show me the numbers. Cora would want to read the box first.",
+       "tell_a_friend": "It's a $129 thermostat that installs with a screwdriver in about 20 minutes. Check that it works with your furnace and that the savings are real before you buy. Worth a look if your bills keep climbing."
+      },
+      "reasoning": "The road notice is about Route 9 lane closures, so I'm mostly thinking about the detour and whether I'll be stuck on Mill Road during school pickup. The thermostat is a $129 gadget I didn't ask for, and I'd want to know if it actually saves money on the electric bill before I spend anything. Cora would probably have a say too."
+     },
+     {
+      "agent_id": "e573bdfe005d",
+      "arm_id": "control",
+      "arm": "No ad (placebo news)",
+      "name": "Joel",
+      "who": "45 \u00b7 M \u00b7 other \u00b7 Rep \u00b7 Some college",
+      "delta": null,
+      "texts": {
+       "gut_reaction": "Another gadget with an app. The thermostat we've got works fine. If it really cut the bill I'd look at it, but I'd need to see the math first.",
+       "tell_a_friend": "It's a decent thermostat for the money if your system's compatible. I put one in myself with a screwdriver in twenty minutes. Whether it pays off depends on your bill."
+      },
+      "reasoning": "The library notice has nothing to do with my thermostat, so I skimmed it and moved on. A $129 gadget sounds like one more thing to spend on, and I'd want to know the savings before I thought about it more."
+     },
+     {
+      "agent_id": "d02a10c82acc",
+      "arm_id": "control",
+      "arm": "No ad (placebo news)",
+      "name": "Tessa",
+      "who": "23 \u00b7 F \u00b7 white \u00b7 Dem \u00b7 Some college",
+      "delta": null,
+      "texts": {
+       "gut_reaction": "Cool, I guess, but it's not my house and I'm not spending $129 when I've got maybe $400 and every repair makes me panic. If it's something my mom wanted, maybe. I'd need to hear it saves money first.",
+       "tell_a_friend": "It's a smart thermostat for like $129, installs in 20 minutes. Honestly I'd only get it if it actually lowers the electric bill. I don't know, I'd want to see proof first before spending that."
+      },
+      "reasoning": "The weather blurb has nothing to do with a thermostat, so I skim past it. I live in my mom's house and pay her rent, so this isn't really my call, and $129 is a third of the savings I try not to look at. I'd want to know if it actually saves money before I'd even think about it."
+     },
+     {
+      "agent_id": "e8b6d8616912",
+      "arm_id": "control",
+      "arm": "No ad (placebo news)",
+      "name": "Greg",
+      "who": "41 \u00b7 M \u00b7 white \u00b7 Rep \u00b7 Bachelor's",
+      "delta": null,
+      "texts": {
+       "gut_reaction": "Another gadget promising to save money. 129 bucks is fine if it actually works, but I've heard that line before. Install's easy enough, I guess. I'd want to see real savings numbers first, not a brochure.",
+       "tell_a_friend": "Honestly it seems decent for the price and the install sounds easy. I'd check whether it really cuts your bill before buying, because a lot of these promise savings and don't deliver."
+      },
+      "reasoning": "I skimmed the library news about weekend hours and story time, then got to the thermostat and mostly wondered whether it actually saves money or is just another gadget. I'm watching every dollar with commissions bouncing around, and I've heard \"save on your bills\" pitches for years that never panned out. $129 isn't crazy, but I'd want to hear it from someone I trust before I spend it."
+     },
+     {
+      "agent_id": "0e7ebe215e5d",
+      "arm_id": "control",
+      "arm": "No ad (placebo news)",
+      "name": "Linda",
+      "who": "62 \u00b7 F \u00b7 white \u00b7 Rep \u00b7 HS or less",
+      "delta": null,
+      "texts": {
+       "gut_reaction": "I saw the weather and a note about the farmers market, nothing about a thermostat. If it's a gadget that costs over a hundred dollars, I'd want to know what it saves on my heating bill first. Otherwise I'll pass.",
+       "tell_a_friend": "I didn't really look at it. If you're thinking about spending $129 on one, figure out whether it pays for itself on the gas or electric bill before you buy. I'd keep my money for the essentials."
+      },
+      "reasoning": "A thermostat ad showing up next to a weather blurb doesn't mean much to me. I'm on the register all week and I don't have a spare $129 sitting around, and I'd want to hear what it saves before I'd even consider it."
+     },
+     {
+      "agent_id": "e899d46c822e",
+      "arm_id": "control",
+      "arm": "No ad (placebo news)",
+      "name": "Denise",
+      "who": "57 \u00b7 F \u00b7 white \u00b7 Ind\u2192Rep \u00b7 HS or less",
+      "delta": null,
+      "texts": {
+       "gut_reaction": "Sounds like one of those gadgets that promises to save you money. With no cushion, I'd need to see it pay for itself on the power bill first. Who makes it, and does anybody I know actually have one?",
+       "tell_a_friend": "Ask whether it really lowers your power bill before you spend $129 on it. Check that people who bought it actually say so, not just the ad. Ours is tight, so I'd wait and see."
+      },
+      "reasoning": "A $129 gadget from a company in Ohio I've never heard of, when we're already tight after the furnace went on the card. I'd want to see whether it actually cuts the electric bill before I spend a dime, and I'd want a real person to vouch for it, not some ad."
+     },
+     {
+      "agent_id": "775f8faba3da",
+      "arm_id": "control",
+      "arm": "No ad (placebo news)",
+      "name": "Terry",
+      "who": "56 \u00b7 M \u00b7 white \u00b7 Ind\u2192Dem \u00b7 HS or less",
+      "delta": null,
+      "texts": {
+       "gut_reaction": "Sounds like another gadget that promises to save money. I've got a thermostat on the wall that works fine. I'd want to see real numbers on a bill before I'd spend $129 on it.",
+       "tell_a_friend": "Don't buy it on a promise. Figure out what your heating bill actually is first. Some of these things save money, some just cost money. Carol would want to see the math before we spent $129."
+      },
+      "reasoning": "I'm scrolling my phone and the weather blurb is what caught my eye, and then this thermostat thing shows up. A $129 gadget from some company in Ohio I've never heard of, when Carol and I are already watching every dollar with Danny here. I'd want to know what it saves on the heating bill before I'd spend a dime."
+     },
+     {
+      "agent_id": "8831b258a3da",
+      "arm_id": "control",
+      "arm": "No ad (placebo news)",
+      "name": "Walt",
+      "who": "79 \u00b7 M \u00b7 white \u00b7 Ind\u2192Rep \u00b7 Postgrad",
+      "delta": null,
+      "texts": {
+       "gut_reaction": "A thermostat that might trim the gas bill is worth a look, but I've been burned by fees and gadgets that need a subscription. I'd want the real savings numbers and no hidden costs before I touched it.",
+       "tell_a_friend": "Check whether it actually lowers your bill and whether there's a monthly fee. It's a screwdriver install, which is nice. I'd read the fine print before buying."
+      },
+      "reasoning": "A library notice about weekend hours and a tax clinic has nothing to do with thermostats, so I barely register it and I'm not thinking about a $129 gadget. Still, a smart thermostat could cut the heating bill, which I'd notice, but I'm skeptical of anything that promises savings and needs an app and an account. I'd want to see the real numbers before I'd trust it."
+     },
+     {
+      "agent_id": "e036764c3ec5",
+      "arm_id": "control",
+      "arm": "No ad (placebo news)",
+      "name": "Curtis",
+      "who": "52 \u00b7 M \u00b7 black \u00b7 Ind\u2192Dem \u00b7 HS or less",
+      "delta": null,
+      "texts": {
+       "gut_reaction": "A hundred and twenty-nine bucks for a thermostat is okay if it really cuts the heating bill. I've never heard of this company, though, and I want to see real numbers before I put it on the wall.",
+       "tell_a_friend": "If you're handy and your heating bill is high, it might be worth a look. Check whether it actually lowers your bill first. I've never heard of the company, so I'd read some reviews before you buy."
+      },
+      "reasoning": "A thermostat ad doesn't do much for me, and that Route 9 notice is more my problem since I drive it. I'd want to see what it actually saves on the gas or electric bill before I spend money on a gadget. I'm not against it, but I don't trust a company I've never heard of making promises."
+     },
+     {
+      "agent_id": "590106d6158b",
+      "arm_id": "control",
+      "arm": "No ad (placebo news)",
+      "name": "Chris",
+      "who": "47 \u00b7 M \u00b7 white \u00b7 Rep \u00b7 HS or less",
+      "delta": null,
+      "texts": {
+       "gut_reaction": "Never heard of Brightloop. A $129 thermostat from a small Ohio outfit, when I'm already watching every dollar, makes me wonder what it really saves. Show me the numbers from somebody who's used it.",
+       "tell_a_friend": "I haven't tried it, and I don't know the company. If you're thinking about it, ask somebody who's had one for a year what their power bill did. Don't buy on the box alone."
+      },
+      "reasoning": "A library notice about weekend hours and a free tax clinic doesn't have anything to do with thermostats, so my mind goes to my own bills and the shop. A $129 gadget that promises to save money on heating is one more thing I'd have to plan around, and I'm not sure I trust a company I've never heard of. I'd want to see actual numbers before spending on it."
+     },
+     {
+      "agent_id": "7516a761d32c",
+      "arm_id": "control",
+      "arm": "No ad (placebo news)",
+      "name": "Owen",
+      "who": "47 \u00b7 M \u00b7 other \u00b7 Dem \u00b7 Bachelor's",
+      "delta": null,
+      "texts": {
+       "gut_reaction": "Another gadget asking for money up front with no clear payoff. I'd want to know what it saves on the power bill before I spend $129, and a company I've never heard of doesn't help. Our thermostat works fine.",
+       "tell_a_friend": "Probably skip it unless your power bill is really high and you can show it'll pay for itself. The price is real money right now. Ask me again after you see the numbers."
+      },
+      "reasoning": "A thermostat from a small Ohio company with no price-to-savings story just makes me think about the monthly bill, and I don't see how $129 pays for itself. I've got insurance and property taxes eating my account, so a new gadget with a subscription feel would annoy me. The library item is the kind of thing I'd actually use, and it's local."
+     },
+     {
+      "agent_id": "031bd9874400",
+      "arm_id": "savings",
+      "arm": "Savings",
+      "name": "Gene",
+      "who": "77 \u00b7 M \u00b7 white \u00b7 Rep \u00b7 Bachelor's",
+      "delta": 50.0,
+      "texts": {
+       "gut_reaction": "Saving on the power bill always gets my attention, and $129 isn't crazy if it really works. But I've never heard of Brightloop, and I'd want to see somebody's real bill before I believe the 18 percent figure.",
+       "tell_a_friend": "Might be worth a look if your power bill's running high. Check that it works with your furnace first, and ask somebody who's had one installed what their bill really did."
+      },
+      "reasoning": "An ad promising to cut my heating bill by 18% sounds nice, since the electric bill is already ridiculous. But I don't know this company, and \"pays for itself in a year\" is the kind of thing a salesman says. I'd want to hear it from Matt or somebody at church before I spend $129 on a gadget."
+     },
+     {
+      "agent_id": "ecc198dbc7a2",
+      "arm_id": "savings",
+      "arm": "Savings",
+      "name": "Yesenia",
+      "who": "40 \u00b7 F \u00b7 hispanic \u00b7 Ind \u00b7 HS or less",
+      "delta": 50.0,
+      "texts": {
+       "gut_reaction": "Okay, saving money on heat is something I'd like, but $129 up front when I'm already paying off a hospital bill in pieces? And \"most homes\" doesn't mean mine. Sounds like an ad.",
+       "tell_a_friend": "Maybe worth it if you're gone all day and have the cash. I'd check whether it actually works with your furnace first. Ads always say most homes save money, so don't count on it."
+      },
+      "reasoning": "A thermostat that saves me money on the heating bill sounds nice, but $129 is real money I don't have sitting around, and \"pays for itself\" is the kind of thing they always say. I'd probably forget about it or put it off, same as my meds, and I don't trust an ad that promises savings with no catch."
+     },
+     {
+      "agent_id": "956ca2f26327",
+      "arm_id": "savings",
+      "arm": "Savings",
+      "name": "Cody",
+      "who": "18 \u00b7 M \u00b7 white \u00b7 Ind\u2192Rep \u00b7 HS or less",
+      "delta": 50.0,
+      "texts": {
+       "gut_reaction": "Sounds fine, but $129 is a lot when I'm already short every month. Saving 18% is a claim I'd want to see proof for before I spend money on it. Probably I'd wait.",
+       "tell_a_friend": "It might save you some on heat if you're gone a lot, but it's $129 up front. Check the savings numbers yourself first. If you've got the cash to spare, maybe."
+      },
+      "reasoning": "A $129 gadget that promises to save money on heat sounds like the kind of thing I'd have to pay upfront for, and I'm always about $200 short by the end of the month. I don't do credit, and I'm slow to pay bills, so a payback calculation about \"a year\" doesn't help me much right now. Still, saving on the heating bill is something I'd actually care about, and I like things with receipts."
+     },
+     {
+      "agent_id": "08995a2278e6",
+      "arm_id": "savings",
+      "arm": "Savings",
+      "name": "Mark",
+      "who": "55 \u00b7 M \u00b7 white \u00b7 Dem \u00b7 Postgrad",
+      "delta": 50.0,
+      "texts": {
+       "gut_reaction": "Sounds useful, but \"minus 18%\" is the kind of number that makes me want to see the fine print. If it really pays for itself in a year, I'd look at reviews from people with older furnaces before spending the money.",
+       "tell_a_friend": "It's a cheap thermostat that might save you some money on heating if you're out of the house a lot. Don't count on the 18%, though. Check reviews first and see if your system works with it."
+      },
+      "reasoning": "An 18% savings claim on a heating bill sounds like the kind of thing I'd want to see proof for, and I don't love ads that promise numbers. But $129 that pays back in a year is a concrete cost, and I'm always watching the household budget, so I'd at least look into it. Anything that cuts waste without asking me to change how we live appeals to me."
+     },
+     {
+      "agent_id": "03841f869d88",
+      "arm_id": "savings",
+      "arm": "Savings",
+      "name": "Wade",
+      "who": "52 \u00b7 M \u00b7 white \u00b7 Rep \u00b7 HS or less",
+      "delta": 50.0,
+      "texts": {
+       "gut_reaction": "Sounds good on paper, and I like that it pays for itself. But $129 is money we don't have sitting around, and an ad from a company I never heard of makes me want to see it working at somebody's house first.",
+       "tell_a_friend": "Might be worth a look if you're paying a lot to heat an empty house. Check if your brother or somebody local has one first, and don't buy it on an ad alone."
+      },
+      "reasoning": "A thermostat that saves money on the heating bill sounds useful, but $129 up front is real money when we're a month behind on the truck. I've been burned by gadgets and \"they all want something\" from you, so I'd want to hear it from somebody I know before I spend a dime."
+     },
+     {
+      "agent_id": "8e01f3cd343a",
+      "arm_id": "savings",
+      "arm": "Savings",
+      "name": "Jonathan",
+      "who": "18 \u00b7 M \u00b7 hispanic \u00b7 Dem \u00b7 HS or less",
+      "delta": 50.0,
+      "texts": {
+       "gut_reaction": "Saving money on heat is good, I guess, but $129 up front is hard when I'm short every month. Would I actually set it up? Probably not for a while. Sounds like it'd take a screwdriver and I'd put it off.",
+       "tell_a_friend": "It might save you some on heat if you're gone a lot, but it's a lot of money to pay up front. Check if it works with your place first. Just make sure you'll actually install it."
+      },
+      "reasoning": "A thermostat that saves me money on the heating bill sounds nice, but $129 is a lot when I'm sitting in the parking lot doing math and my credit card already got me. I'd have to install it myself and I already put stuff off, and I don't even know if my trailer's system will work with it."
+     },
+     {
+      "agent_id": "a5083bb416d1",
+      "arm_id": "savings",
+      "arm": "Savings",
+      "name": "Yesenia",
+      "who": "37 \u00b7 F \u00b7 hispanic \u00b7 Ind\u2192Dem \u00b7 Some college",
+      "delta": 50.0,
+      "texts": {
+       "gut_reaction": "Sounds like an ad. I'm not paying $129 up front on a promise of $90 to $150 a year, especially with my card already maxed from the transmission. Maybe if I could check the savings myself.",
+       "tell_a_friend": "Look at the savings claim before you buy. It might work if you're gone a lot, but $129 is real money when you're tight. Check your own bill first, and read reviews from people who aren't the company."
+      },
+      "reasoning": "I'm tight on money right now, so a $129 gadget that claims to pay for itself is tempting, but I've learned that deals with a catch usually have one. The \"minus 18%\" line reads like a sales pitch, and I don't like being sold. Still, I'd rather not pay to heat an empty apartment, and it's a quick install."
+     },
+     {
+      "agent_id": "bee732c589fd",
+      "arm_id": "savings",
+      "arm": "Savings",
+      "name": "Andre",
+      "who": "25 \u00b7 M \u00b7 black \u00b7 Dem \u00b7 Some college",
+      "delta": 50.0,
+      "texts": {
+       "gut_reaction": "Okay, the bill savings is the part I'd care about, since I'm always thinking about money. But \"most homes\" isn't my home, and I'd want Danielle to look at it before I buy anything off an ad.",
+       "tell_a_friend": "Could be worth it if your heating bill is high, since it claims it pays for itself in about a year. Check the savings math first, and run it by your spouse before buying."
+      },
+      "reasoning": "Eighteen percent off my heating bill sounds nice, but I'm not sure I trust it, and $129 up front feels like another impulse-ish thing I'd have to explain to Danielle. The savings math is \"most homes,\" not mine, and I'd rather she look at it first than me clicking at 2 a.m."
+     },
+     {
+      "agent_id": "66928d0d4e52",
+      "arm_id": "savings",
+      "arm": "Savings",
+      "name": "Crystal",
+      "who": "45 \u00b7 F \u00b7 white \u00b7 Rep \u00b7 HS or less",
+      "delta": 50.0,
+      "texts": {
+       "gut_reaction": "Sounds good on paper, but \"most homes\" isn't my home. I can't float $129 right now, and I've been burned by ads that promise the moon. I'd want to see it work for somebody I know first.",
+       "tell_a_friend": "Maybe look into it if you've got the money to spare and the electric bill's killing you. Ask somebody who's already got one whether it really saves what they say. Don't just take the ad's word."
+      },
+      "reasoning": "Electric bills are already eating me alive, so 18% off sounds nice, but \"most homes\" and \"pays for itself\" are the kind of promises I've learned not to trust. A hundred and twenty-nine dollars is a full week of my pay after the clients cancel, and I don't buy anything I can't cover."
+     },
+     {
+      "agent_id": "0d3e28ecb778",
+      "arm_id": "savings",
+      "arm": "Savings",
+      "name": "Ruben",
+      "who": "75 \u00b7 M \u00b7 hispanic \u00b7 Ind\u2192Dem \u00b7 Some college",
+      "delta": 50.0,
+      "texts": {
+       "gut_reaction": "Saving on heat is good, and I like that it's a 20-minute job I could do myself. But \"most homes\" saving $90 to $150 is a promise I'd want to check on my own bill before spending $129 on it.",
+       "tell_a_friend": "If you're handy and your heating bill is high, it might be worth a look. Check the savings against your own bills first, and don't expect miracles. It's a gadget, not a fix for the whole bill."
+      },
+      "reasoning": "I read the ad and think, a thermostat that saves money on the gas bill is something I'd like, but $129 up front and a promise of savings makes me wary. I've seen plenty of gadgets promise savings that never show up, and I don't have much patience for things that need a app on a phone. Still, I'm handy and the install sounds simple, so I'd at least look into it."
+     },
+     {
+      "agent_id": "d044bfbbaa30",
+      "arm_id": "savings",
+      "arm": "Savings",
+      "name": "Cynthia",
+      "who": "58 \u00b7 F \u00b7 other \u00b7 Rep \u00b7 Some college",
+      "delta": 0.0,
+      "texts": {
+       "gut_reaction": "Sounds good on paper, $90 to $150 a year on a $129 box. But \"most homes\" is doing a lot of work there, and I'd want to read the fine print on the savings claim before I spend a dime. Probably a maybe.",
+       "tell_a_friend": "Check the math yourself before you buy. The savings are \"most homes,\" not your home. If your heating bill is already low or the house is hard to keep warm, it might not pay off. Read the warranty too."
+      },
+      "reasoning": "An ad promising 18% off the heating bill sounds nice, and I do watch every line item. But $129 for a gadget that \"learns\" my schedule makes me wonder about the fine print, and I have no time to set up one more thing with Mom's pharmacy calls and appointments."
+     },
+     {
+      "agent_id": "e1b78f1d2658",
+      "arm_id": "savings",
+      "arm": "Savings",
+      "name": "Megan",
+      "who": "34 \u00b7 F \u00b7 white \u00b7 Rep \u00b7 Postgrad",
+      "delta": 0.0,
+      "texts": {
+       "gut_reaction": "Okay, saving money on the heat bill is nice, but \"minus 18%\" is the kind of claim that makes me want the fine print. $129 is real money for me right now, and I'd have to remember to use another gadget.",
+       "tell_a_friend": "It might save you some on heating if you're gone a lot, and it installs in twenty minutes. Check the numbers against your own bill first, though, because ads always sound better than they are."
+      },
+      "reasoning": "Eighty-some dollars a year in savings sounds nice, but I'd have to believe it, and I never look at my spreadsheet anyway. $129 upfront is real money when I'm one bad month from trouble, and I'd have to set up another app or thing to remember. Still, the gas and bill angle makes me pay attention for a second."
+     },
+     {
+      "agent_id": "1f2daaa98769",
+      "arm_id": "savings",
+      "arm": "Savings",
+      "name": "Denise",
+      "who": "51 \u00b7 F \u00b7 black \u00b7 Dem \u00b7 Postgrad",
+      "delta": 0.0,
+      "texts": {
+       "gut_reaction": "Eighteen percent off the heating bill sounds good, and I like that it pays for itself. But \"most homes\" isn't my house, and I'd want to see it work before I spend $129 I don't have to spare.",
+       "tell_a_friend": "Check whether it works with your furnace first, and see what your own bill looks like before you buy. If you're gone a lot and your heating bill is high, it might pay off. Don't take the ad's word for it."
+      },
+      "reasoning": "I'm always doing math on what things cost, and $129 is real money when I've got four months saved and a mortgage. The payback claim is simple enough to check, but \"most homes\" doesn't tell me anything about my house, and I've been burned by ads that promise savings. I'd want to know whether it works with my furnace before I spend anything."
+     },
+     {
+      "agent_id": "e12ad971d54b",
+      "arm_id": "savings",
+      "arm": "Savings",
+      "name": "Ronnie",
+      "who": "54 \u00b7 M \u00b7 white \u00b7 Rep \u00b7 HS or less",
+      "delta": 25.0,
+      "texts": {
+       "gut_reaction": "Sounds good on paper, but $129 up front is money I don't have sitting around. And the savings are a guess, not a promise. I'd rather see what the power company does first.",
+       "tell_a_friend": "Don't buy it unless you've got $129 to spare and you're sure it saves what they say. Read the reviews from people who actually bought it first."
+      },
+      "reasoning": "Eighteen percent off a heating bill sounds nice, but I don't know what my power bill runs and I'm not about to spend $129 on a gadget with Mama here needing the heat right. Paying for a thing that pays for itself in a year when I'm already carrying a card balance doesn't sit right with me. Installing it with a screwdriver is more than I'd want to fool with on a day off."
+     },
+     {
+      "agent_id": "b3ff806f17a8",
+      "arm_id": "savings",
+      "arm": "Savings",
+      "name": "Dale",
+      "who": "54 \u00b7 M \u00b7 white \u00b7 Rep \u00b7 Bachelor's",
+      "delta": 25.0,
+      "texts": {
+       "gut_reaction": "Sounds like a sales pitch. Eighteen percent is a big number and \"most homes\" is doing a lot of work. If it really pays for itself in a year, fine, but I'd want to see the bill before I spent the money.",
+       "tell_a_friend": "Pretty cheap to try if you're paying a lot to heat an empty house. Don't expect the 18 percent to show up for sure. Check your bill before and after so you know if it actually did anything."
+      },
+      "reasoning": "A $129 thermostat that promises to cut my heating bill sounds fine on paper, but \"most homes save\" is a soft claim and I've got the house to think about. I don't put things on credit, and I've got no patience for gadgets that promise savings and then make me wait on support. Still, 18% off a bill is something I can check against my own statements."
+     },
+     {
+      "agent_id": "d7a1e557ed34",
+      "arm_id": "savings",
+      "arm": "Savings",
+      "name": "Ricardo",
+      "who": "35 \u00b7 M \u00b7 hispanic \u00b7 Ind\u2192Dem \u00b7 HS or less",
+      "delta": 25.0,
+      "texts": {
+       "gut_reaction": "Sounds good on paper, but $129 is money I don't have sitting around right now. And \"most homes save\" is doing a lot of work. I'd want to see it work on a real bill before I spend that.",
+       "tell_a_friend": "If you've got $129 to spare and you're gone a lot, it might save you something. I'd wait till you see your own bill drop before buying more of them. Ask somebody who's already got one."
+      },
+      "reasoning": "A thermostat that saves on the bill sounds nice, but I'm already behind on bills and I don't trust that $90 to $150 number. I forget to pay things, so a gadget that needs setup and an app is one more thing I'd probably never get to. Still, $129 that pays itself back is the kind of math I could get behind if I didn't have to pay upfront."
+     },
+     {
+      "agent_id": "86af6da5e1ff",
+      "arm_id": "savings",
+      "arm": "Savings",
+      "name": "Janet",
+      "who": "68 \u00b7 F \u00b7 white \u00b7 Rep \u00b7 HS or less",
+      "delta": 25.0,
+      "texts": {
+       "gut_reaction": "Sounds good on the bill, but \"most homes\" and \"pays for itself\" are what every ad says. I'd want to hear from somebody who's actually used it, and I'd ask Gary what he thinks first.",
+       "tell_a_friend": "It might save you some money on the heating bill if you're gone a lot, but I'd read up on it first. It's a small company, so check reviews before you spend the $129."
+      },
+      "reasoning": "A $129 gadget that claims to save 18% on the heating bill sounds like the kind of thing Gary would want to read about, and I do notice what things cost. But \"most homes save\" and \"pays for itself\" are the sort of claims I don't take at face value, and I don't know these people from Ohio. I'd want to see it working before I put my money on it."
+     },
+     {
+      "agent_id": "87f6f36b2d89",
+      "arm_id": "savings",
+      "arm": "Savings",
+      "name": "Gil",
+      "who": "79 \u00b7 M \u00b7 hispanic \u00b7 Dem \u00b7 HS or less",
+      "delta": 0.0,
+      "texts": {
+       "gut_reaction": "Sounds like a sales pitch. Saves $90 to $150 a year, they say, but who checked that? I'd rather know what my own thermostat is doing before I spend $129 on a new one.",
+       "tell_a_friend": "Maybe it works, but the savings numbers are a guess. If your thermostat is old, check the schedule setting first. Don't buy a new gadget unless you really need one."
+      },
+      "reasoning": "A thermostat that saves me money on the heating bill sounds fine on paper, but \"minus 18%\" and \"pays for itself\" are the kind of claims I've learned to read twice. I split pills because every dollar counts, so $129 up front is real money, and I don't borrow. I'd rather adjust the thermostat I already have than buy another gadget."
+     },
+     {
+      "agent_id": "0e7ebe215e5d",
+      "arm_id": "savings",
+      "arm": "Savings",
+      "name": "Linda",
+      "who": "62 \u00b7 F \u00b7 white \u00b7 Rep \u00b7 HS or less",
+      "delta": 0.0,
+      "texts": {
+       "gut_reaction": "Saving money on heat is nice, but \"minus 18%\" is an ad promise and I've heard plenty. $129 is real money to me right now, and I'd want to see it on my own bill first.",
+       "tell_a_friend": "Might be worth it if you're gone all day and your heating bill is high. But don't pay for it on a promise. Check your own bills first, and make sure you can handle the install."
+      },
+      "reasoning": "A thermostat that saves money on the heating bill sounds sensible, and I do watch every dollar. But $129 up front is money I'd have to find, and I don't trust ads that promise savings; I'd want to know what my own bill would really do."
+     },
+     {
+      "agent_id": "6dc5d83da6b7",
+      "arm_id": "savings",
+      "arm": "Savings",
+      "name": "Ronnie",
+      "who": "58 \u00b7 M \u00b7 white \u00b7 Ind\u2192Dem \u00b7 HS or less",
+      "delta": 0.0,
+      "texts": {
+       "gut_reaction": "Sounds good on paper but $129 up front is money we don't have sitting around. A company I never heard of saying it pays for itself, I'd want to see it on somebody's bill first.",
+       "tell_a_friend": "Probably wouldn't bother with it. It might save some money on the heat, but you're paying $129 first and taking a stranger's word that it works. I'd check with the power company first."
+      },
+      "reasoning": "Eighteen percent off the heating bill sounds nice, but I've heard this kind of thing before and I don't like paying up front for something that's supposed to pay itself back. $129 is real money when the diesel and insurance are eating us alive, and I'd have to trust a company out of Ohio I never heard of to know when we're home."
+     },
+     {
+      "agent_id": "08995a2278e6",
+      "arm_id": "comfort",
+      "arm": "Comfort",
+      "name": "Mark",
+      "who": "55 \u00b7 M \u00b7 white \u00b7 Dem \u00b7 Postgrad",
+      "delta": 50.0,
+      "texts": {
+       "gut_reaction": "Okay, sure, but I've got a furnace guy and a house full of people with different temperature needs. Does it save money or just make my phone do something? Show me the bill savings before I care.",
+       "tell_a_friend": "Probably fine if you like gadgets, but ask whether it actually lowers your heating bill first. Installing it is easy, so it's not much risk. I'd want to see real numbers before spending the money."
+      },
+      "reasoning": "A thermostat that warms the house before my alarm sounds nice on paper, but I've got a house that's already set up around my mother's needs and a budget I watch every month. $129 isn't crazy, but I'd want to know if it actually saves money or just sounds convenient. The ad is slick and vague about what it does."
+     },
+     {
+      "agent_id": "bee732c589fd",
+      "arm_id": "comfort",
+      "arm": "Comfort",
+      "name": "Andre",
+      "who": "25 \u00b7 M \u00b7 black \u00b7 Dem \u00b7 Some college",
+      "delta": 50.0,
+      "texts": {
+       "gut_reaction": "Okay, the \"set it and forget it\" part is kind of my thing, I guess. But it's another gadget with an app, and I've got four of those already ignoring me. I'd want to know whether it actually saves money on the bill.",
+       "tell_a_friend": "It seems decent and not too expensive, and it's easy to install. Does it actually cut the power bill though? I'd check that before buying, because I already have too many apps."
+      },
+      "reasoning": "A $129 thermostat that sets itself and \"forget it\" sounds nice since I never remember the reminders I already have. But I'm not buying gadgets off a late-night ad again, and I'd want Danielle to look at it first before I spend anything."
+     },
+     {
+      "agent_id": "b4e9f9b5ea5c",
+      "arm_id": "comfort",
+      "arm": "Comfort",
+      "name": "Yesenia",
+      "who": "33 \u00b7 F \u00b7 hispanic \u00b7 Dem \u00b7 Postgrad",
+      "delta": 50.0,
+      "texts": {
+       "gut_reaction": "Cute, but it's another app on my phone and another thing to set up. I'd want to know if it actually lowers the bill before I'd spend $129 on it.",
+       "tell_a_friend": "It's a decent thermostat if you want the house comfortable without thinking about it. Ask first whether it saves you real money on the gas bill, because the ad doesn't say."
+      },
+      "reasoning": "Another gadget that promises to fix something I'm already juggling. I like the idea of not thinking about the house temperature, but $129 plus setup and an app I'll have to check is one more thing on my phone. I'll probably skip it unless it actually saves money."
+     },
+     {
+      "agent_id": "347387a74ae5",
+      "arm_id": "comfort",
+      "arm": "Comfort",
+      "name": "Wade",
+      "who": "48 \u00b7 M \u00b7 white \u00b7 Rep \u00b7 HS or less",
+      "delta": 50.0,
+      "texts": {
+       "gut_reaction": "Sounds fine, but I rent a townhouse and would have to ask the landlord before putting one in. I'd want to know what it saves on the power bill before spending $129 of my own money.",
+       "tell_a_friend": "It sets the house to 70 from your phone. I don't know if it saves much on the power bill. Check your bill first, and ask your landlord before you put it in."
+      },
+      "reasoning": "A $129 thermostat that sets the house to 70 sounds nice, but I'm watching every dollar with the truck and groceries. The ad doesn't say what it saves on the power bill, and I can't tell if that's real. I'd probably skim past it."
+     },
+     {
+      "agent_id": "c70e6fabc219",
+      "arm_id": "comfort",
+      "arm": "Comfort",
+      "name": "Brianna",
+      "who": "20 \u00b7 F \u00b7 white \u00b7 Ind\u2192Dem \u00b7 Some college",
+      "delta": 50.0,
+      "texts": {
+       "gut_reaction": "Cool, I guess, but $129 is a lot when I'm already short every two weeks. I'd want to know if it actually lowers the bill, and I'd probably put it off.",
+       "tell_a_friend": "It seems fine if you've got extra money. Does it really save on the gas or electric bill? If it does, maybe it pays for itself, but I'd check first."
+      },
+      "reasoning": "A thermostat for $129 that promises to save me from stuff I already do with a schedule? I'm counting every dollar, and I've got daycare eating my paycheck, so anything that sounds like a gadget makes me wary. Still, the heating and cooling bill is real and I'd like less wasted money, so it's not nothing."
+     },
+     {
+      "agent_id": "c39a91fb1e08",
+      "arm_id": "comfort",
+      "arm": "Comfort",
+      "name": "Eddie",
+      "who": "76 \u00b7 M \u00b7 hispanic \u00b7 Ind\u2192Rep \u00b7 HS or less",
+      "delta": -50.0,
+      "texts": {
+       "gut_reaction": "Sounds like a gadget for people with money to burn. My thermostat's a dial and it works fine. Set it from my phone? I can barely get the job site app to load. Show me what it saves on the bill and maybe I'll listen.",
+       "tell_a_friend": "Don't waste the $129 unless the power bill proves it pays for itself. Ask for the savings in dollars, not slogans. Mine's a dial and it's never let me down."
+      },
+      "reasoning": "Seventy degrees on a schedule, from my phone, for $129. I don't trust a phone to run my house, and my daughter pays the power bill, so I'd want to see what it saves before spending a dime. Nobody's told me a price that means anything yet."
+     },
+     {
+      "agent_id": "eede84427121",
+      "arm_id": "comfort",
+      "arm": "Comfort",
+      "name": "Yolanda",
+      "who": "49 \u00b7 F \u00b7 hispanic \u00b7 Dem \u00b7 Postgrad",
+      "delta": 50.0,
+      "texts": {
+       "gut_reaction": "Sounds nice, but it's an ad from a company I've never heard of, and I can tell when someone's selling something. Would want to hear from somebody who actually has one before I spend money on it.",
+       "tell_a_friend": "Maybe look into it if you've got a few hundred bucks to spare and a screwdriver. Ask someone who has one first. I'm not sold on the \"forget it\" part."
+      },
+      "reasoning": "A $129 thermostat that warms the house before my alarm sounds nice, but I'm already stretched and I pay for things on a card and then panic. I don't know these people from Ohio, and \"set it once and forget it\" makes me suspicious of a seller. Still, I'd like the house to be comfortable and it's cheap compared to a lot of things."
+     },
+     {
+      "agent_id": "6c2ca882d812",
+      "arm_id": "comfort",
+      "arm": "Comfort",
+      "name": "Gerry",
+      "who": "73 \u00b7 M \u00b7 white \u00b7 Dem \u00b7 Postgrad",
+      "delta": 50.0,
+      "texts": {
+       "gut_reaction": "Sounds like a gadget selling me a problem I don't have. My current thermostat works fine. I'd want to see the energy savings in writing before I put $129 and a phone app into a house this quiet.",
+       "tell_a_friend": "It's a reasonable thermostat if you like phone gadgets and don't mind setting up an app. Check your heating bill for a few months first, though. I'd want proof it saves money before I'd bother."
+      },
+      "reasoning": "I've replaced a few thermostats in my time and the old dial still works, so I don't see what $129 and a phone app buy me. Donna always handled the thermostat fights, and I'd want to see the savings on paper before spending anything. Still, a thermostat that quietly does its job appeals to the engineer in me."
+     },
+     {
+      "agent_id": "77cd3855c7ba",
+      "arm_id": "comfort",
+      "arm": "Comfort",
+      "name": "Kyle",
+      "who": "28 \u00b7 M \u00b7 white \u00b7 Ind\u2192Dem \u00b7 HS or less",
+      "delta": 50.0,
+      "texts": {
+       "gut_reaction": "Eh, it's a thermostat. Cool that it's a cheap install, but I don't know if I'd save anything, and $129 is a car payment's worth of money right now. Probably skip unless my landlord's heat goes out.",
+       "tell_a_friend": "It's a decent thermostat if you've got extra cash. Easy to put in yourself. But I'd check your electric bill first before spending the money on it."
+      },
+      "reasoning": "A $129 thermostat that promises to warm the house before my alarm... I'm paying $900 rent and I missed a car payment, so $129 is real money to me right now. Still, the ad is clean and I don't have to think hard about it, and I'd get a little more comfort for Lily. I'm not going to buy something on a whim though."
+     },
+     {
+      "agent_id": "0319ec4ee7ec",
+      "arm_id": "comfort",
+      "arm": "Comfort",
+      "name": "Judy",
+      "who": "72 \u00b7 F \u00b7 white \u00b7 Ind \u00b7 HS or less",
+      "delta": -50.0,
+      "texts": {
+       "gut_reaction": "Sounds like a fancy gadget trying to sell me comfort I haven't asked for. The ad says nothing about whether it saves money, and $129 is real money to us right now.",
+       "tell_a_friend": "Don't rush into it. The ad talks about comfort but never says it lowers your power bill. If your current thermostat works, keep your $129 for the next repair."
+      },
+      "reasoning": "Another gadget that promises to make life easier, and it's $129 I'd have to spend on something I don't need when the water heater and the truck already ate our cushion. Dale would just say we have a thermostat that works fine. Still, the idea of not walking into a cold house is nice, and the ad doesn't say anything about my bill."
+     },
+     {
+      "agent_id": "374fe5f0cd3b",
+      "arm_id": "comfort",
+      "arm": "Comfort",
+      "name": "Loretta",
+      "who": "70 \u00b7 F \u00b7 black \u00b7 Ind \u00b7 HS or less",
+      "delta": -25.0,
+      "texts": {
+       "gut_reaction": "Nice idea for folks who have the money, but I've got a thermostat on the wall that works. I don't need my phone running my house, and $129 is a week of groceries to me.",
+       "tell_a_friend": "Don't waste your money on it unless you're rich. Your regular thermostat already keeps the house at 70 if you set it. Save the $129 for your medicine."
+      },
+      "reasoning": "A $129 gadget that promises to set my house temperature from my phone sounds like something for people with money to spare, not someone counting every dollar past the third week of the month. I already have the thermostat on the wall and it works fine, and I don't even know if this one would work with my heat. The ad doesn't tell me how I'd save anything, so I'm not seeing a reason to spend it."
+     },
+     {
+      "agent_id": "6c462de09c1a",
+      "arm_id": "comfort",
+      "arm": "Comfort",
+      "name": "Renee",
+      "who": "52 \u00b7 F \u00b7 white \u00b7 Rep \u00b7 HS or less",
+      "delta": -25.0,
+      "texts": {
+       "gut_reaction": "Another gadget with a phone app that promises to make my life easier. I don't need one more thing to set up and worry about, and $129 is real money when the truck note's due. Doesn't tell me what it saves.",
+       "tell_a_friend": "Don't waste your money unless your power bill is really bad. It's a phone gadget that doesn't say what it saves you. Ask your electric company for a free check first."
+      },
+      "reasoning": "A $129 gadget that promises to warm and cool the house on a schedule sounds like something for people with time and spare cash, and I've got neither. I already fight my bills and check my bank app three times a night, so I'm not going to buy a thermostat on a phone ad. Still, if my power bill's killing me, saving money on heating is something I'd look at."
+     },
+     {
+      "agent_id": "8d1bad0e29ff",
+      "arm_id": "comfort",
+      "arm": "Comfort",
+      "name": "Adrian",
+      "who": "22 \u00b7 M \u00b7 hispanic \u00b7 Rep \u00b7 Bachelor's",
+      "delta": 0.0,
+      "texts": {
+       "gut_reaction": "Okay, it's a thermostat. Does it save me money on the power bill? The ad doesn't say, so I'd want to see the numbers before spending $129 on something I can't plan around.",
+       "tell_a_friend": "It's a decent thermostat if you want to control the house from your phone. Check first whether it actually lowers your power bill. The ad doesn't say, so look for the numbers before you buy."
+      },
+      "reasoning": "Exactly 70 degrees sounds nice, but the ad never says what it saves on the power bill, and I'd want that number before spending $129. I'd probably skim past it on Reddit and not think about it again."
+     },
+     {
+      "agent_id": "e28e023be562",
+      "arm_id": "comfort",
+      "arm": "Comfort",
+      "name": "Travis",
+      "who": "34 \u00b7 M \u00b7 white \u00b7 Ind\u2192Dem \u00b7 HS or less",
+      "delta": 0.0,
+      "texts": {
+       "gut_reaction": "Another ad on my phone selling me something. I rent a fourplex unit, so I don't even pay for the heating bill the way they're picturing. $129 I don't have spare for a gadget that does what a regular dial already does.",
+       "tell_a_friend": "Don't bother unless you're a homeowner who's really wasting power. It's $129 to make the house warm when you're already home. Sounds like an ad, not a need."
+      },
+      "reasoning": "A $129 thermostat that promises comfort I already get for free by not running the heat when I'm gone. I'm skeptical of anything sold to me on my phone, and I'm already scared of unexpected bills, so a gadget I have to install and trust feels like one more thing that could break."
+     },
+     {
+      "agent_id": "60f3ede4c2d1",
+      "arm_id": "comfort",
+      "arm": "Comfort",
+      "name": "Kayla",
+      "who": "25 \u00b7 F \u00b7 white \u00b7 Ind\u2192Dem \u00b7 Some college",
+      "delta": 25.0,
+      "texts": {
+       "gut_reaction": "Cute idea, but $129 is real money for me right now and it's a rental. Does it actually lower the bill, or is it just convenience? I'd need to see that before I spend anything.",
+       "tell_a_friend": "It's a decent smart thermostat if you own your place and have cash to spare. Check whether it actually saves on your bill first, and ask your landlord before you buy it."
+      },
+      "reasoning": "A $129 thermostat that promises to warm the house before my alarm sounds nice, but I'm already scared of every bill and I have no idea if it'll actually save anything. Our rent is in a house with roommates who may not care about the thermostat, and I can't afford to buy a gadget that might not work. I'd rather wait and see what Jess and Marcus think, and I'm not sure the landlord would let us install it anyway."
+     },
+     {
+      "agent_id": "d46bb95fec5c",
+      "arm_id": "comfort",
+      "arm": "Comfort",
+      "name": "Lorena",
+      "who": "70 \u00b7 F \u00b7 hispanic \u00b7 Dem \u00b7 HS or less",
+      "delta": 0.0,
+      "texts": {
+       "gut_reaction": "Another gadget on the phone. I don't need the house warm before my alarm, I need the electric bill to come down. It says $129 like it's nothing, and for us that's a lot of groceries.",
+       "tell_a_friend": "I'd tell her it's nice if you already have the money and somebody to help you set it up. For us, I'd ask first what it saves on the electric bill in summer."
+      },
+      "reasoning": "A $129 gadget to control the heat sounds like one more thing to buy when the bills are already eating us alive. I don't really know how the thing works or whether it would save any money, and the ad doesn't say. I'd rather not spend money on something I'd have to ask Angie to help me set up."
+     },
+     {
+      "agent_id": "3670afa1b3ad",
+      "arm_id": "comfort",
+      "arm": "Comfort",
+      "name": "Renee",
+      "who": "44 \u00b7 F \u00b7 white \u00b7 Ind \u00b7 HS or less",
+      "delta": 25.0,
+      "texts": {
+       "gut_reaction": "Sounds handy, but $129 is real money for me right now with the car still on the card. Does it work with our old system? A thermostat isn't going to make the bill smaller, and I'd want to see that before I spend it.",
+       "tell_a_friend": "It's a decent thermostat if you've got the cash and a phone you like. Check that it works with your furnace first. For me it's a maybe, since money's tight and I'd rather fix what breaks."
+      },
+      "reasoning": "A $129 gadget that sets my house temperature from my phone sounds nice, but I'm doing math at the register and I already put a transmission on a card. I'd want to know if it works with my old furnace and whether the thing is worth it when my bill is what it is."
+     },
+     {
+      "agent_id": "1f540859c1e2",
+      "arm_id": "comfort",
+      "arm": "Comfort",
+      "name": "Greg",
+      "who": "42 \u00b7 M \u00b7 white \u00b7 Rep \u00b7 Postgrad",
+      "delta": 0.0,
+      "texts": {
+       "gut_reaction": "Eh, it's a thermostat that does what my thermostat does, plus my phone. The ad doesn't say what it saves me, and $129 is real money this year. I'd want a guy I trust to tell me it actually paid off before I bought it.",
+       "tell_a_friend": "It's fine if you like controlling it from your phone and you can install it yourself. Ask first whether it actually lowers your bill, because the ad doesn't say. I'd wait for a couple of guys at church to try it."
+      },
+      "reasoning": "Another gadget that promises convenience, and my first thought is what it actually saves me on the bill. The ad says nothing about savings, just comfort, and I'm not paying $129 for comfort right now when I'm doing mental math on support payments. Still, a 20-minute screwdriver install is the kind of thing I could knock out on a Saturday, and I'd probably keep meaning to do it."
+     },
+     {
+      "agent_id": "b9a6fc759926",
+      "arm_id": "comfort",
+      "arm": "Comfort",
+      "name": "Dana",
+      "who": "37 \u00b7 F \u00b7 white \u00b7 Rep \u00b7 Bachelor's",
+      "delta": 25.0,
+      "texts": {
+       "gut_reaction": "Sounds convenient, but it's an ad from a company I've never heard of, and it doesn't say what it saves me. I'd want to hear from someone who's actually used it before I spend money on it.",
+       "tell_a_friend": "If you're already tired of fiddling with your thermostat, it might be handy. But I'd ask someone who's had it a few months whether it actually saves money before you buy one."
+      },
+      "reasoning": "A $129 thermostat that promises I never think about heating or cooling again sounds nice, but I've got gas and groceries on my mind and I don't love buying gadgets from companies I've never heard of. The \"exactly 70 degrees\" line is cute, but the ad doesn't tell me what it saves, so I'm mostly skimming it. I'd want a coworker to have tried one before I'd spend the money."
+     },
+     {
+      "agent_id": "f27791fcdecf",
+      "arm_id": "comfort",
+      "arm": "Comfort",
+      "name": "Calvin",
+      "who": "57 \u00b7 M \u00b7 black \u00b7 Ind\u2192Rep \u00b7 Some college",
+      "delta": 0.0,
+      "texts": {
+       "gut_reaction": "Sounds like a thermostat that does what my current one does, with a phone app on top. Probably fine, but \"set it and forget it\" always makes me want to check the bill and see what it really saves.",
+       "tell_a_friend": "It's a $129 thermostat that the ad says will keep the house at 70. Check if it works with your system first, and see whether it actually lowers your bill before you spend the money."
+      },
+      "reasoning": "A thermostat that sets itself from a phone is a small convenience, and I've got a duplex and a budget to think about, so I'm not going to jump at a $129 gadget on a slogan. The \"forget it\" line makes me wonder what it actually does and whether it works with my system. I'd want to see it run for a while before I'd trust it."
+     }
+    ],
+    "unmapped_poll_segments": [],
+    "sources": [
+     "synthetic"
+    ],
+    "summary": {
+     "headline": "The savings message is the only arm that moves purchase intent (+12.3 points), but respondents accept its bill logic only as a claim to verify, and the comfort message is flat and makes the same $129 feel more expensive.",
+     "summary": "These are simulated respondents (LLM agents), so treat this as directional evidence for message testing, not a read on real consumers. Savings is the clear winner: purchase intent rose from 32.0 to 44.4 against the placebo control, appeal and recommend both rose by more than a point, and the share calling the price \"fair\" went from 12% to 52%. The lift came with heavy skepticism (62% skeptical, up from 36%), and the quotes show why. Respondents keep attacking \"minus 18%\" and \"most homes,\" and they want to check the savings against their own bill before buying.\n\nComfort did not work. Purchase intent was flat (-0.7, interval -1.71 to 0.5), appeal and recommend barely moved, and \"a bit expensive\" rose 23 points to 57%. Its purchase distribution also shifted from \"might or might not\" toward \"probably would not\" (+15.8 points). Respondents said the ad never says what it saves, and several reacted to the phone-app and \"set it and forget it\" language as one more gadget to manage. Before acting on any of this, note that the control quotes mention the $129 price and the 20-minute install, which appear only in ad copy, so the control may not be a clean no-exposure baseline.",
+     "themes": [
+      {
+       "theme": "Show-me-the-math demand: respondents want the savings in dollars on their own bill before they consider buying",
+       "arms": [
+        "No ad (placebo news)",
+        "Savings",
+        "Comfort"
+       ],
+       "segments": [
+        "Respondents who mention a tight budget",
+        "HS-or-less respondents in the control arm"
+       ],
+       "prevalence": "common",
+       "quotes": [
+        "I'd want to know what it actually saves per month before I spend $129 when I'm already behind.",
+        "Another gadget that promises to save money. Show me how much it saves on my power bill and I'll listen."
+       ]
+      },
+      {
+       "theme": "Savings claims read as ad copy: 'minus 18%' and 'most homes' trigger skepticism",
+       "arms": [
+        "Savings"
+       ],
+       "segments": [
+        "Hispanic and HS-or-less respondents in the Savings arm, among the most vocal"
+       ],
+       "prevalence": "common",
+       "quotes": [
+        "Okay, saving money on heat is something I'd like, but $129 up front when I'm already paying off a hospital bill in pieces? And \"most homes\" doesn't mean mine. Sounds like an ad.",
+        "Saving on the power bill always gets my attention, and $129 isn't crazy if it really works. But I've never heard of Brightloop, and I'd want to see somebody's real bill before I believe the 18 percent figure."
+       ]
+      },
+      {
+       "theme": "The 'most homes' average does not feel like it applies to me",
+       "arms": [
+        "Savings"
+       ],
+       "segments": [
+        "Respondents who describe tight budgets or stable existing systems"
+       ],
+       "prevalence": "some",
+       "quotes": [
+        "Sounds good on paper, but \"most homes\" isn't my home. I can't float $129 right now, and I've been burned by ads that promise the moon."
+       ]
+      },
+      {
+       "theme": "'Pays for itself' is a real positive hook for some",
+       "arms": [
+        "Savings"
+       ],
+       "segments": [
+        "Mixed; appears across parties and education levels"
+       ],
+       "prevalence": "some",
+       "quotes": [
+        "Sounds good on paper, and I like that it pays for itself."
+       ]
+      },
+      {
+       "theme": "$129 reads as a lot of money for cash-tight households, regardless of message",
+       "arms": [
+        "No ad (placebo news)",
+        "Savings",
+        "Comfort"
+       ],
+       "segments": [
+        "HS-or-less respondents",
+        "Respondents who mention being short on cash"
+       ],
+       "prevalence": "common",
+       "quotes": [
+        "Cool, I guess, but $129 is a lot when I'm already short every two weeks.",
+        "I'd want to know what it saves on the power bill before spending $129 of my own money."
+       ]
+      },
+      {
+       "theme": "App and phone fatigue: 'set it from your phone' and 'set it and forget it' read as one more gadget to manage",
+       "arms": [
+        "Comfort"
+       ],
+       "segments": [
+        "Respondents who already mention several apps or a non-smartphone setup"
+       ],
+       "prevalence": "some",
+       "quotes": [
+        "Okay, the \"set it and forget it\" part is kind of my thing, I guess. But it's another gadget with an app, and I've got four of those already ignoring me.",
+        "Another gadget on the phone. I don't need the house warm before my alarm, I need the electric bill to come down."
+       ]
+      },
+      {
+       "theme": "Comfort copy does not answer the savings question, so respondents read it as a pitch with no payoff",
+       "arms": [
+        "Comfort"
+       ],
+       "segments": [
+        "Broad across the Comfort arm"
+       ],
+       "prevalence": "common",
+       "quotes": [
+        "Okay, it's a thermostat. Does it save me money on the power bill? The ad doesn't say, so I'd want to see the numbers before spending $129 on something I can't plan around."
+       ]
+      },
+      {
+       "theme": "Unknown brand and compatibility or landlord blockers",
+       "arms": [
+        "No ad (placebo news)",
+        "Savings",
+        "Comfort"
+       ],
+       "segments": [
+        "Renters, respondents with older or existing systems"
+       ],
+       "prevalence": "some",
+       "quotes": [
+        "Never heard of Brightloop. Our thermostat works fine.",
+        "Sounds fine, but I rent a townhouse and would have to ask the landlord before putting one in.",
+        "Maybe worth it if you're gone all day and have the cash. I'd check whether it actually works with your furnace first."
+       ]
+      }
+     ],
+     "arm_comparison": [
+      {
+       "arm": "Savings",
+       "verdict": "strongest",
+       "why": "The only arm that moves purchase intent: +12.3 points [11.29, 13.49] vs control, with appeal +1.4, recommend +1.2, and the 'fair' price share rising from 12% to 52%. It also converts indifference (61% to 3%) into curiosity (35%). The lift is fragile, though: skepticism rose to 62%, and the 'minus 18%' and 'most homes' claims are the main thing respondents say they would check. Its advantage rests on the bill math holding up when people test it."
+      },
+      {
+       "arm": "Comfort",
+       "verdict": "ineffective",
+       "why": "Purchase intent is flat (-0.7 [-1.71, 0.5]), and appeal (+0.3) and recommend (+0.1) are too small to matter in practice even though they clear zero. Price moves the wrong way: 'a bit expensive' rises +23.2 points to 57%. The purchase distribution also shifts toward 'probably would not' (+15.8 points [12.06, 19.44]), so it moves some undecided people toward no without changing the mean. Respondents say the ad never says what it saves and treat the app framing as clutter."
+      }
+     ],
+     "segment_notes": [
+      "Savings effects on purchase intent are positive in all 25 listed segments (+11.7 to +15.3), all FDR-flagged, all with intervals excluding zero and n of at least 30. That supports 'the effect is present in these groups.' It does not support 'this group responds more.' The intervals overlap heavily; for example 65+ is [13.18, 17.48] and 18-29 is [9.31, 13.98]. Do not claim that older or less-educated respondents are the best targets from this data.",
+      "Partisan segments respond about equally: Republicans +13.6 (n=311), Democrats +13.2 (n=262), and independents or leaners at similar levels. The bill-savings frame does not look partisan in this sample.",
+      "The smallest segments (race=other n=50, race=black n=120) have wide intervals (roughly +8.6 to +18.0 and +8.7 to +14.8). They pass the rules, but treat them as weak evidence.",
+      "No segment effects were reported for the Comfort arm, so no Comfort segment claims can be made. Renters and landlord objections appear in quotes only; there is no renter segment effect, so treat that as a hint, not a finding."
+     ],
+     "surprises": [
+      "The Comfort price frame raised 'a bit expensive' to 57% (control 34%) even though the price is identical ($129). The framing changes perceived value, not the number.",
+      "Control respondents cite the $129 price and the 20-minute install, which appear only in treatment copy. The control may be contaminated, which would shrink the measured treatment effects. Check the exposure logic before trusting the baseline.",
+      "Skepticism rose in both treatments, including the winner (36% to 62% in Savings). Lift and distrust came together.",
+      "Savings' price-fairness shift is mostly a shift out of 'no idea what it costs' (54% to 10%): the message gave people a price frame, and the verdict followed.",
+      "Comfort's purchase mean is flat, but its distribution moved toward 'probably would not.' A mean-only read would miss this."
+     ],
+     "backfire_risks": [
+      "'Minus 18%' is an unsupported number in the copy. Respondents named it as the line to check, and if a real bill does not drop, trust in the brand goes down.",
+      "'Most homes save $90 to $150 a year, so it pays for itself in about a year' invites the arithmetic and the 'not my home' objection. A payback claim that a respondent's own bill contradicts is worse than no claim.",
+      "Comfort's 'set it from your phone and forget it' and 'warms the house before your alarm' trigger app fatigue and read as a luxury for people with money to spare. For cash-tight respondents, that reads as 'not for us.'",
+      "Both treatments push '$129' as the headline cost. Respondents in the lower-income and HS-or-less groups read it as a lot of groceries or a car payment, which sets up the 'I'd wait' response.",
+      "Asking people to 'check reviews' or 'ask someone who's had one' is a natural response to skepticism. If the brand has no reviews, that advice works against it."
+     ],
+     "recommended_edits": [
+      "Savings headline: replace 'Your heating bill, minus 18%.' with 'Stop paying to heat an empty house.' Test it against the current line. The 18% has no basis shown in this test, and it is the claim respondents say they would check first. If Brightloop has an independently sourced savings figure, cite it in the body copy with the source and the sample; if not, cut the number.",
+      "Savings body: replace 'Most homes save $90 to $150 a year, so it pays for itself in about a year.' with 'Savings depend on your home and how often it sits empty. Compare your bill before and after.' If you have a sourced range, use it as 'Households in [source, year] saved [range] a year' rather than 'most homes.' Do not keep an unsourced range.",
+      "Savings add a compatibility line in the body: 'Check that it works with your furnace and AC before you buy: [insert compatibility checker or list].' This answers the most common practical question in the transcripts, which is whether it works with their system.",
+      "Savings: keep 'Installs in 20 minutes', but qualify it: 'DIY install, about 20 minutes if you're handy.' Respondents treat install time as a positive, but some say they would never get round to installing it.",
+      "Comfort: cut 'Set it once from your phone and forget it.' and 'Brightloop warms the house before your alarm goes off and cools it before you pull into the driveway.' Replace with a line that names the savings mechanism, as in the Savings copy: 'Brightloop heats and cools when someone is home, not an empty house.' Or drop the Comfort arm from the next round; it showed no lift and moved price perception the wrong way.",
+      "Next round, run a 2x2 to isolate what drives the Savings lift: the '18%' phrasing versus 'Savings depend on your home' crossed with and without the 'pays for itself in about a year' line. That tells you whether the number or the mechanism carries the effect."
+     ],
+     "caveats": [
+      "These are simulated LLM respondents built from transcripts or survey answers. Results show how the simulated panel reacts, not how real households will. Do not present them as market research.",
+      "The intervals are very narrow for a simulated panel (for example, appeal +1.4 [1.38, 1.48]). That suggests overconfidence in the simulation rather than real precision. Do not read the width of these intervals as sampling certainty.",
+      "The full purchase-intent distribution is not reported. The category shifts sum to zero, but the 'probably would' and 'definitely would' levels are missing, so top-box shares cannot be computed. The scale behind the means is not stated either.",
+      "Quotes were selected to illustrate themes and are not representative. The per-respondent change values (\u0394) are not explained, so do not interpret them as effect sizes.",
+      "The control arm may be contaminated: its quotes mention the $129 price and the 20-minute install. If the control already saw product details, the treatment effects are understated, and the baseline comparison needs checking.",
+      "Only one savings claim was tested. The test cannot separate the effect of '18%', 'most homes', or 'pays for itself'. It can only say the bundle works in this panel.",
+      "Segment effects exist only for the Savings arm. Differences between segments are not tested, and several segments are small (n=50 to 120)."
+     ]
+    }
+   }
+  },
+  "wall_minutes_this_invocation": 25.2,
+  "agent_calls": {
+   "calls": 3000,
+   "failed_calls": 0,
+   "input_tokens": 6048,
+   "output_tokens": 1604597,
+   "cache_read_input_tokens": 10205932,
+   "cache_creation_input_tokens": 6131868,
+   "cache_creation_1h_input_tokens": 6131868,
+   "total_input_tokens": 16343848,
+   "cache_hit_rate_tokens": 0.6245,
+   "calls_with_cache_read": 0.996,
+   "usd_api_equivalent": 2.1313,
+   "latency_p50_s": 3.71,
+   "latency_p95_s": 5.61,
+   "call_span_minutes": 23.9,
+   "calls_per_minute": 125.6
+  },
+  "all_calls": {
+   "calls": 3001,
+   "failed_calls": 0,
+   "input_tokens": 6050,
+   "output_tokens": 1621364,
+   "cache_read_input_tokens": 10205932,
+   "cache_creation_input_tokens": 6145693,
+   "cache_creation_1h_input_tokens": 6145693,
+   "total_input_tokens": 16357675,
+   "cache_hit_rate_tokens": 0.6239,
+   "calls_with_cache_read": 0.9957,
+   "usd_api_equivalent": 2.1425,
+   "latency_p50_s": 3.71,
+   "latency_p95_s": 5.61,
+   "call_span_minutes": 25.2,
+   "calls_per_minute": 119.2
+  },
+  "results": {
+   "n_agents": 1000,
+   "n_errors": 0,
+   "effects": {
+    "savings": {
+     "purchase_intent": {
+      "est": 12.33,
+      "lo": 11.29,
+      "hi": 13.49,
+      "n": 1000
+     }
+    },
+    "comfort": {
+     "purchase_intent": {
+      "est": -0.7,
+      "lo": -1.71,
+      "hi": 0.5,
+      "n": 1000
+     }
+    }
+   }
+  }
+ },
+ "population": {
+  "run": {
+   "wall_minutes": 57.4,
+   "id": "69da4f014909",
+   "title": "Generate personas: Benchmark: 1000 U.S. adults (interview)",
+   "created_at": "2026-10-11T23:51:44+00:00",
+   "updated_at": "2026-10-12T00:49:08+00:00",
+   "calls": 1000,
+   "failed_units": 0,
+   "input_tokens": 2468,
+   "output_tokens": 4617827,
+   "cache_read_input_tokens": 1807196,
+   "cache_creation_input_tokens": 1815431,
+   "cache_creation_1h_input_tokens": 1815431,
+   "usd_list_price": 2.69032,
+   "estimate_usd": 1.2065,
+   "results": {
+    "ready": 1000,
+    "failed": 0
+   }
+  },
+  "wall_minutes_this_invocation": 57.4,
+  "calls": {
+   "calls": 1000,
+   "failed_calls": 0,
+   "input_tokens": 2468,
+   "output_tokens": 4617827,
+   "cache_read_input_tokens": 1807196,
+   "cache_creation_input_tokens": 1815431,
+   "cache_creation_1h_input_tokens": 1815431,
+   "total_input_tokens": 3625095,
+   "cache_hit_rate_tokens": 0.4985,
+   "calls_with_cache_read": 0.999,
+   "usd_api_equivalent": 2.6903,
+   "latency_p50_s": 25.36,
+   "latency_p95_s": 39.73,
+   "call_span_minutes": 57.4,
+   "calls_per_minute": 17.4
+  }
+ },
+ "estimate": {
+  "population": {
+   "calls": 1000,
+   "input_tokens": 900000,
+   "output_tokens": 2233000,
+   "usd": 1.2065,
+   "minutes": 125.0,
+   "model": "claude-haiku-5-5",
+   "backend": "claude-cli",
+   "billing": "subscription (claude-cli)"
+  },
+  "message test": {
+   "calls": 3001,
+   "input_tokens": 11385000,
+   "output_tokens": 710500,
+   "usd": 0.9298,
+   "minutes": 75.5,
+   "model": "claude-haiku-5-5",
+   "backend": "claude-cli",
+   "billing": "subscription (claude-cli)"
+  }
+ }
+}

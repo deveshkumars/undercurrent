@@ -96,6 +96,7 @@ def main() -> None:
     ap.add_argument("--max-usd", type=float, default=5.0)
     args = ap.parse_args()
     os.environ["DATA_FILE"] = args.db
+    os.environ["MONGODB_URI"] = ""  # always the local JSON store above, even if .env points at a real database
     os.environ.setdefault("SIM_STEP_SECONDS", "900")
     Path(args.db).parent.mkdir(parents=True, exist_ok=True)
 

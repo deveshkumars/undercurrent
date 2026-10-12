@@ -249,16 +249,19 @@ def step(ctx: StepCtx) -> None:
 
     def process(ctx: StepCtx, idx: list[int]) -> None:
         agents = [a for a in (store.get("agents", agent_ids[i]) for i in idx) if a]
-        docs = []
+        docs, ok, bad = [], 0, 0
         for agent, patch, err in ctx.parallel(one, agents):
             if err is not None:
                 agent.update(persona_status="failed", persona_error=err.message)
-                ctx.failed += 1
+                bad += 1
             else:
                 agent.update(patch)
-                ctx.done += 1
+                ok += 1
             docs.append(agent)
-        store.upsert_many("agents", docs)
+        if not ctx.save("agents", docs):
+            return
+        ctx.done += ok
+        ctx.failed += bad
         ready = store.count("agents", population_id=pid, persona_status="ready")
         store.update("populations", pid, {"ready_count": ready, "status": "generating"})
 

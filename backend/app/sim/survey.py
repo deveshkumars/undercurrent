@@ -130,7 +130,8 @@ def step(ctx: StepCtx) -> None:
                 })
                 if err is not None:
                     failed.add(agent["id"])
-        store.upsert_many("sim_results", docs)
+        if not ctx.save("sim_results", docs):
+            return
         ctx.failed += len(failed)
         ctx.done += len(agents) - len(failed)
 

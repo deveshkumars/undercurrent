@@ -72,6 +72,7 @@ def main() -> None:
         render_docs(json.loads(FIXTURE.read_text()))
         return
     os.environ["DATA_FILE"] = args.db
+    os.environ["MONGODB_URI"] = ""  # always the local JSON store above, even if .env points at a real database
     os.environ.setdefault("SIM_STEP_SECONDS", "900")
     Path(args.db).parent.mkdir(parents=True, exist_ok=True)
 

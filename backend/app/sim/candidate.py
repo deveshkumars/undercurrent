@@ -501,7 +501,8 @@ def step(ctx: StepCtx) -> None:
             for (agent, ev, arm), value, err in ctx.parallel(lambda it: agent_call(it[0], cfg, it[2], schema, it[1]["context"]), items):
                 docs.append(response_doc(rid, agent["id"], arm["id"], 0, value, err, {"event_id": ev["id"]}))
                 bad += err is not None
-        store.upsert_many("sim_results", docs)
+        if not ctx.save("sim_results", docs):
+            return
         ctx.failed += bad
         ctx.done += len(units)
 

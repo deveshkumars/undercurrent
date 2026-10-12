@@ -286,7 +286,7 @@ def run_tick(ctx: StepCtx, state: dict, cfg: dict, agent_docs: dict[str, dict]) 
     by_id = {p["id"]: p for p in state["posts"]}
 
     if k % cfg["checkpoint_every"] == 0:
-        store.upsert_many("sim_checkpoints", [{"id": f"{rid}:{k}", "run_id": rid, "tick": k, "state": copy.deepcopy(state)}])
+        ctx.save("sim_checkpoints", [{"id": f"{rid}:{k}", "run_id": rid, "tick": k, "state": copy.deepcopy(state)}])
 
     applied = []
     for iv in cfg["interventions"]:
@@ -464,8 +464,9 @@ def step(ctx: StepCtx) -> None:
             break
         t = time.monotonic()
         row = run_tick(ctx, state, cfg, agent_docs)
-        store.upsert_many("sim_state", [state])
-        store.upsert_many("sim_ticks", [row])
+        if not ctx.save("sim_state", [state]):
+            return  # taken over: the new lease holder continues from the last saved state
+        ctx.save("sim_ticks", [row])
         if row["served"] or ctx.batch_times:
             ctx.batch_times.append(time.monotonic() - t)
         if row["events"]:

@@ -24,6 +24,7 @@ def sim_client(tmp_path, monkeypatch, fake_llm):
     monkeypatch.setenv("ANTHROPIC_API_KEY", "test-key")
     monkeypatch.setenv("MONGODB_URI", "")
     monkeypatch.setenv("ACCESS_CODE", "")
+    monkeypatch.setenv("PUBLIC_DEMO", "")
     monkeypatch.setenv("VERCEL", "")
     monkeypatch.setenv("SIM_CONCURRENCY", "4")
     monkeypatch.setenv("SIM_STEP_SECONDS", "30")

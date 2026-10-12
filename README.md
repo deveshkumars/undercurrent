@@ -85,7 +85,7 @@ A seed event lands on a follower network (homophily plus preferential attachment
 
 ### Running and cost
 
-Runs advance in steps driven by the open browser tab (`POST /api/sim/runs/{id}/step`): each step claims a lease, makes calls in parallel until its time budget is spent, and saves results under fixed ids, so it works on a 300-second serverless function and a second tab just watches. Estimates are shown before you start. Measured on Haiku 5.5 through the CLI shim with 12 calls at a time (2026-10-11, recorded in [docs/validation.md](docs/validation.md)): 400 interview personas took 24.5 minutes and $1.04 of API-equivalent usage (about 25 s per persona), and 4,000 ten-question survey calls took 22–39 minutes and $2.25–2.94. The CLI path uses more tokens than the direct API (1-hour cache writes and an extra structured-output turn), so the same work through the API should cost less; the estimates shown in the app are for the API. On Vercel, simulations require `MONGODB_URI`.
+Runs advance in steps driven by the open browser tab (`POST /api/sim/runs/{id}/step`): each step claims a lease, makes calls in parallel until its time budget is spent, and saves results under fixed ids, so it works on a 300-second serverless function and a second tab just watches. If a step outlives its lease (a hung call) and another caller takes over, the late step discards its results instead of overwriting newer ones, and its calls still count toward the run's usage; tests cover overlapping steppers and a takeover on a 1,000-agent panel. Measured throughput and cost at 1,000 agents are in [docs/benchmarks.md](docs/benchmarks.md). Estimates are shown before you start. Measured on Haiku 5.5 through the CLI shim with 12 calls at a time (2026-10-11, recorded in [docs/validation.md](docs/validation.md)): 400 interview personas took 24.5 minutes and $1.04 of API-equivalent usage (about 25 s per persona), and 4,000 ten-question survey calls took 22–39 minutes and $2.25–2.94. The CLI path uses more tokens than the direct API (1-hour cache writes and an extra structured-output turn), so the same work through the API should cost less; the estimates shown in the app are for the API. On Vercel, simulations require `MONGODB_URI`.
 
 Treat results as a way to compare messages and find risks, not as a poll: intervals measure simulation noise only, and LLM agents can stereotype groups and overreact to messages.
 
@@ -152,7 +152,7 @@ Storage is a JSON file at `data/undercurrent.json` unless `MONGODB_URI` is set.
 | `SIM_CONCURRENCY` | `12` (`3` with the shim) | parallel calls per step |
 | `SIM_STEP_SECONDS` | `45` (`150` on Vercel) | time budget per step |
 | `SIM_MAX_CALLS_PER_RUN` | `5000` | hard cap per run |
-| `SIM_MAX_AGENTS` / `SIM_MAX_SOCIAL_AGENTS` | `500` / `200` | |
+| `SIM_MAX_AGENTS` / `SIM_MAX_SOCIAL_AGENTS` | `500` / `200` | raise for bigger populations and panels (schema ceiling 10,000; the benchmark uses 1,000) |
 
 ## Deploying to undercurrent.deveshkumar.net
 
@@ -201,8 +201,8 @@ backend/app/
                   panel.py, candidate.py (calibration, backtest), social.py + network/hawkes/feed/dynamics,
                   survey.py (closed-ended surveys), validation.py (OpinionQA scoring),
                   metrics.py, runner.py (step protocol), routes.py
-scripts/                 fetch_opinionqa.py, validate.py, experiments.py, seed_demos.py
-docs/                    validation.md
+scripts/                 fetch_opinionqa.py, validate.py, experiments.py, seed_demos.py, benchmark.py
+docs/                    validation.md, benchmarks.md
 shim/claude_cli_api.py   Claude Code CLI exposed as /v1/messages
 frontend/src/            React + Vite UI (charts are hand-built SVG)
 api/index.py             Vercel entrypoint

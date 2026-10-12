@@ -3,8 +3,13 @@
 The browser calls POST /api/sim/runs/{id}/step in a loop. Each step:
 1. claims a lease with a compare-and-set on ``version`` (a second caller gets 409 and just watches),
 2. runs batches of work on a thread pool until the step's time budget is spent,
-3. upserts results under deterministic ids (re-running a chunk overwrites, never duplicates),
+3. upserts results under deterministic ids (re-running a chunk overwrites, never duplicates), and only
+   while it still holds the lease (``StepCtx.save``),
 4. releases the lease while advancing the cursor and the usage counters.
+
+A step that outlives its lease (e.g. a hung model call) can be taken over by another caller, which
+redoes the unfinished units. The late step then discards its results instead of overwriting newer
+ones, stops, and still adds the calls and tokens it spent to the run's usage, so cost is never lost.
 
 This needs no background worker, so it runs the same locally and on a 300-second serverless function.
 """
@@ -101,6 +106,7 @@ class StepCtx:
         self.batch_times: list[float] = []
         self.messages: list[str] = []
         self.fatal: llm.LLMError | None = None
+        self.lost_lease = False
         self._lock = threading.Lock()
 
     # ---- time & budget
@@ -129,6 +135,22 @@ class StepCtx:
     def canceled(self) -> bool:
         current = get_store().get("sim_runs", self.run["id"])
         return bool(current and current["status"] in ("canceled", "paused"))
+
+    def holds_lease(self) -> bool:
+        current = get_store().get("sim_runs", self.run["id"]) or {}
+        return current.get("lease_owner") == self.token
+
+    def save(self, coll: str, docs: list[dict]) -> bool:
+        """Upsert results only while this step still holds the run's lease. After a takeover the new
+        holder redoes these units, so a late step drops its results (and stops) rather than overwrite
+        newer ones. Leases outlast a step by two call timeouts plus 30 s, so this is a rare path."""
+        if not docs:
+            return True
+        if not self.holds_lease():
+            self.lost_lease = True
+            return False
+        get_store().upsert_many(coll, docs)
+        return True
 
     def note(self, msg: str) -> None:
         self.messages.append(f"{utcnow()[11:19]} {msg}")
@@ -226,52 +248,80 @@ def step(rid: str) -> dict:
     return out
 
 
+def _with_spend(prog: dict, ctx: StepCtx, run: dict) -> dict:
+    prog = dict(prog or {})
+    for k in USAGE_KEYS:
+        prog[k] = int(prog.get(k) or 0) + ctx.usage[k]
+    prog["calls"] = int(prog.get("calls") or 0) + ctx.calls
+    prog["usd"] = round(float(prog.get("usd") or 0) + costs.usd(ctx.usage, run.get("model")), 5)
+    return prog
+
+
+def _record_orphan_spend(ctx: StepCtx) -> dict | None:
+    """A step that lost its lease adds only what it spent (calls, tokens, dollars); its results were
+    discarded and the new lease holder owns progress, the cursor and the status."""
+    store = get_store()
+    note = (f"{utcnow()[11:19]} A step outlived its lease and was taken over; its {ctx.calls} calls are counted "
+            "but its results were discarded.")
+    for _ in range(20):
+        cur = store.get("sim_runs", ctx.run["id"])
+        if not cur:
+            return None
+        patch = {"progress": _with_spend(cur.get("progress") or {}, ctx, cur), "version": cur["version"] + 1,
+                 "log": (list(cur.get("log") or []) + [note])[-30:]}
+        done = store.update_if("sim_runs", cur["id"], {"version": cur["version"]}, patch)
+        if done:
+            return done
+    log.error("could not record the spend of an orphaned step on run %s", ctx.run["id"])
+    return store.get("sim_runs", ctx.run["id"])
+
+
 def release(ctx: StepCtx) -> dict:
     store = get_store()
     run = ctx.run
     s = get_settings()
-    prog = dict(run.get("progress") or {})
-    for k in USAGE_KEYS:
-        prog[k] = int(prog.get(k) or 0) + ctx.usage[k]
-    prog["calls"] = int(prog.get("calls") or 0) + ctx.calls
-    prog["failed"] = int(prog.get("failed") or 0) + ctx.failed
-    prog["done"] = int(prog.get("done") or 0) + ctx.done
-    prog["usd"] = round(float(prog.get("usd") or 0) + costs.usd(ctx.usage, run.get("model")), 5)
-    if ctx.batch_times:
-        prog["avg_batch_s"] = round(sum(ctx.batch_times) / len(ctx.batch_times), 2)
-
     conc = ctx.concurrency
     if ctx.retryable_errors:
         conc = max(1, conc // 2)
         ctx.note(f"Backend pushed back ({ctx.retryable_errors} retryable errors); concurrency now {conc}.")
     elif ctx.batch_times:
         conc = min(s.sim_concurrency, conc + 2)
-
-    patch = dict(ctx.patch)
-    patch.update({
-        "cursor": ctx.cursor,
-        "retry": ctx.retry,
-        "progress": prog,
-        "concurrency": conc,
-        "lease_owner": None,
-        "lease_expires_at": 0.0,
-        "version": run["version"] + 1,
-        "updated_at": utcnow(),
-    })
     if ctx.fatal is not None:
-        patch["error"] = ctx.fatal.message
         ctx.note(f"Stopped: {ctx.fatal.message}")
         if ctx.status is None:
             ctx.status = "paused"
-    if ctx.messages:
-        patch["log"] = (list(run.get("log") or []) + ctx.messages)[-30:]
-    current = store.get("sim_runs", run["id"]) or {}
-    if ctx.status and current.get("status") not in ("canceled",):
-        patch["status"] = ctx.status
-    released = store.update_if("sim_runs", run["id"], {"lease_owner": ctx.token}, patch)
-    if released is None:  # lease was taken over after expiring; our results are saved already
-        return store.get("sim_runs", run["id"]) or run
-    return released
+
+    # compare-and-set on the version too, so spend recorded by an orphaned step in between isn't overwritten
+    for _ in range(20):
+        current = store.get("sim_runs", run["id"]) or {}
+        if current.get("lease_owner") != ctx.token:
+            return _record_orphan_spend(ctx) or run  # taken over after the lease expired
+        prog = _with_spend(current.get("progress") or {}, ctx, run)
+        prog["failed"] = int(prog.get("failed") or 0) + ctx.failed
+        prog["done"] = int(prog.get("done") or 0) + ctx.done
+        if ctx.batch_times:
+            prog["avg_batch_s"] = round(sum(ctx.batch_times) / len(ctx.batch_times), 2)
+        patch = dict(ctx.patch)
+        patch.update({
+            "cursor": ctx.cursor,
+            "retry": ctx.retry,
+            "progress": prog,
+            "concurrency": conc,
+            "lease_owner": None,
+            "lease_expires_at": 0.0,
+            "version": current["version"] + 1,
+            "updated_at": utcnow(),
+        })
+        if ctx.fatal is not None:
+            patch["error"] = ctx.fatal.message
+        if ctx.messages:
+            patch["log"] = (list(current.get("log") or []) + ctx.messages)[-30:]
+        if ctx.status and current.get("status") not in ("canceled",):
+            patch["status"] = ctx.status
+        released = store.update_if("sim_runs", run["id"], {"lease_owner": ctx.token, "version": current["version"]}, patch)
+        if released is not None:
+            return released
+    raise RuntimeError(f"could not release the lease on run {run['id']}")
 
 
 # ---------------------------------------------------------------- shared batch loop
@@ -296,6 +346,8 @@ def batch_loop(ctx: StepCtx, total: int, process: Callable[[StepCtx, list[int]],
             return
         t0 = time.monotonic()
         process(ctx, idx)
+        if ctx.lost_lease:
+            return  # taken over: the new lease holder redoes these units
         ctx.batch_times.append(time.monotonic() - t0)
         if from_retry:
             ctx.retry = ctx.retry[len(idx):]

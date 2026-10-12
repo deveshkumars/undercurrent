@@ -279,6 +279,7 @@ def main() -> None:
     ap.add_argument("--out", default=str(FIXTURE))
     args = ap.parse_args()
     os.environ["DATA_FILE"] = args.db
+    os.environ["MONGODB_URI"] = ""  # always the local JSON store above, even if .env points at a real database
     os.environ.setdefault("SIM_STEP_SECONDS", "900")
 
     from backend.app.config import get_settings
